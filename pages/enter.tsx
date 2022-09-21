@@ -7,6 +7,7 @@ import useMutation from "../libs/client/useMutation";
 import { motion } from "framer-motion";
 import Input from "@components/InputForm";
 import Link from "next/link";
+import Button from "@components/button";
 
 interface MutationResult {
   ok: boolean;
@@ -70,10 +71,10 @@ const Enter: NextPage = () => {
     <Layout seoTitle="로그인">
       <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col">
         <motion.img
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: -120 }}
+          initial={{ opacity: 0, y: 120 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ ease: "easeInOut", duration: 2 }}
-          className="mb-10 absolute"
+          className="mb-72 absolute"
           src="img/MainLogo.png"
         />
         <motion.div
@@ -84,7 +85,7 @@ const Enter: NextPage = () => {
             duration: 3,
             times: [0, 0.4, 1],
           }}
-          className="flex justify-center items-center flex-col mt-24"
+          className="absolute flex justify-center items-center flex-col mt-24 "
         >
           <form>
             <div>
@@ -120,9 +121,7 @@ const Enter: NextPage = () => {
                 type="password"
               />
             </div>
-            <button className="w-full h-12 rounded-2xl text-[#838383] text-base bg-white bg-opacity-70">
-              로그인
-            </button>
+            <Button text="로그인" />
           </form>
           <div className="text-sm text-[#838383] mt-2">
             <Link href={"/signUp"}>
