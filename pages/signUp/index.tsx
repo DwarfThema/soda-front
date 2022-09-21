@@ -59,10 +59,8 @@ const signUp: NextPage = () => {
                     message: "비밀번호는 5자 이상으로 작성해주세요.",
                   },
                   pattern: {
-                    value:
-                      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]/,
-                    message:
-                      "비밀번호는 영문 대소문자와 특수문자를 포함해야합니다.",
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z]/,
+                    message: "비밀번호는 영문 대소문자와 포함해야합니다.",
                   },
                 })}
                 type="password"
@@ -100,7 +98,7 @@ const signUp: NextPage = () => {
               />
             </div>
             <div className="mt-8">
-              <Button text="회원가입" />
+              <Button text="회원가입" href="/signUp/choice" />
             </div>
           </form>
           <div className="text-sm text-[#838383] mt-1 "></div>
