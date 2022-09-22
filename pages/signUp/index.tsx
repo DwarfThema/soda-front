@@ -24,10 +24,10 @@ const SignUp: NextPage = () => {
   });
 
   return (
-    <Layout seoTitle="회원가입">
+    <Layout seoTitle="회원가입" enter>
       <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col">
-        <img className="mb-72 absolute" src="img/MainLogo.png" />
-        <div className="mt-40 flex justify-center items-center flex-col top-[370px]">
+        <img className="mb-9" src="img/MainLogo.png" />
+        <div className=" flex justify-center items-center flex-col">
           <form>
             <div>
               <Input
