@@ -13,7 +13,7 @@ interface EnterForm {
   result: string;
 }
 
-const signUp: NextPage = () => {
+const SignUp: NextPage = () => {
   const {
     register,
     watch,
@@ -27,7 +27,7 @@ const signUp: NextPage = () => {
     <Layout seoTitle="회원가입">
       <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col">
         <img className="mb-72 absolute" src="img/MainLogo.png" />
-        <div className="absolute flex justify-center items-center flex-col top-[370px]">
+        <div className="mt-40 flex justify-center items-center flex-col top-[370px]">
           <form>
             <div>
               <Input
@@ -119,4 +119,4 @@ const signUp: NextPage = () => {
   );
 };
 
-export default signUp;
+export default SignUp;
