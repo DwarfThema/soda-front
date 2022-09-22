@@ -13,7 +13,7 @@ interface EnterForm {
   result: string;
 }
 
-const signUp: NextPage = () => {
+const SignUp: NextPage = () => {
   const {
     register,
     watch,
@@ -119,4 +119,4 @@ const signUp: NextPage = () => {
   );
 };
 
-export default signUp;
+export default SignUp;
