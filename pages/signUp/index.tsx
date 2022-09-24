@@ -28,6 +28,7 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
+
   const [enter, { loading, data, error }] = useMutation<MutationResult>(
     "였던 무언가 129.154.201.42:8001/"
   );
@@ -131,6 +132,7 @@ const SignUp: NextPage = () => {
             {watch("pwConfirm") === watch("pw")
               ? null
               : "비밀번호가 일치하지 않습니다."}
+
           </div>
         </div>
       </div>
