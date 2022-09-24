@@ -1,23 +1,49 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { cls } from "@libs/client/utils";
+import { isMobile } from "react-device-detect";
 
 interface LayoutProps {
   title?: string;
   seoTitle: string;
   children: React.ReactNode;
+  enter?: boolean;
 }
 
-export default function Layout({ title, seoTitle, children }: LayoutProps) {
+export default function Layout({
+  title,
+  seoTitle,
+  children,
+  enter,
+}: LayoutProps) {
+  const [getMobile, setmobile] = useState(false);
+
+  useEffect(() => {
+    setmobile(isMobile);
+  }, []);
+
   return (
     <div>
       <Head>
         <title>{seoTitle} | 소다</title>
       </Head>
-      <div className=" w-full h-full justify-center items-center text-lg font-medium  fixed text-gray-800 border-b top-0  flex ">
-        {children}
+      <div className="w-screen h-screen justify-center items-center text-lg font-medium text-gray-800 border-b top-0 flex ">
+        {!enter ? (
+          <div className=" flex justify-center items-center">
+            {!getMobile ? (
+              <div className=" bg-[#febb10] w-screen h-screen flex items-center justify-center">
+                <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg">
+                  {children}
+                </div>
+              </div>
+            ) : (
+              <div>{children}</div>
+            )}
+          </div>
+        ) : (
+          <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );
