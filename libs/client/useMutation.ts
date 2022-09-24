@@ -31,8 +31,10 @@ export default function useMutation<T = any>(
       body: JSON.stringify(data),
     })
       .then((res) => res.json().catch(() => {}))
-      .then((json) => setData(json))
-      .then((error) => setError(error))
+      .then((json) => {
+        setData(json);
+        setError(json.message);
+      })
       .then(() => setLoading(false));
   }
 

@@ -1,14 +1,23 @@
+
+import { cls } from "@libs/client/utils";
 import Link from "next/link";
 
 interface ButtonProps {
   text: string;
   href?: string;
+  [key: string]: any;
 }
 
-const Button = ({ text, href }: ButtonProps) => {
+const Button = ({ type, text, href, error }: ButtonProps) => {
   return (
-    <button className="w-full h-12 rounded-2xl text-[#838383] text-base bg-white bg-opacity-70">
-      <Link href={`${href}`}>{text}</Link>
+    <button
+      type={type}
+      className={cls(
+        "w-full h-12 rounded-2xl  text-base bg-white bg-opacity-70",
+        error ? "text-red-600" : "text-[#838383]"
+      )}
+    >
+      {href ? <Link href={`${href}`}>{text}</Link> : <>{text}</>}
     </button>
   );
 };

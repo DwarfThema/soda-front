@@ -123,7 +123,6 @@ const Enter: NextPage = () => {
               })}
               type="password"
             />
-
           </div>
           <Button text="로그인" />
         </form>

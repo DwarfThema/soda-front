@@ -13,7 +13,7 @@ const ChoiceMap = ({ img, cat, selected, getSelected }: IChoiceMap) => {
 
   const [getFav, setFav] = useState([]);
 
-  console.log(getFav);
+  //console.log(getFav);
   //cat 를 활용해서 취향 데이터 던져줘야함
 
   return (
