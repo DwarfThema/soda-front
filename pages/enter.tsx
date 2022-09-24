@@ -25,8 +25,15 @@ interface TokenForm {
 }
 
 const Enter: NextPage = () => {
-  const [enter, { loading, data, error }] =
-    useMutation<MutationResult>("유저 엔터관련 url");
+  const [enter, { loading, data, error }] = useMutation<MutationResult>(
+    "였던 무언가 129.154.201.42:8001/"
+  );
+
+  console.log(data);
+
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
+  };
 
   const [
     confirmToken,
@@ -49,9 +56,6 @@ const Enter: NextPage = () => {
     useForm<TokenForm>();
 
   const [submitting] = useState(false);
-  const onValid = (validForm: EnterForm) => {
-    enter(validForm);
-  };
 
   const onTokenValid = (validForm: TokenForm) => {
     if (tokenLoading) return;
@@ -86,7 +90,7 @@ const Enter: NextPage = () => {
         }}
         className="absolute flex justify-center items-center flex-col mt-24 "
       >
-        <form>
+        <form onSubmit={handleSubmit(onValid)}>
           <div>
             <Input
               label="아이디"

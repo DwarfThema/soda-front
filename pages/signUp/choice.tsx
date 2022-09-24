@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Duplex } from "stream";
+import ChoiceMap from "@components/choiceMap";
 
 /* https://codesandbox.io/s/sd9b9?file=/src/App.tsx:1449-1455
   https://codesandbox.io/s/jp16tz?file=/src/App.tsx:784-791
@@ -98,38 +99,15 @@ const Choice: NextPage = () => {
         loader={<h4>Loading...</h4>}
       >
         <div className="m-2 grid grid-cols-2 gap-2 h-[806px]">
-          {propArray.map((data) => {
-            const [getSelect, setSelect] = useState(false);
-
-            return (
-              <div className="flex items-center justify-center " key={data.key}>
-                {getSelect ? (
-                  <>
-                    <button
-                      onClick={() => {
-                        setSelect(false);
-                        setSelected(getSelected - 1);
-                      }}
-                    >
-                      <div className="w-3 h-3 bg-red-600 rounded-full" />
-                      <img className={"rounded-md "} src={data.img} />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setSelect(true);
-                        setSelected(getSelected + 1);
-                      }}
-                    >
-                      <img className="rounded-md" src={data.img} />
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+          {propArray.map((data) => (
+            <ChoiceMap
+              key={data?.key}
+              img={data?.img}
+              cat={data?.cat1}
+              selected={setSelected}
+              getSelected={getSelected}
+            />
+          ))}
         </div>
       </InfiniteScroll>
       {getSelected >= 1 ? (
@@ -138,7 +116,7 @@ const Choice: NextPage = () => {
           animate={{ opacity: 1 }}
           transition={{
             ease: "easeInOut",
-            duration: 1,
+            duration: 0.5,
           }}
           className=" absolute bg-red-800 w-64 h-12 text-center text-white p-2 rounded-full shadow-xl bottom-12 right-[70px] "
         >
