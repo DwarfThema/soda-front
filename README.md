@@ -4,8 +4,8 @@
 
 ## FrontView
 
-- [v] Login
-- [v] Taste Selection
+- [x] Login
+- [x] Taste Selection
   - 모바일로 확인시 다르게 나오는 부분 수정해야함
 - [ ] Common
 - [ ] Home
@@ -16,7 +16,7 @@
 ## API Verbs
 
 - [ ] Login
-- [v] SignUp
+- [x] SignUp
 - [ ] Taste
 - [ ] Follow / Following
 - [ ] Review
