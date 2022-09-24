@@ -136,6 +136,7 @@ const SignUp: NextPage = () => {
           </div>
         </div>
 
+
         <ul className=" text-sm text-red-600 flex flex-col items-center h-1  ">
           <li>{errors?.userName?.message}</li>
           <li>{errors?.password?.message}</li>
