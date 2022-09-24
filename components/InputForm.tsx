@@ -28,7 +28,7 @@ const Input = ({ label, errorMessage, register, type, signUp }: InputProps) => {
           )}
           {...register}
           type={type}
-        ></input>
+        />
       </div>
       {signUp ? null : (
         <div className="absolute text-sm text-red-600 mt-10">

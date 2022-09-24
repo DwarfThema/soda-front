@@ -4,13 +4,14 @@ import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-interface EnterForm {
-  id: string;
+interface IEnterForm {
+  userName: string;
   email: string;
-  pw: string;
-  pwConfirm: string;
+  password: string;
+  passwordConfirm: string;
   result: string;
 }
 
@@ -21,20 +22,22 @@ interface MutationResult {
 const SignUp: NextPage = () => {
   const {
     register,
+    handleSubmit,
     watch,
     clearErrors,
-    formState: { errors, isValid },
-  } = useForm<EnterForm>({
+    formState: { errors, isValid, isDirty },
+  } = useForm<IEnterForm>({
     mode: "onChange",
   });
 
   const [enter, { loading, data, error }] = useMutation<MutationResult>(
-    "였던 무언가 129.154.201.42:8001/"
+    "http://129.154.201.42:8001/signup"
   );
 
   console.log(data);
+  //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
-  const onValid = (validForm: EnterForm) => {
+  const onValid = (validForm: IEnterForm) => {
     enter(validForm);
   };
 
@@ -44,11 +47,11 @@ const SignUp: NextPage = () => {
         <div className="flex flex-col items-center">
           <img className=" mb-9 w-[210px] " src="img/MainLogo.png" />
           <div className=" flex justify-center items-center flex-col">
-            <form>
+            <form onSubmit={handleSubmit(onValid)}>
               <div>
                 <Input
                   label="아이디"
-                  register={register("id", {
+                  register={register("userName", {
                     required: "아이디를 입력해 주세요.",
                     onChange() {
                       clearErrors("result");
@@ -59,13 +62,13 @@ const SignUp: NextPage = () => {
                     },
                   })}
                   type="text"
-                  errorMessage={errors?.id?.message}
+                  errorMessage={errors?.userName?.message}
                   signUp
                 />
 
                 <Input
                   label="비밀번호"
-                  register={register("pw", {
+                  register={register("password", {
                     required: "비밀번호를 입력해 주세요",
                     onChange() {
                       clearErrors("result");
@@ -81,19 +84,19 @@ const SignUp: NextPage = () => {
                     },
                   })}
                   type="password"
-                  errorMessage={errors?.pw?.message}
+                  errorMessage={errors?.password?.message}
                   signUp
                 />
                 <Input
                   label="비번확인"
-                  register={register("pwConfirm", {
+                  register={register("passwordConfirm", {
                     required: "비밀번호 확인을 입력해 주세요.",
                     onChange() {
                       clearErrors("result");
                     },
                   })}
                   type="password"
-                  errorMessage={errors?.pwConfirm?.message}
+                  errorMessage={errors?.passwordConfirm?.message}
                   signUp
                 />
 
@@ -115,24 +118,35 @@ const SignUp: NextPage = () => {
                 />
               </div>
               <div className="mt-8">
-                <Button text="회원가입" href="/signUp/choice" />
+                <Button
+                  type="submit"
+                  error={error}
+                  text={
+                    loading
+                      ? "회원가입중입니다..."
+                      : error
+                      ? "에러가 있습니다."
+                      : "회원가입"
+                  }
+                  disabled={!isValid || loading || !isDirty}
+                />
               </div>
             </form>
             <div className="text-sm text-[#838383] mt-1 "></div>
           </div>
         </div>
 
-        <div className="text-sm text-red-600 flex flex-col items-center  ">
-          <div>{errors?.id?.message}</div>
-          <div>{errors?.pw?.message}</div>
-          <div>{errors?.pwConfirm?.message}</div>
-          <div>{errors?.email?.message}</div>
-          <div>
-            {watch("pwConfirm") === watch("pw")
+        <ul className=" text-sm text-red-600 flex flex-col items-center h-1  ">
+          <li>{errors?.userName?.message}</li>
+          <li>{errors?.password?.message}</li>
+          <li>{errors?.passwordConfirm?.message}</li>
+          <li>{errors?.email?.message}</li>
+          <li>
+            {watch("passwordConfirm") === watch("password")
               ? null
               : "비밀번호가 일치하지 않습니다."}
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </Layout>
   );
