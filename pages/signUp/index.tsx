@@ -4,6 +4,7 @@ import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,7 +17,9 @@ interface IEnterForm {
 }
 
 interface MutationResult {
-  ok: boolean;
+  httpStatus: number;
+  message: string;
+  results: object;
 }
 
 const SignUp: NextPage = () => {
@@ -30,16 +33,24 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
-  const [enter, { loading, data, error }] = useMutation<MutationResult>(
-    "http://129.154.201.42:8001/signup"
-  );
+  const [enter, { loading, data, error: signUpError }] =
+    useMutation<MutationResult>("http://129.154.201.42:8001/signup");
 
   console.log(data);
+  console.log(signUpError);
   //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
   const onValid = (validForm: IEnterForm) => {
+    if (loading) return;
     enter(validForm);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (data?.httpStatus === 201) {
+      router.push("/signup/choice");
+    }
+  }, [data, router]);
 
   return (
     <Layout seoTitle="회원가입" enter>
@@ -120,11 +131,11 @@ const SignUp: NextPage = () => {
               <div className="mt-8">
                 <Button
                   type="submit"
-                  error={error}
+                  error={signUpError}
                   text={
                     loading
                       ? "회원가입중입니다..."
-                      : error
+                      : data?.httpStatus === 400
                       ? "에러가 있습니다."
                       : "회원가입"
                   }

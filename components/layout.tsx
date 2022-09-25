@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { isMobile } from "react-device-detect";
+import NavBar from "./navBar";
 
 interface LayoutProps {
   title?: string;
   seoTitle: string;
   children: React.ReactNode;
   enter?: boolean;
+  home?: boolean;
+  like?: boolean;
+  create?: boolean;
+  profile?: boolean;
 }
 
 export default function Layout({
@@ -14,6 +19,10 @@ export default function Layout({
   seoTitle,
   children,
   enter,
+  home,
+  like,
+  create,
+  profile,
 }: LayoutProps) {
   const [getMobile, setmobile] = useState(false);
 
@@ -31,7 +40,13 @@ export default function Layout({
           <div className=" flex justify-center items-center">
             {!getMobile ? (
               <div className=" bg-[#febb10] w-screen h-screen flex items-center justify-center">
-                <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg">
+                <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  <NavBar
+                    home={home}
+                    like={like}
+                    create={create}
+                    profile={profile}
+                  />
                   {children}
                 </div>
               </div>
