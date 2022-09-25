@@ -9,7 +9,7 @@ interface LayoutProps {
   children: React.ReactNode;
   enter?: boolean;
   home?: boolean;
-  like?: boolean;
+  likes?: boolean;
   create?: boolean;
   profile?: boolean;
 }
@@ -20,7 +20,7 @@ export default function Layout({
   children,
   enter,
   home,
-  like,
+  likes,
   create,
   profile,
 }: LayoutProps) {
@@ -43,7 +43,7 @@ export default function Layout({
                 <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
                   <NavBar
                     home={home}
-                    like={like}
+                    likes={likes}
                     create={create}
                     profile={profile}
                   />

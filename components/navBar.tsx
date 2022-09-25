@@ -2,12 +2,12 @@ import Link from "next/link";
 
 interface INavPosProb {
   home?: boolean;
-  like?: boolean;
+  likes?: boolean;
   create?: boolean;
   profile?: boolean;
 }
 
-const NavBar = ({ home, like, create, profile }: INavPosProb) => {
+const NavBar = ({ home, likes, create, profile }: INavPosProb) => {
   const strokeWidth = "2";
 
   return (
@@ -38,7 +38,7 @@ const NavBar = ({ home, like, create, profile }: INavPosProb) => {
                 </a>
               </Link>
             </div>
-            <div style={{ color: like ? "#00572D" : "#CCCCCC" }}>
+            <div style={{ color: likes ? "#00572D" : "#CCCCCC" }}>
               <Link href={"/likes"}>
                 <a>
                   <svg

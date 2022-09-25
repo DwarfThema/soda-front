@@ -2,17 +2,17 @@ import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const Likes: NextPage = () => {
   /*   const router = useRouter();
   useEffect(() => {
     router.push("/enter");
   }, []); */
   const { isLoading } = useUser();
   return (
-    <Layout seoTitle="홈" home>
-      <div>하이</div>
+    <Layout seoTitle="좋아요" likes>
+      <div>좋아요 페이지</div>
     </Layout>
   );
 };
 
-export default Home;
+export default Likes;
