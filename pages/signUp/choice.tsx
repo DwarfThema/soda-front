@@ -65,7 +65,7 @@ const Choice: NextPage = () => {
   };
 
   return (
-    <Layout seoTitle="회원가입">
+    <Layout choice seoTitle="회원가입">
       {getByeBye ? (
         <>
           <div

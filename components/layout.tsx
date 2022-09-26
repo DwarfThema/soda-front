@@ -9,6 +9,7 @@ interface LayoutProps {
   seoTitle: string;
   children: React.ReactNode;
   enter?: boolean;
+  choice?: boolean;
   home?: boolean;
   likes?: boolean;
   create?: boolean;
@@ -16,8 +17,8 @@ interface LayoutProps {
 }
 
 export default function Layout({
-  title,
   seoTitle,
+  choice,
   children,
   enter,
   home,
@@ -41,19 +42,30 @@ export default function Layout({
           <div className=" flex justify-center items-center">
             {!getMobile ? (
               <div className=" bg-[#febb10] w-screen h-screen flex items-center justify-center">
-
                 <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  {choice ? null : (
+                    <NavBar
+                      home={home}
+                      likes={likes}
+                      create={create}
+                      profile={profile}
+                    />
+                  )}
+                  {children}
+                </div>
+              </div>
+            ) : (
+              <>
+                {choice ? null : (
                   <NavBar
                     home={home}
                     likes={likes}
                     create={create}
                     profile={profile}
                   />
-                  {children}
-                </div>
-              </div>
-            ) : (
-              <div>{children}</div>
+                )}
+                <div>{children}</div>
+              </>
             )}
           </div>
         ) : (
