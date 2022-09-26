@@ -7,7 +7,7 @@
 - [x] Login
 - [x] Taste Selection
   - 모바일로 확인시 다르게 나오는 부분 수정해야함
-- [ ] Common
+- [x] NavBar
 - [ ] Home
 - [ ] Heart
 - [ ] Create
