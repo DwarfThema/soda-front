@@ -62,8 +62,8 @@ const Home: NextPage = (/* { url }: any */) => {
   const { isLoading } = useUser();
   return (
     <Layout seoTitle="홈" home>
-      <div className="w-full ">
-        <div className=" mx-2 text-lg mt-5">🧐 Recommand DINING </div>
+      <div className="w-full mt-11 ">
+        <div className=" mx-2 text-lg ">🧐 Recommand DINING </div>
         <div className=" mx-2 mb-3 flex mt-3 items-end">
           <div className=" text-sm font-bold">얼큰한게 땡기는 날! 🍜</div>
           <div
@@ -109,7 +109,7 @@ const Home: NextPage = (/* { url }: any */) => {
             hasMore={true}
             loader={null}
           >
-            <div className=" grid grid-cols-3 gap-1 w-full h-[484px]">
+            <div className=" grid grid-cols-3 gap-1 w-full h-[460px]">
               {propArray.map((data) => (
                 <div
                   key={data.key}
