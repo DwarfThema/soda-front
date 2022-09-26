@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { isMobile } from "react-device-detect";
+
 import NavBar from "./navBar";
 
 interface LayoutProps {
@@ -40,6 +41,7 @@ export default function Layout({
           <div className=" flex justify-center items-center">
             {!getMobile ? (
               <div className=" bg-[#febb10] w-screen h-screen flex items-center justify-center">
+
                 <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
                   <NavBar
                     home={home}

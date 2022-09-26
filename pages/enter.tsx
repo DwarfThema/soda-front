@@ -127,6 +127,7 @@ const Enter: NextPage = () => {
           <Button text="로그인" />
         </form>
         <div className="text-sm text-[#838383] mt-2">
+
           <Link href={"/signup"}>
             <a>회원가입 / 아이디 찾기 / 비밀번호 찾기</a>
           </Link>

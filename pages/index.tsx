@@ -1,6 +1,8 @@
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   /*   const router = useRouter();

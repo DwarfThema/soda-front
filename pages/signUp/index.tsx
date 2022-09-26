@@ -4,6 +4,7 @@ import Layout from "@components/layout";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import Link from "next/link";
+
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ interface IEnterForm {
 }
 
 interface MutationResult {
+
   httpStatus: number;
   message: string;
   results: object;
@@ -32,6 +34,7 @@ const SignUp: NextPage = () => {
   } = useForm<IEnterForm>({
     mode: "onChange",
   });
+
 
   const [enter, { loading, data, error: signUpError }] =
     useMutation<MutationResult>("http://129.154.201.42:8001/signup");
@@ -131,6 +134,7 @@ const SignUp: NextPage = () => {
               <div className="mt-8">
                 <Button
                   type="submit"
+
                   error={signUpError}
                   text={
                     loading
@@ -146,7 +150,6 @@ const SignUp: NextPage = () => {
             <div className="text-sm text-[#838383] mt-1 "></div>
           </div>
         </div>
-
         <ul className=" text-sm text-red-600 flex flex-col items-center h-1  ">
           <li>{errors?.userName?.message}</li>
           <li>{errors?.password?.message}</li>
