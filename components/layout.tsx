@@ -56,15 +56,15 @@ export default function Layout({
               </div>
             ) : (
               <>
-                {choice ? null : (
-                  <NavBar
-                    home={home}
-                    likes={likes}
-                    create={create}
-                    profile={profile}
-                  />
-                )}
                 <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  {choice ? null : (
+                    <NavBar
+                      home={home}
+                      likes={likes}
+                      create={create}
+                      profile={profile}
+                    />
+                  )}
                   {children}
                 </div>
               </>
