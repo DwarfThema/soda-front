@@ -18,7 +18,6 @@ interface IEnterForm {
 }
 
 interface MutationResult {
-
   httpStatus: number;
   message: string;
   results: object;
@@ -35,12 +34,12 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
+  const [enter, { loading, data, message }] = useMutation<MutationResult>(
+    "http://129.154.201.42:8001/signup"
+  );
 
-  const [enter, { loading, data, error: signUpError }] =
-    useMutation<MutationResult>("http://129.154.201.42:8001/signup");
-
-  console.log(data);
-  console.log(signUpError);
+  console.log(message);
+  console.log(data?.httpStatus);
   //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
   const onValid = (validForm: IEnterForm) => {
@@ -71,7 +70,7 @@ const SignUp: NextPage = () => {
                       clearErrors("result");
                     },
                     minLength: {
-                      value: 5,
+                      value: 4,
                       message: "아이디는 4글자 이상 입력해 주세요",
                     },
                   })}
@@ -134,8 +133,7 @@ const SignUp: NextPage = () => {
               <div className="mt-8">
                 <Button
                   type="submit"
-
-                  error={signUpError}
+                  error={message}
                   text={
                     loading
                       ? "회원가입중입니다..."
