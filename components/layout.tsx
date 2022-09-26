@@ -64,7 +64,9 @@ export default function Layout({
                     profile={profile}
                   />
                 )}
-                <div>{children}</div>
+                <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  {children}
+                </div>
               </>
             )}
           </div>
