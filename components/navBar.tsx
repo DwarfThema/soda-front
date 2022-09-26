@@ -12,9 +12,9 @@ const NavBar = ({ home, likes, create, profile }: INavPosProb) => {
 
   return (
     <>
-      <div className="absolute w-full bottom-0 flex items-end ">
+      <div className="absolute w-full bottom-0 flex items-end z-30">
         <div
-          className="w-full h-[85px] rounded-t-xl"
+          className="w-full h-[85px] rounded-xl bg-white"
           style={{ boxShadow: "0px -3px 10px rgba(1,1,1,0.3)" }}
         >
           <div className="mt-3  w-full flex justify-around items-center">

@@ -109,7 +109,7 @@ const Home: NextPage = (/* { url }: any */) => {
             hasMore={true}
             loader={null}
           >
-            <div className=" grid grid-cols-3 gap-1 w-full h-[460px]">
+            <div className=" grid grid-cols-3 gap-1 w-full h-[500px]">
               {propArray.map((data) => (
                 <div
                   key={data.key}
