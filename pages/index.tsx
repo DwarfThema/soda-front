@@ -84,7 +84,7 @@ const Home: NextPage = (/* { url }: any */) => {
               {propArray.map((data) => (
                 <div key={data.key}>
                   <div
-                    className="w-[93px] h-full bg-emerald-600 mr-1 rounded-lg flex items-end bg-cover bg-center"
+                    className="w-[93px] h-full bg-gray-300 mr-1 rounded-mg flex items-end bg-cover bg-center"
                     style={{
                       backgroundImage: `url(${data.img})`,
                       textShadow: "1px 1px 2px black",
@@ -109,14 +109,14 @@ const Home: NextPage = (/* { url }: any */) => {
             hasMore={true}
             loader={null}
           >
-            <div className=" grid grid-cols-3 gap-1 w-full h-[480px]">
+            <div className=" grid grid-cols-3 gap-1 w-full h-[484px]">
               {propArray.map((data) => (
                 <div
                   key={data.key}
                   className={data?.key % 8 == 1 ? "col-span-2" : ""}
                 >
                   <div
-                    className=" h-[120px] bg-emerald-600  rounded-md flex items-end bg-cover bg-center"
+                    className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center"
                     style={{ backgroundImage: `url(${data.img})` }}
                   ></div>
                 </div>
