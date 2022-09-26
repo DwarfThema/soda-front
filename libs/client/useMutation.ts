@@ -3,7 +3,7 @@ import { useState } from "react";
 interface UserMutationState<T> {
   loading: boolean;
   data?: T;
-  error?: object;
+  message?: object;
 }
 
 type UserMutationResult<T> = [(data: any) => void, UserMutationState<T>];
@@ -14,12 +14,12 @@ export default function useMutation<T = any>(
   const [state, setState] = useState<UserMutationState<T>>({
     loading: false,
     data: undefined,
-    error: undefined,
+    message: undefined,
   });
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<undefined | any>(undefined);
-  const [error, setError] = useState<undefined | any>(undefined);
+  const [message, setMessage] = useState<undefined | any>(undefined);
 
   function mutation(data: any) {
     setLoading(true);
@@ -33,10 +33,10 @@ export default function useMutation<T = any>(
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
         setData(json);
-        setError(json.message);
+        setMessage(json.message);
       })
       .then(() => setLoading(false));
   }
 
-  return [mutation, { loading, data, error }];
+  return [mutation, { loading, data, message }];
 }

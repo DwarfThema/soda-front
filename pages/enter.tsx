@@ -25,7 +25,7 @@ interface TokenForm {
 }
 
 const Enter: NextPage = () => {
-  const [enter, { loading, data, error }] = useMutation<MutationResult>(
+  const [enter, { loading, data, message }] = useMutation<MutationResult>(
     "였던 무언가 129.154.201.42:8001/"
   );
 
@@ -37,15 +37,12 @@ const Enter: NextPage = () => {
 
   const [
     confirmToken,
-    { loading: tokenLoading, data: tokenData, error: tokenError },
+    { loading: tokenLoading, data: tokenData, message: tokenError },
   ] = useMutation<MutationResult>("유저 토큰 관련 url");
 
   const {
     register,
-    reset,
     handleSubmit,
-    getValues,
-    setError,
     clearErrors,
     formState: { errors, isValid },
   } = useForm<EnterForm>({
@@ -127,7 +124,6 @@ const Enter: NextPage = () => {
           <Button text="로그인" />
         </form>
         <div className="text-sm text-[#838383] mt-2">
-
           <Link href={"/signup"}>
             <a>회원가입 / 아이디 찾기 / 비밀번호 찾기</a>
           </Link>

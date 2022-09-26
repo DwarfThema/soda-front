@@ -12,7 +12,7 @@ const NavBar = ({ home, likes, create, profile }: INavPosProb) => {
 
   return (
     <>
-      <div className="absolute w-full h-full flex items-end ">
+      <div className="absolute w-full bottom-0 flex items-end ">
         <div
           className="w-full h-[85px] rounded-t-xl"
           style={{ boxShadow: "0px -3px 10px rgba(1,1,1,0.3)" }}
