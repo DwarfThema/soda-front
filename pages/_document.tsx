@@ -5,6 +5,10 @@ class CustomDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
           <link
             href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap"
             rel="stylesheet"

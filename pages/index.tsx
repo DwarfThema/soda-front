@@ -64,6 +64,7 @@ const Home: NextPage = (/* { url }: any */) => {
     <Layout seoTitle="홈" home>
       <div className="w-full mt-11 ">
         <div className=" mx-2 text-lg ">🧐 Recommand DINING </div>
+
         <div className=" mx-2 mb-3 flex mt-3 items-end">
           <div className=" text-sm font-bold">얼큰한게 땡기는 날! 🍜</div>
           <div
