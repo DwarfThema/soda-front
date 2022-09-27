@@ -4,6 +4,7 @@ import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
 import { url } from "inspector";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -86,17 +87,21 @@ const Home: NextPage = (/* { url }: any */) => {
               <div className="ml-1 flex h-[150px]">
                 {propArray.map((data) => (
                   <div key={data.key}>
-                    <div
-                      className="w-[93px] h-full bg-gray-300 mr-1 rounded-mg flex items-end bg-cover bg-center"
-                      style={{
-                        backgroundImage: `url(${data.img})`,
-                        textShadow: "1px 1px 2px black",
-                      }}
-                    >
-                      <span className="bottom-0 mb-2 ml-1 text-sm font-bold text-white ">
-                        {data.cat1}
-                      </span>
-                    </div>
+                    <Link href={`/store/${data.key}`}>
+                      <a>
+                        <div
+                          className="w-[93px] h-full bg-gray-300 mr-1 rounded-mg flex items-end bg-cover bg-center"
+                          style={{
+                            backgroundImage: `url(${data.img})`,
+                            textShadow: "1px 1px 2px black",
+                          }}
+                        >
+                          <span className="bottom-0 mb-2 ml-1 text-sm font-bold text-white ">
+                            {data.cat1}
+                          </span>
+                        </div>
+                      </a>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -118,16 +123,19 @@ const Home: NextPage = (/* { url }: any */) => {
                     key={data.key}
                     className={data?.key % 8 == 1 ? "col-span-2" : ""}
                   >
-                    <div
-                      className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center"
-                      style={{ backgroundImage: `url(${data.img})` }}
-                    ></div>
+                    <Link href={`/reviews/${data.key}`}>
+                      <a>
+                        <div
+                          className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center"
+                          style={{ backgroundImage: `url(${data.img})` }}
+                        ></div>
+                      </a>
+                    </Link>
                   </div>
                 ))}
               </div>
             </InfiniteScroll>
           </div>
-
         </div>
       </div>
     </Layout>

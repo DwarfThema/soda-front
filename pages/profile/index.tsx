@@ -15,6 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import Link from "next/link";
 
 interface IEditProfile {
   avatar?: FileList;
@@ -40,6 +41,8 @@ const Profile: NextPage<{
     router.push("/enter");
   }, []); */
   const { isLoading } = useUser();
+  const [getIsMe, setIsMe] = useState(false);
+  const [getIsFollow, setIsFollow] = useState(false);
 
   //---------폼 관련-----------
   const [edit, { loading, data, message: submitMessage }] =
@@ -225,15 +228,29 @@ const Profile: NextPage<{
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <motion.div
-                  onClick={() => {
-                    setEditProfile(!getEditProfile);
-                  }}
-                  className="border border-[#00572D] py-[6px] px-14 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer"
-                  layoutId="editModal"
-                >
-                  <span>프로필 편집</span>
-                </motion.div>
+                {getIsMe ? (
+                  <motion.div
+                    onClick={() => {
+                      setEditProfile(!getEditProfile);
+                    }}
+                    className="border border-[#00572D] w-44 px-14 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer"
+                    layoutId="editModal"
+                  >
+                    <span>프로필 편집</span>분식 양식 양식
+                  </motion.div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      setIsFollow(!getIsFollow);
+                    }}
+                    className={cls(
+                      "border border-[#00572D] py-[6px] w-44 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer",
+                      getIsFollow ? "" : "bg-[#00572D] text-white font-semibold"
+                    )}
+                  >
+                    <span>{getIsFollow ? "언팔로우 하기" : "팔로잉 하기"}</span>
+                  </div>
+                )}
 
                 <div className="text-center my-4 text-zinc-500">
                   {profile?.introduce}
@@ -248,7 +265,10 @@ const Profile: NextPage<{
                   onClick={() => {
                     setBookMark(false);
                   }}
-                  className="w-1/2 flex justify-center cursor-pointer"
+                  className={cls(
+                    "w-1/2 flex justify-center cursor-pointer",
+                    !getBookMark ? "text-green-800" : ""
+                  )}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -276,7 +296,10 @@ const Profile: NextPage<{
                   onClick={() => {
                     setBookMark(true);
                   }}
-                  className="w-1/2 flex justify-center cursor-pointer"
+                  className={cls(
+                    "w-1/2 flex justify-center cursor-pointer",
+                    getBookMark ? "text-green-800" : ""
+                  )}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -307,10 +330,14 @@ const Profile: NextPage<{
                 <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
                   {PropArray.map((data) => (
                     <div key={data.key}>
-                      <div
-                        className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
-                        style={{ backgroundImage: `url(${data.img})` }}
-                      />
+                      <Link href={`/reviews/${data.key}`}>
+                        <a>
+                          <div
+                            className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
+                            style={{ backgroundImage: `url(${data.img})` }}
+                          />
+                        </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
