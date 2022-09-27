@@ -6,7 +6,7 @@ interface ButtonProps {
   href?: string;
   [key: string]: any;
   disabled: boolean;
-  review: boolean;
+  review?: boolean;
 }
 
 const Button = ({ type, text, href, error, disabled, review }: ButtonProps) => {

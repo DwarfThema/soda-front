@@ -35,7 +35,7 @@ const SignUp: NextPage = () => {
   });
 
   const [enter, { loading, data, message: submitMessage }] =
-    useMutation<MutationResult>("http://129.154.201.42:8001/signup");
+    useMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
   console.log(submitMessage);
   console.log(data?.httpStatus);

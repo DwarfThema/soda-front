@@ -41,7 +41,7 @@ export default function Layout({
       <Head>
         <title>{seoTitle} | 소다</title>
       </Head>
-      <div className="w-full h-full justify-center items-center text-lg font-medium text-gray-800 top-0 flex ">
+      <div className="w-screen h-screen justify-center items-center text-lg font-medium text-gray-800 top-0 flex ">
         {!enter ? (
           review ? (
             <div className=" bg-[#FEBC10] w-screen h-screen flex items-center justify-center">

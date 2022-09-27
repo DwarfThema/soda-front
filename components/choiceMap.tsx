@@ -1,3 +1,4 @@
+import { cls } from "@libs/client/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface IChoiceMap {
@@ -8,7 +9,7 @@ interface IChoiceMap {
   getSelected: number;
 }
 
-const ChoiceMap = ({ img, cat, selected, getSelected }: IChoiceMap) => {
+const ChoiceMap = ({ img, cat, selected, getSelected, key }: IChoiceMap) => {
   const [getSelect, setSelect] = useState(false);
 
   const [getFav, setFav] = useState([]);
@@ -17,28 +18,48 @@ const ChoiceMap = ({ img, cat, selected, getSelected }: IChoiceMap) => {
   //cat 를 활용해서 취향 데이터 던져줘야함
 
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center" key={key}>
       {getSelect ? (
         <>
           <button
+            className="w-full h-full "
             onClick={() => {
               setSelect(false);
               selected(getSelected - 1);
             }}
           >
-            <div className="w-3 h-3 bg-red-600 rounded-full" />
-            <img className={"rounded-md "} src={img} />
+            <div
+              className="rounded-md bg-cover bg-center h-[300px] w-full flex "
+              style={{
+                backgroundImage: `url(${img})`,
+              }}
+            >
+              <div
+                className="h-[300px] w-full backdrop-blur-md text-white flex justify-center items-center text-[30px]"
+                style={{
+                  textShadow: "2px 2px 4px black",
+                }}
+              >
+                <div>{cat}</div>
+              </div>
+            </div>
           </button>
         </>
       ) : (
         <>
           <button
+            className={cls("w-full h-full ")}
             onClick={() => {
               setSelect(true);
               selected(getSelected + 1);
             }}
           >
-            <img className="rounded-md" src={img} />
+            <div
+              className="rounded-md bg-cover bg-center h-[300px] w-full "
+              style={{
+                backgroundImage: `url(${img})`,
+              }}
+            ></div>
           </button>
         </>
       )}
