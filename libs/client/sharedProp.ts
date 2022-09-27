@@ -31,7 +31,6 @@ export interface Icomment {
   isMe?: boolean;
   user: IProfile;
 }
-
 export const PropArray = [
   { key: 1, img: "/img/choice/asian.png", cat1: "아시안" },
   { key: 2, img: "/img/choice/asian2.jpeg", cat1: "아시안" },

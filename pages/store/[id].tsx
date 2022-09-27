@@ -8,6 +8,7 @@ import { wrap } from "popmotion";
 import { IReview, IStore } from "@libs/client/sharedProp";
 import Link from "next/link";
 
+
 const propArray = [
   { key: 1, img: "/img/choice/asian.png", cat1: "아시안" },
   { key: 2, img: "/img/choice/asian2.jpeg", cat1: "아시안" },
@@ -202,6 +203,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
                         </div>
                       </a>
                     </Link>
+
                   </div>
                 ))}
               </div>
