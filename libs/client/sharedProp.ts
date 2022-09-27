@@ -18,10 +18,11 @@ export interface IReview {
 export interface IProfile {
   id: number;
   userName: string;
-  avatar: string;
+  avatar?: string;
   following: number;
   follower: number;
-  introduce: string;
+  introduce?: string;
+  review?: IReview;
 }
 
 export interface Icomment {

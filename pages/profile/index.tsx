@@ -214,18 +214,26 @@ const Profile: NextPage<{
             <div className="mt-12 flex flex-col items-center text-sm">
               <div className="text-lg font-bold"> {profile?.userName} </div>
               <div className="flex mt-3">
-                <div className="flex flex-col items-center">
-                  <div className="text-base font-bold">
-                    {" "}
-                    {profile?.following}{" "}
-                  </div>
-                  <div className="text-zinc-400"> 팔로잉</div>
-                </div>
+                <Link href={`/profile/${1}/followings`}>
+                  <a className=" flex flex-col items-center justify-center">
+                    <div className="text-base font-bold">
+                      {profile?.following}{" "}
+                    </div>
+                    <div className="text-zinc-400"> 팔로잉</div>
+                  </a>
+                </Link>
                 <div className="w-24" />
-                <div className="flex flex-col items-center">
-                  <div className="text-base font-bold">{profile?.follower}</div>
-                  <div className="text-zinc-400">팔로워</div>
-                </div>
+
+                <Link href={`/profile/${1}/followers`}>
+                  <a>
+                    <div className="flex flex-col items-center">
+                      <div className="text-base font-bold">
+                        {profile?.follower}
+                      </div>
+                      <div className="text-zinc-400">팔로워</div>
+                    </div>
+                  </a>
+                </Link>
               </div>
               <div className="flex flex-col items-center">
                 {getIsMe ? (

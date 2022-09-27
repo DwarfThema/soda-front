@@ -5,7 +5,7 @@ interface IProfilePhoto {
   sm?: boolean;
   md?: boolean;
   lg?: boolean;
-  avatar: string;
+  avatar: string | undefined;
 }
 
 const ProfilePhoto = ({ sm, md, lg, avatar }: IProfilePhoto) => {

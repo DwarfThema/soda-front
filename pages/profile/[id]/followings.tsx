@@ -7,33 +7,27 @@ import {
   IStore,
   PropArray,
 } from "@libs/client/sharedProp";
-import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
-import type { NextPage } from "next";
+import { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Likes: NextPage<{
+const Followings: NextPage<{
   store: IStore;
   reviews: [IReview];
   profile: IProfile;
   comments: [Icomment];
 }> = ({ store, reviews, comments, profile }) => {
-  /*   const router = useRouter();
-  useEffect(() => {
-    router.push("/enter");
-  }, []); */
-  const { isLoading } = useUser();
+  const [getIsFollow, setIsFollow] = useState(false);
 
   //---------인피니티 관련-----------
   const getMorePost = async (page: number) => {};
   const [page, setPage] = useState(1);
   //---------인피니티 관련-----------
 
-  const img = "/img/choice/fast2.jpeg";
   return (
-    <Layout seoTitle="좋아요" likes>
+    <Layout seoTitle="팔로워" profile>
       <div className="w-full">
         <div className="mt-24">
           <InfiniteScroll
@@ -46,7 +40,7 @@ const Likes: NextPage<{
               {reviews?.map((review: IReview) => (
                 <div
                   key={review?.id}
-                  className=" mb-3 flex justify-between items-center"
+                  className=" mb-3 pb-1 flex justify-between items-center border-b-2 border-dashed"
                 >
                   <div className=" flex justify-center items-center  ">
                     <ProfilePhoto md avatar={review.user.avatar} />
@@ -58,29 +52,14 @@ const Likes: NextPage<{
                               <a>{review?.user?.userName}</a>
                             </Link>
                           </div>
-                          <div>회원님이 </div>
+                          <div>님을 </div>
                         </div>
                         <div className="flex">
-                          <div className="font-bold">
-                            <Link href={`/store/${review.store.id}`}>
-                              <a>{review?.store?.name}</a>
-                            </Link>
-                          </div>
-                          <div> 에 방문했습니다. </div>
+                          <div>회원님이 팔로우 하고 있습니다. </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <Link href={`/reviews/${review.id}`}>
-                    <a>
-                      <div
-                        className=" bg-cover bg-center h-[40px] w-[40px] flex self-center  "
-                        style={{
-                          backgroundImage: `url(${PropArray[review.id]?.img})`,
-                        }}
-                      />
-                    </a>
-                  </Link>
                 </div>
               ))}
             </div>
@@ -91,7 +70,7 @@ const Likes: NextPage<{
   );
 };
 
-export default Likes;
+export default Followings;
 
 export async function getServerSideProps() {
   const store = {
