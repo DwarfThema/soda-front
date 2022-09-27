@@ -6,11 +6,10 @@
 
 - [x] Login
 - [x] Taste Selection
-  - 모바일로 확인시 다르게 나오는 부분 수정해야함
 - [x] NavBar
-- [ ] Home
-- [ ] Heart
-- [ ] Create
+- [x] Home
+- [ ] Likes
+- [x] Create
 - [ ] Profile
 
 ## API Verbs
