@@ -2,14 +2,22 @@ import { cls } from "@libs/client/utils";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputProps {
-  label: string;
+  label?: string;
   errorMessage?: string;
   register?: UseFormRegisterReturn;
   type?: string;
   signUp?: boolean;
+  reply?: boolean;
 }
 
-const Input = ({ label, errorMessage, register, type, signUp }: InputProps) => {
+const Input = ({
+  label,
+  errorMessage,
+  register,
+  type,
+  signUp,
+  reply,
+}: InputProps) => {
   return (
     <div
       className={cls(

@@ -4,6 +4,7 @@
 
 * {
   -ms-overflow-style: none;
+  white-space: pre-wrap;
 }
 ::-webkit-scrollbar {
   display: none;

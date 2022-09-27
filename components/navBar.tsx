@@ -1,3 +1,4 @@
+import { cls } from "@libs/client/utils";
 import Link from "next/link";
 
 interface INavPosProb {
@@ -5,16 +6,22 @@ interface INavPosProb {
   likes?: boolean;
   create?: boolean;
   profile?: boolean;
+  mobile?: boolean;
 }
 
-const NavBar = ({ home, likes, create, profile }: INavPosProb) => {
+const NavBar = ({ home, likes, create, profile, mobile }: INavPosProb) => {
   const strokeWidth = "2";
 
   return (
     <>
-      <div className="absolute w-full bottom-0 flex items-end ">
+      <div
+        className={cls(
+          " w-full bottom-0 flex items-end z-30",
+          mobile ? "fixed bottom-0" : "absolute"
+        )}
+      >
         <div
-          className="w-full h-[85px] rounded-t-xl"
+          className="w-full h-[85px] rounded-t-xl rounded-b-md bg-white"
           style={{ boxShadow: "0px -3px 10px rgba(1,1,1,0.3)" }}
         >
           <div className="mt-3  w-full flex justify-around items-center">
