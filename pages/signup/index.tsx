@@ -34,6 +34,7 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
+
   const [enter, { loading, data, message: submitMessage }] =
     useMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 

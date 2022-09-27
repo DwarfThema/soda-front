@@ -54,7 +54,6 @@ const Home: NextPage = (/* { url }: any */) => {
 
   const getMorePost = async (page: number) => {};
   const [page, setPage] = useState(1);
-
   var windowHeight;
 
   useEffect(() => {
@@ -128,6 +127,7 @@ const Home: NextPage = (/* { url }: any */) => {
               </div>
             </InfiniteScroll>
           </div>
+
         </div>
       </div>
     </Layout>
