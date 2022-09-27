@@ -34,11 +34,10 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
-  const [enter, { loading, data, message }] = useMutation<MutationResult>(
-    "http://129.154.201.42:8001/signup"
-  );
+  const [enter, { loading, data, message: submitMessage }] =
+    useMutation<MutationResult>("http://129.154.201.42:8001/signup");
 
-  console.log(message);
+  console.log(submitMessage);
   console.log(data?.httpStatus);
   //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
@@ -133,7 +132,7 @@ const SignUp: NextPage = () => {
               <div className="mt-8">
                 <Button
                   type="submit"
-                  error={message}
+                  error={submitMessage}
                   text={
                     loading
                       ? "회원가입중입니다..."
