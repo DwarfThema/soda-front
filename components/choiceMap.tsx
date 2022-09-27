@@ -35,7 +35,7 @@ const ChoiceMap = ({ img, cat, selected, getSelected, key }: IChoiceMap) => {
               }}
             >
               <div
-                className="h-[300px] w-full backdrop-blur-md text-white flex justify-center items-center text-[30px]"
+                className="h-[300px] w-full backdrop-blur-md text-white flex justify-center items-center text-[30px] "
                 style={{
                   textShadow: "2px 2px 4px black",
                 }}
