@@ -46,7 +46,7 @@ const Likes: NextPage<{
               {reviews?.map((review: IReview) => (
                 <div
                   key={review?.id}
-                  className=" mb-3 flex justify-between items-center"
+                  className=" mb-3 pb-2 flex justify-between items-center border-b-2 border-dashed"
                 >
                   <div className=" flex justify-center items-center  ">
                     <ProfilePhoto md avatar={review.user.avatar} />
