@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import Input from "@components/InputForm";
 import Link from "next/link";
 import Button from "@components/button";
+import useLoginMutation from "@libs/client/useLoginMutation";
 
 interface IToken {
   id: string;
@@ -28,16 +29,21 @@ interface EnterForm {
 }
 
 const Enter: NextPage = () => {
+  const router = useRouter();
+
   //---------------로그인 토큰 저장---------------
-  const [enter, { loading, data, message }] = useMutation<MutationResult>(
+
+  const [enter, { loading, data }] = useLoginMutation<MutationResult>(
     "https://mtvs.kro.kr:8001/login"
   );
 
   const userToken = data?.results?.token!;
 
   useEffect(() => {
-    localStorage.setItem("token", userToken);
-    console.log("ok");
+    localStorage.setItem("Authorization", "Bearer " + userToken);
+    if (userToken) {
+      router.push(`/signup/choice`);
+    }
   }, [data]);
 
   //---------------로그인 토큰 저장---------------
@@ -57,11 +63,6 @@ const Enter: NextPage = () => {
     enter(validForm);
   };
   //---------------폼관련---------------
-
-  //---------------로그인 성공 라우팅---------------
-  const router = useRouter();
-  useEffect(() => {}, []);
-  //---------------로그인 성공 라우팅---------------
 
   return (
     <Layout seoTitle="로그인" enter>

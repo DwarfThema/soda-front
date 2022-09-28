@@ -37,12 +37,9 @@ const SignUp: NextPage = () => {
   const [enter, { loading, data, message: submitMessage }] =
     useMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
-  console.log(data?.httpStatus);
   //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
   const onValid = (validForm: IEnterForm) => {
-    console.log(validForm);
-
     if (loading) return;
     enter(validForm);
   };
@@ -50,7 +47,7 @@ const SignUp: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (data?.httpStatus === 201) {
-      router.push("/signup/choice");
+      router.push("/enter");
     }
   }, [data, router]);
 

@@ -32,7 +32,6 @@ const CreateReview: NextPage<{
     useEffect(() => {
       router.push("/enter");
     }, []); */
-  const { isLoading } = useUser();
 
   const rounter = useRouter();
 

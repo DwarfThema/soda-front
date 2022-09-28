@@ -11,16 +11,26 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useSWR, { SWRConfig } from "swr";
 
-const Home: NextPage = (/* { url }: any */) => {
-  /*   const prevUrl = url;
-  const router = useRouter();
-  if (prevUrl === "http://localhost:3000/signup/choice") {
-    null;
-  } else {
-    useEffect(() => {
-      router.push("/enter");
-    }, []);
-  } */
+const Home: NextPage = () => {
+  const user = useUser();
+
+  const { data: swrData } = useSWR(
+    "https://mtvs.kro.kr:8001/favorite?page=0&size=10"
+  );
+
+  /*   useEffect(() => {
+    fetch("https://mtvs.kro.kr:8001/favorite?page=0&size=10", {
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  }, []); */
 
   function onGeoOk(positon: any) {
     console.log(positon);
@@ -38,7 +48,6 @@ const Home: NextPage = (/* { url }: any */) => {
     windowHeight = window.innerHeight;
   }, []);
 
-  const { isLoading } = useUser();
   return (
     <Layout seoTitle="홈" home>
       <div>

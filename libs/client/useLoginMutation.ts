@@ -8,7 +8,7 @@ interface UserMutationState<T> {
 
 type UserMutationResult<T> = [(data: any) => void, UserMutationState<T>];
 
-export default function useMutation<T = any>(
+export default function useLoginMutation<T = any>(
   url: string
 ): UserMutationResult<T> {
   const [state, setState] = useState<UserMutationState<T>>({
@@ -27,7 +27,6 @@ export default function useMutation<T = any>(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("Authorization") || "",
       },
       body: JSON.stringify(data),
     })

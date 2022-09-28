@@ -14,7 +14,7 @@ const Create: NextPage = () => {
   useEffect(() => {
     router.push("/enter");
   }, []); */
-  const { isLoading } = useUser();
+  /*   const { isLoading } = useUser(); */
 
   const rounter = useRouter();
 

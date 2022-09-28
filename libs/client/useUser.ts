@@ -1,20 +1,16 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-interface ProfileResponse {
-  ok: boolean;
-}
-
 export default function useUser() {
-  const { data, error } = useSWR<ProfileResponse>("유저 있는지 관련 url");
-
+  const { data } = useSWR(`https://mtvs.kro.kr:8001/info/`);
   const router = useRouter();
-  useEffect(() => {
-    if (data && !data.ok) {
-      router.replace("/enter");
-    }
-  }, [data, router]);
 
-  return { isLoading: !data && !error };
+  useEffect(() => {
+    if (data?.httpStatus !== 200) {
+      router.push("/enter");
+    }
+  }, [router]);
+
+  return { user: null };
 }

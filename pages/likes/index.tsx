@@ -24,7 +24,6 @@ const Likes: NextPage<{
   useEffect(() => {
     router.push("/enter");
   }, []); */
-  const { isLoading } = useUser();
 
   //---------인피니티 관련-----------
   const getMorePost = async (page: number) => {};

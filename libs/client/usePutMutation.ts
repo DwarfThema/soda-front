@@ -6,9 +6,11 @@ interface UserMutationState<T> {
   message?: object;
 }
 
+type method = "GET" | "POST" | "DELETE";
+
 type UserMutationResult<T> = [(data: any) => void, UserMutationState<T>];
 
-export default function useMutation<T = any>(
+export default function usePutMutation<T = any>(
   url: string
 ): UserMutationResult<T> {
   const [state, setState] = useState<UserMutationState<T>>({
@@ -24,7 +26,7 @@ export default function useMutation<T = any>(
   function mutation(data: any) {
     setLoading(true);
     fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization") || "",
@@ -34,7 +36,7 @@ export default function useMutation<T = any>(
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
         setData(json);
-        setMessage(json?.message);
+        setMessage(json.message);
       })
       .then(() => setLoading(false));
   }

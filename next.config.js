@@ -6,15 +6,16 @@ const nextConfig = {
 
 module.exports = {
   async headers() {
+    const token = localStorage.getItem("Authorization") || "";
     return [
       {
-        source: "/about",
+        source: "/*",
         // 해당 위에 헤에 넣을 링크 넣기
         headers: [
           {
-            key: "x-custom-header",
+            key: "Authorization",
             //헤더 키  이름 확인
-            value: "my custom header value",
+            value: token,
             //저장할 벨류 넣기
           },
         ],
