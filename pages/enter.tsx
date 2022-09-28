@@ -9,37 +9,40 @@ import Input from "@components/InputForm";
 import Link from "next/link";
 import Button from "@components/button";
 
+interface IToken {
+  id: string;
+  token: string;
+}
+
 interface MutationResult {
-  ok: boolean;
+  httpStatus: number;
+  message: string;
+  results: IToken;
+  token: string;
 }
 
 interface EnterForm {
-  id: string;
-  email: string;
-  pw: string;
+  userName: string;
+  password: string;
   result: string;
 }
 
-interface TokenForm {
-  token: number;
-}
-
 const Enter: NextPage = () => {
+  //---------------로그인 토큰 저장---------------
   const [enter, { loading, data, message }] = useMutation<MutationResult>(
-    "였던 무언가 129.154.201.42:8001/"
+    "https://mtvs.kro.kr:8001/login"
   );
 
-  console.log(data);
+  const userToken = data?.results?.token!;
 
-  const onValid = (validForm: EnterForm) => {
-    enter(validForm);
-  };
+  useEffect(() => {
+    localStorage.setItem("token", userToken);
+    console.log("ok");
+  }, [data]);
 
-  const [
-    confirmToken,
-    { loading: tokenLoading, data: tokenData, message: tokenError },
-  ] = useMutation<MutationResult>("유저 토큰 관련 url");
+  //---------------로그인 토큰 저장---------------
 
+  //---------------폼관련---------------
   const {
     register,
     handleSubmit,
@@ -49,24 +52,16 @@ const Enter: NextPage = () => {
     mode: "onChange",
   });
 
-  const { register: tokenRegi, handleSubmit: tokenSubmit } =
-    useForm<TokenForm>();
-
-  const [submitting] = useState(false);
-
-  const onTokenValid = (validForm: TokenForm) => {
-    if (tokenLoading) return;
-    confirmToken(validForm);
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
+  //---------------폼관련---------------
 
+  //---------------로그인 성공 라우팅---------------
   const router = useRouter();
-  useEffect(() => {
-    if (tokenData?.ok) {
-      router.push("/");
-    }
-  }, [tokenData, router]);
-
-  const [titleState, setTitleState] = useState(false);
+  useEffect(() => {}, []);
+  //---------------로그인 성공 라우팅---------------
 
   return (
     <Layout seoTitle="로그인" enter>
@@ -91,8 +86,8 @@ const Enter: NextPage = () => {
           <div>
             <Input
               label="아이디"
-              errorMessage={errors?.id?.message}
-              register={register("id", {
+              errorMessage={errors?.userName?.message}
+              register={register("userName", {
                 required: "아이디를 입력해 주세요.",
                 onChange() {
                   clearErrors("result");
@@ -107,8 +102,8 @@ const Enter: NextPage = () => {
 
             <Input
               label="비밀번호"
-              errorMessage={errors?.pw?.message}
-              register={register("pw", {
+              errorMessage={errors?.password?.message}
+              register={register("password", {
                 required: "비밀번호를 입력해 주세요.",
                 onChange() {
                   clearErrors("result");

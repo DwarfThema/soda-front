@@ -8,9 +8,9 @@
 - [x] Taste Selection
 - [x] NavBar
 - [x] Home
-- [ ] Likes
+- [x] Likes
 - [x] Create
-- [ ] Profile
+- [x] Profile
 
 ## API Verbs
 

@@ -49,12 +49,16 @@ const Likes: NextPage<{
                   className=" mb-3 pb-2 flex justify-between items-center border-b-2 border-dashed"
                 >
                   <div className=" flex justify-center items-center  ">
-                    <ProfilePhoto md avatar={review.user.avatar} />
+                    <Link href={`/profile/${review.id}`}>
+                      <a>
+                        <ProfilePhoto md avatar={review.user.avatar} />
+                      </a>
+                    </Link>
                     <div>
                       <div className="text-base ml-2">
                         <div className="flex">
                           <div className="font-bold">
-                            <Link href={`/profile/${review.user.id}`}>
+                            <Link href={`/profile/${review.id}`}>
                               <a>{review?.user?.userName}</a>
                             </Link>
                           </div>

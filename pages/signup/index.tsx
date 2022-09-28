@@ -34,15 +34,15 @@ const SignUp: NextPage = () => {
     mode: "onChange",
   });
 
-
   const [enter, { loading, data, message: submitMessage }] =
     useMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
-  console.log(submitMessage);
   console.log(data?.httpStatus);
   //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
 
   const onValid = (validForm: IEnterForm) => {
+    console.log(validForm);
+
     if (loading) return;
     enter(validForm);
   };
