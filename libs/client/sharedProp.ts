@@ -33,19 +33,13 @@ export interface IStore {
 }
 
 export interface IReview {
-  id: number;
-  store: IStore;
-  score: number;
-  payload?: string;
-  likes: number;
-  photo: string;
-  user: IProfile;
+  [key: string]: any;
 }
 
 export interface IProfile {
   id: number;
   userName: string;
-  avatar?: string;
+  profileImg?: string;
   following: number;
   follower: number;
   introduce?: string;
@@ -54,7 +48,7 @@ export interface IProfile {
 
 export interface Icomment {
   id: number;
-  payload: string;
+  content: string;
   isMe?: boolean;
   user: IProfile;
 }

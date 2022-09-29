@@ -3,14 +3,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
 import { motion } from "framer-motion";
 import Input from "@components/InputForm";
 import Link from "next/link";
 import Button from "@components/button";
 import useLoginMutation from "@libs/client/useLoginMutation";
-import useSWR from "swr";
-import { ProfileResponse } from "@libs/client/useUser";
 
 interface IToken {
   id: string;

@@ -40,8 +40,8 @@ const Profile: NextPage<{
   const params = query?.id as any;
   useEffect(() => {
     setUserId(params);
-
-    if (user?.userName === params) {
+    console.log(user?.userName);
+    if (localStorage.getItem("userName") === params) {
       setIsMe(true);
     }
   }, []);

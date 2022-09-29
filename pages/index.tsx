@@ -9,19 +9,18 @@ import useSWR from "swr";
 
 const Home: NextPage = () => {
   const user = useUser();
-
   // --------------------- 추천 인피니티 관련 ---------------------
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
+  const [datas, setDatas] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=10`, {
+    fetch(`https://mtvs.kro.kr:8001/recommand`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
       .then((res) => res.json())
       .then((res: any) => {
-        setData((d) => d.concat(res?.results?.list));
+        setDatas(res?.results?.response);
         setPage((p) => p + 1);
       });
   };
@@ -37,7 +36,7 @@ const Home: NextPage = () => {
   // --------------------- 추천 인피니티 관련 ---------------------
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
-  const [recoPage, setRecoPage] = useState(1);
+  const [recoPage, setRecoPage] = useState("1");
   const [recoData, setRecoData] = useState([]);
   const recoFetcher = (pageNumber: number = 1) => {
     fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=10`, {
@@ -70,6 +69,9 @@ const Home: NextPage = () => {
     alert("Can't find you. No weather for you.");
   }
 
+  function onClickHandle() {
+    alert("hello");
+  }
   var windowHeight;
 
   useEffect(() => {
@@ -97,25 +99,30 @@ const Home: NextPage = () => {
           </div>
           <div>
             <InfiniteScroll
-              dataLength={data.length}
+              dataLength={datas.length}
               next={() => fetchMoreData(page)}
               hasMore={true}
               loader={null}
             >
               <div className="ml-1 flex h-[150px]">
-                {PropArray.map((data) => (
-                  <div key={data.key}>
-                    <Link href={`/store/${data.key}`}>
+                {datas.map((data: any, index) => (
+                  <div key={index}>
+                    <Link
+                      href={{
+                        pathname: `/store/1`,
+                        query: { data: data.restaurantIdList },
+                      }}
+                    >
                       <a>
                         <div
                           className="w-[93px] h-full bg-gray-300 mr-1 rounded-mg flex items-end bg-cover bg-center"
                           style={{
-                            backgroundImage: `url(${data.img})`,
+                            backgroundImage: `url(${data.category.image})`,
                             textShadow: "1px 1px 2px black",
                           }}
                         >
                           <span className="bottom-0 mb-2 ml-1 text-sm font-bold text-white ">
-                            {data.cat1}
+                            {data.category.name}
                           </span>
                         </div>
                       </a>

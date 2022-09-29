@@ -1,5 +1,7 @@
+import useFormMutation from "@libs/client/useFormMutation";
 import useMutation from "@libs/client/useMutation";
 import usePutMutation from "@libs/client/usePutMutation";
+import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,7 +41,7 @@ const EditProfileModal = ({
   //------------ 폼관련 ------------
 
   //---------포토 api 관련-----------
-  const [edit, { loading, data }] = useMutation<MutationResult>(
+  const [edit, { loading, data }] = useFormMutation<MutationResult>(
     "https://mtvs.kro.kr:8001/profile"
   );
 
@@ -73,17 +75,22 @@ const EditProfileModal = ({
       pwEdit(passChange);
     }
 
-    console.log(validForm);
-  };
-
-  const uploadImage = (validForm: IEditProfile) => {
-    //console.log(validForm);
-    if (validForm.uploadFile) {
-      edit(validForm.uploadFile);
+    if (
+      validForm.uploadFile != undefined &&
+      validForm.uploadFile[0] != undefined
+    ) {
+      var body = new FormData();
+      body.append("uploadFile", validForm.uploadFile[0]);
+      edit(body);
     }
 
     console.log(validForm);
   };
+
+  // const uploadImage = (validForm: IEditProfile) => {
+  //   console.log(validForm);
+
+  // };
 
   //--------- submit 관련 ---------
 
@@ -98,9 +105,8 @@ const EditProfileModal = ({
         >
           <form
             encType="multipart/form-data"
-            action="https://mtvs.kro.kr:8001/profile"
-            method="post"
             className="w-full h-full flex justify-center items-center flex-col "
+            onSubmit={handleSubmit(oninvalid)}
           >
             <div className="w-[180px] h-[40px]">
               <label
@@ -116,6 +122,7 @@ const EditProfileModal = ({
                   id="uploadFile"
                   className="hidden absolute"
                   accept="image/*"
+                  // onChange={handleSubmit(uploadImage)}
                 />
                 <div className="flex flex-col w-full h-full justify-center items-center shadow-lg "></div>
               </label>

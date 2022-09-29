@@ -29,7 +29,8 @@ const Input = ({
         <div className="absolute ml-[11px] text-[#838383] ">{label}</div>
         <input
           className={cls(
-            "w-full h-10 pl-20 rounded-2xl bg-white bg-opacity-70 ",
+            "w-full h-10   rounded-2xl bg-white bg-opacity-70 ",
+            reply ? "pl-5" : "pl-20",
             Boolean(errorMessage) === true
               ? "focus-visible: border-red-500 border-2"
               : "border-0"

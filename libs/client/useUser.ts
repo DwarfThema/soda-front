@@ -48,7 +48,9 @@ export default function useUser() {
 
       router.push("/enter");
     }
+    if (data?.results?.user != undefined) {
+      localStorage.setItem("userName", `${data?.results?.user.userName}`);
+    }
   }, [router]);
-
   return { user: data?.results?.user };
 }

@@ -1,38 +1,77 @@
 import Layout from "@components/layout";
 import PhotoForm from "@components/photoForm";
+import useFormMutation from "@libs/client/useFormMutation";
 import useUser from "@libs/client/useUser";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-interface PhotoForm {
-  photo: FileList;
+interface iPhotoForm {
+  photo?: FileList;
+}
+
+interface MutationResult {
+  menu: String;
+  result: boolean;
+  storeId: String;
 }
 
 const Create: NextPage = () => {
-  /*   const router = useRouter();
-  useEffect(() => {
-    router.push("/enter");
-  }, []); */
-  /*   const { isLoading } = useUser(); */
+  const router = useRouter();
 
-  const rounter = useRouter();
+  const [edit, { loading, data }] = useFormMutation<MutationResult>(
+    "https://soda-mtvs.kro.kr/returnReceipt"
+  );
 
-  const { register, handleSubmit } = useForm<PhotoForm>({
-    mode: "onChange",
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    formState: { errors, isValid, isDirty },
+  } = useForm<iPhotoForm>({
+    // mode: "onChange",
   });
-  const onValid = (validForm: PhotoForm) => {
+
+  const onValid = (validForm: iPhotoForm) => {
     console.log(validForm);
-    rounter.push("/create/review/1");
+
+    if (validForm.photo != undefined && validForm.photo[0] != undefined) {
+      var body = new FormData();
+      body.append("file", validForm.photo[0]);
+      edit(body);
+    }
+    if (!loading) {
+      // console.log(data);
+      router.push(`/create/review/${data ? data?.storeId : 1}`);
+    }
   };
-  // 사진 보내는거 확인해야함
-  // 그냥 useMutation 으로 하면되나..?
 
   return (
     <Layout seoTitle="영수증 인증" create>
       <div className="w-full h-full  rounded-md flex mt-24 items-center flex-col">
-        <form onSubmit={handleSubmit(onValid)}>
+        <form
+          encType="multipart/form-data"
+          onSubmit={handleSubmit(onValid)}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <PhotoForm register={register("photo")} title="영수증을 올려주세요" />
+          <button
+            type="submit"
+            className=" text-white text-sm w-[180px] mt-2 rounded-md bg-[#00572D] flex flex-col justify-center items-center shadow-lg"
+            disabled={loading}
+            onClick={handleSubmit(onValid)}
+          >
+            <div className="my-3 flex flex-col justify-center items-center">
+              <div>
+                {loading ? "영수증을 분석중입니다..." : "영수증 분석 요청"}
+              </div>
+            </div>
+          </button>
         </form>
         <div className="border-t-2 border-solid border-gray-200 w-full mt-7" />
         <div className="mt-5 text-sm mx-5 text text-gray-400">
