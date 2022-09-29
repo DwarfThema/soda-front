@@ -11,17 +11,9 @@ interface IChoiceMap {
   id: number;
   selected: Dispatch<SetStateAction<number>>;
   getSelected: number;
-  key: number;
 }
 
-const ChoiceMap = ({
-  img,
-  cat,
-  selected,
-  getSelected,
-  key,
-  id,
-}: IChoiceMap) => {
+const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
   const [getSelect, setSelect] = useState(false);
 
   const [getFavArray, setFavArray] = useRecoilState(initFav);
@@ -34,9 +26,10 @@ const ChoiceMap = ({
       enter(getFavArray);
     }
   }, [getSelect]);
+  console.log(getFavArray);
 
   return (
-    <div className="flex items-center justify-center" key={key}>
+    <div className="flex items-center justify-center">
       {getSelect ? (
         <>
           <button
@@ -73,7 +66,6 @@ const ChoiceMap = ({
             onClick={() => {
               setSelect(true);
               selected(getSelected + 1);
-              setFavArray((current: any) => [...current, id]);
             }}
           >
             <div

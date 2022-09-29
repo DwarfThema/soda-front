@@ -35,10 +35,11 @@ const Choice: NextPage = () => {
   };
 
   // --------------------- 인피니티 관련 ---------------------
+
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=10`, {
+    fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=150`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
@@ -92,12 +93,12 @@ const Choice: NextPage = () => {
         dataLength={data.length}
         next={() => fetchMoreData(page)}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
+        loader={<h4>.</h4>}
       >
-        <div className="m-2 grid grid-cols-2 gap-2">
-          {data?.map((data: any) => (
+        <div className="m-2 grid grid-cols-2 gap-2 h-[806px]">
+          {data?.map((data: any, index) => (
             <ChoiceMap
-              key={data.id}
+              key={index}
               img={data?.image}
               cat={data?.name}
               id={data?.id}

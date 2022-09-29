@@ -13,11 +13,23 @@ interface IUser {
   deletedDate: Date;
 }
 
-interface IResults {
-  user: IUser;
+export interface IList {
+  categoryName: string;
+  content: string;
+  password?: string;
+  email: string;
+  idDeleted: string;
+  profileImg: string;
+  createDate: Date;
+  [key: string]: any;
 }
 
-interface ProfileResponse {
+interface IResults {
+  user: IUser;
+  list: IList;
+}
+
+export interface ProfileResponse {
   httpStatus: number;
   message: string;
   results: IResults;
@@ -28,7 +40,12 @@ export default function useUser() {
   const router = useRouter();
 
   useEffect(() => {
-    if (data?.httpStatus !== 200) {
+    if (
+      data?.httpStatus !== 200 &&
+      localStorage.getItem("Authorization") === "Bearer undefined"
+    ) {
+      console.log(localStorage.getItem("Authorization"));
+
       router.push("/enter");
     }
   }, [router]);

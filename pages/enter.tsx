@@ -9,6 +9,8 @@ import Input from "@components/InputForm";
 import Link from "next/link";
 import Button from "@components/button";
 import useLoginMutation from "@libs/client/useLoginMutation";
+import useSWR from "swr";
+import { ProfileResponse } from "@libs/client/useUser";
 
 interface IToken {
   id: string;
@@ -42,11 +44,14 @@ const Enter: NextPage = () => {
   const needSelect = data?.results?.needSelect;
 
   useEffect(() => {
-    localStorage.setItem("Authorization", "Bearer " + userToken);
+    if (data?.httpStatus) {
+      localStorage.setItem("Authorization", "Bearer " + userToken);
+    }
     if (userToken && needSelect) {
       router.push(`/signup/choice`);
     } else if (userToken && !needSelect) {
       router.push(`/`);
+      console.log("needSelect false");
     }
   }, [data]);
 

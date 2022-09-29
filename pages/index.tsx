@@ -1,10 +1,11 @@
 import Layout from "@components/layout";
 import { PropArray } from "@libs/client/sharedProp";
-import useUser from "@libs/client/useUser";
+import useUser, { IList, ProfileResponse } from "@libs/client/useUser";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useSWR from "swr";
 
 const Home: NextPage = () => {
   const user = useUser();
@@ -13,7 +14,7 @@ const Home: NextPage = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=10`, {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=${pageNumber}&size=5`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
@@ -39,7 +40,7 @@ const Home: NextPage = () => {
   const [recoPage, setRecoPage] = useState(1);
   const [recoData, setRecoData] = useState([]);
   const recoFetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/review/recent?page=${pageNumber}&size=5`, {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=10`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
@@ -97,7 +98,7 @@ const Home: NextPage = () => {
               dataLength={data.length}
               next={() => fetchMoreData(page)}
               hasMore={true}
-              loader={<h4>Loading...</h4>}
+              loader={null}
             >
               <div className="ml-1 flex h-[150px]">
                 {PropArray.map((data) => (
@@ -130,19 +131,19 @@ const Home: NextPage = () => {
               dataLength={recoData.length}
               next={() => recoFetchMoreData(page)}
               hasMore={true}
-              loader={<h4>Loading...</h4>}
+              loader={null}
             >
               <div className=" grid grid-cols-3 gap-1 w-full h-[450px]">
-                {data?.map((data) => (
+                {recoData?.map((data: IList, index: number) => (
                   <div
-                    key={data.key}
-                    className={data?.key % 8 == 1 ? "col-span-2" : ""}
+                    key={index}
+                    className={index % 8 == 1 ? "col-span-2" : ""}
                   >
-                    <Link href={`/reviews/${data.key}`}>
+                    <Link href={`/reviews/${data.id}`}>
                       <a>
                         <div
                           className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center"
-                          style={{ backgroundImage: `url(${data.img})` }}
+                          style={{ backgroundImage: `url(${data.imageSrc})` }}
                         ></div>
                       </a>
                     </Link>
