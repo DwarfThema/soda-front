@@ -8,13 +8,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useSWR from "swr";
 
 const Home: NextPage = () => {
-  const user = useUser();
+  useUser();
 
   // --------------------- 추천 인피니티 관련 ---------------------
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/review/recent?page=${pageNumber}&size=5`, {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=10`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },

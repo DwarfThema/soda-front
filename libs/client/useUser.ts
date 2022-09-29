@@ -42,7 +42,7 @@ export default function useUser() {
   useEffect(() => {
     if (
       data?.httpStatus !== 200 &&
-      localStorage.getItem("Authorization") === "Bearer undefined"
+      localStorage.getItem("Authorization") === null
     ) {
       console.log(localStorage.getItem("Authorization"));
 
