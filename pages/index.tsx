@@ -47,7 +47,7 @@ const Home: NextPage = () => {
     })
       .then((res) => res.json())
       .then((res: any) => {
-        setRecoData((d) => d.concat(res?.results?.list));
+        setRecoData(res?.results?.list);
         setRecoPage((p) => p + 1);
       });
   };

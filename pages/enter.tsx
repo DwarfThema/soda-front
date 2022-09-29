@@ -40,6 +40,8 @@ const Enter: NextPage = () => {
     "https://mtvs.kro.kr:8001/login"
   );
 
+  console.log(data);
+
   const userToken = data?.results?.token;
   const needSelect = data?.results?.needSelect;
 
