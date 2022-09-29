@@ -44,7 +44,7 @@ const Followings: NextPage<{}> = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/follow/follower/${params}`, {
+    fetch(`https://mtvs.kro.kr:8001/follow/following/${params}`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
