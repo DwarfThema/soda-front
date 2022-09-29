@@ -13,6 +13,7 @@ import useLoginMutation from "@libs/client/useLoginMutation";
 interface IToken {
   id: string;
   token: string;
+  needSelect: boolean;
 }
 
 interface MutationResult {
@@ -37,12 +38,15 @@ const Enter: NextPage = () => {
     "https://mtvs.kro.kr:8001/login"
   );
 
-  const userToken = data?.results?.token!;
+  const userToken = data?.results?.token;
+  const needSelect = data?.results?.needSelect;
 
   useEffect(() => {
     localStorage.setItem("Authorization", "Bearer " + userToken);
-    if (userToken) {
+    if (userToken && needSelect) {
       router.push(`/signup/choice`);
+    } else if (userToken && !needSelect) {
+      router.push(`/`);
     }
   }, [data]);
 

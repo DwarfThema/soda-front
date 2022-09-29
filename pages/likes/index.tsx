@@ -57,7 +57,7 @@ const Likes: NextPage<{
                       <div className="text-base ml-2">
                         <div className="flex">
                           <div className="font-bold">
-                            <Link href={`/profile/${review.id}`}>
+                            <Link href={`/profile/dwarfthema`}>
                               <a>{review?.user?.userName}</a>
                             </Link>
                           </div>

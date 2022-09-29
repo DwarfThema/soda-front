@@ -5,8 +5,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ChoiceMap from "@components/choiceMap";
-import useSWR from "swr";
-import axios from "axios";
 import useUser from "@libs/client/useUser";
 
 /* https://codesandbox.io/s/sd9b9?file=/src/App.tsx:1449-1455
@@ -40,8 +38,6 @@ const Choice: NextPage = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    console.log("하하", pageNumber);
-
     fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=10`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
@@ -101,6 +97,7 @@ const Choice: NextPage = () => {
         <div className="m-2 grid grid-cols-2 gap-2">
           {data?.map((data: any) => (
             <ChoiceMap
+              key={data.id}
               img={data?.image}
               cat={data?.name}
               id={data?.id}

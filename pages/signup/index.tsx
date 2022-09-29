@@ -1,6 +1,7 @@
 import Button from "@components/button";
 import Input from "@components/InputForm";
 import Layout from "@components/layout";
+import useLoginMutation from "@libs/client/useLoginMutation";
 import useMutation from "@libs/client/useMutation";
 import type { NextPage } from "next";
 import Link from "next/link";
@@ -35,9 +36,7 @@ const SignUp: NextPage = () => {
   });
 
   const [enter, { loading, data, message: submitMessage }] =
-    useMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
-
-  //토큰 만료 시간을를 header 에저장 -> 이후에 header에 저장된 만료일자와
+    useLoginMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;

@@ -1,13 +1,7 @@
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { useRecoilState } from "recoil";
 import { initFav } from "./stateManager";
 
 interface IChoiceMap {
@@ -17,30 +11,32 @@ interface IChoiceMap {
   id: number;
   selected: Dispatch<SetStateAction<number>>;
   getSelected: number;
+  key: number;
 }
 
-const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
+const ChoiceMap = ({
+  img,
+  cat,
+  selected,
+  getSelected,
+  key,
+  id,
+}: IChoiceMap) => {
   const [getSelect, setSelect] = useState(false);
 
   const [getFavArray, setFavArray] = useRecoilState(initFav);
-  //console.log(getFav);
-  //cat 를 활용해서 취향 데이터 던져줘야함
   const [enter, { loading, data }] = useMutation(
     "https://mtvs.kro.kr:8001/favorite"
   );
 
-  console.log(data);
-
   useEffect(() => {
     if (getFavArray.length >= 5) {
-      console.log(getFavArray);
-
       enter(getFavArray);
     }
   }, [getSelect]);
 
   return (
-    <div className="flex items-center justify-center " key={id}>
+    <div className="flex items-center justify-center" key={key}>
       {getSelect ? (
         <>
           <button
@@ -77,7 +73,7 @@ const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
             onClick={() => {
               setSelect(true);
               selected(getSelected + 1);
-              setFavArray((current: [number]) => [...current, id]);
+              setFavArray((current: any) => [...current, id]);
             }}
           >
             <div

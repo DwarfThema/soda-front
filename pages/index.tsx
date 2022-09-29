@@ -1,37 +1,67 @@
 import Layout from "@components/layout";
 import { PropArray } from "@libs/client/sharedProp";
-import useCoords from "@libs/client/useCoords";
 import useUser from "@libs/client/useUser";
-import { cls } from "@libs/client/utils";
-import { url } from "inspector";
 import type { NextPage } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import useSWR, { SWRConfig } from "swr";
 
 const Home: NextPage = () => {
   const user = useUser();
 
-  const { data: swrData } = useSWR(
-    "https://mtvs.kro.kr:8001/favorite?page=0&size=10"
-  );
-
-  /*   useEffect(() => {
-    fetch("https://mtvs.kro.kr:8001/favorite?page=0&size=10", {
+  // --------------------- 추천 인피니티 관련 ---------------------
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+  const fetcher = (pageNumber: number = 1) => {
+    fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=10`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        console.log(res);
+      .then((res) => res.json())
+      .then((res: any) => {
+        setData((d) => d.concat(res?.results?.list));
+        setPage((p) => p + 1);
       });
-  }, []); */
+  };
 
+  const fetchMoreData = (page: number) => {
+    return fetcher(page);
+  };
+
+  useEffect(() => {
+    fetcher(page);
+  }, []);
+
+  // --------------------- 추천 인피니티 관련 ---------------------
+
+  // --------------------- 최근 리뷰 인피니티 관련 ---------------------
+  const [recoPage, setRecoPage] = useState(1);
+  const [recoData, setRecoData] = useState([]);
+  const recoFetcher = (pageNumber: number = 1) => {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=${pageNumber}&size=5`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+      },
+    })
+      .then((res) => res.json())
+      .then((res: any) => {
+        setRecoData((d) => d.concat(res?.results?.list));
+        setRecoPage((p) => p + 1);
+      });
+  };
+
+  const recoFetchMoreData = (recoPage: number) => {
+    return recoFetcher(recoPage);
+  };
+
+  useEffect(() => {
+    recoFetcher(recoPage);
+  }, []);
+
+  // --------------------- 최근 리뷰 인피니티 관련 ---------------------
+
+  // --------------------- 로케이션 관련 ---------------------
   function onGeoOk(positon: any) {
     console.log(positon);
   }
@@ -39,14 +69,14 @@ const Home: NextPage = () => {
     alert("Can't find you. No weather for you.");
   }
 
-  const getMorePost = async (page: number) => {};
-  const [page, setPage] = useState(1);
   var windowHeight;
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
     windowHeight = window.innerHeight;
   }, []);
+
+  // --------------------- 로케이션 관련 ---------------------
 
   return (
     <Layout seoTitle="홈" home>
@@ -64,10 +94,10 @@ const Home: NextPage = () => {
           </div>
           <div>
             <InfiniteScroll
-              dataLength={PropArray.length}
-              next={() => getMorePost(page)}
+              dataLength={data.length}
+              next={() => fetchMoreData(page)}
               hasMore={true}
-              loader={null}
+              loader={<h4>Loading...</h4>}
             >
               <div className="ml-1 flex h-[150px]">
                 {PropArray.map((data) => (
@@ -97,13 +127,13 @@ const Home: NextPage = () => {
           <div className="ml-4 font-bold text-sm">소다 Review ✍️</div>
           <div className="mt-1 mx-2 h-[10px]">
             <InfiniteScroll
-              dataLength={PropArray.length}
-              next={() => getMorePost(page)}
+              dataLength={recoData.length}
+              next={() => recoFetchMoreData(page)}
               hasMore={true}
-              loader={null}
+              loader={<h4>Loading...</h4>}
             >
               <div className=" grid grid-cols-3 gap-1 w-full h-[450px]">
-                {PropArray.map((data) => (
+                {data?.map((data) => (
                   <div
                     key={data.key}
                     className={data?.key % 8 == 1 ? "col-span-2" : ""}

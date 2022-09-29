@@ -1,3 +1,28 @@
+export interface IUser {
+  id: number;
+  userName: string;
+  password?: string;
+  email: string;
+  idDeleted: string;
+  profileImg?: string;
+  joinDate: Date;
+  deletedDate: Date;
+  [key: string]: any;
+}
+
+export interface IUserDetailInfo {
+  follower: number;
+  following: number;
+  reviewList: [];
+  user: IUser;
+}
+
+export interface MutationResult {
+  httpStatus: number;
+  message: string;
+  results: IUserDetailInfo;
+}
+
 export interface IStore {
   id: number;
   score: number;
