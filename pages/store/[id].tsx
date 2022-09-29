@@ -56,6 +56,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
   });
 
   const fetcher = () => {
+    if (!data) return;
     const url = `https://mtvs.kro.kr:8001/restaurant/${data[getPhotoCount]}`;
     const url2 = `https://mtvs.kro.kr:8001/restaurant/35379184`;
     fetch(url, {
@@ -171,7 +172,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
                 </div>
               ) : (
                 <div className=" grid grid-cols-3 gap-1 w-full h-[300px]">
-                  {res.reviewList.map((data, index) => (
+                  {res.reviewList.map((data: any, index: any) => (
                     <div key={index}>
                       <Link href={`/reviews/${index}`}>
                         <a>
