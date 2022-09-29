@@ -38,7 +38,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
 }) => {
   //-------- 스와이프 부분------------
   const [[page, direction], setPage] = useState([0, 0]);
-  const imageIndex = wrap(0, propArray?.length, page);
   const swipeConfidenceThreshold = 5000;
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
@@ -161,7 +160,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
           <div className="ml-3 text-sm font-bold">횐님들의 리뷰 ✍️</div>
           <div className="mt-1 mx-2 h-[10px]">
             <InfiniteScroll
-              dataLength={propArray.length}
+              dataLength={res.reviewList.length}
               next={() => getMorePost(getBotPage)}
               hasMore={true}
               loader={null}
