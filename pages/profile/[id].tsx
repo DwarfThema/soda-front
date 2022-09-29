@@ -43,13 +43,12 @@ const Profile: NextPage<{
 
     if (user?.userName === params) {
       setIsMe(true);
-      console.log(getUserId);
     }
   }, []);
   //-------------- isMe 증명 관련---------------
 
   //-------------- 유저 데이터 관련---------------
-  const { data: userData } = useSWR<MutationResult>(
+  const { data: userData, mutate } = useSWR<MutationResult>(
     `https://mtvs.kro.kr:8001/user/${getUserId}`
   );
 
@@ -62,11 +61,41 @@ const Profile: NextPage<{
     useMutation<MutationResult>(
       `https://mtvs.kro.kr:8001/follow/${userInfo?.user?.userName}`
     );
-  console.log(folData);
-
   const [unFol] = useDelMutation(
     `https://mtvs.kro.kr:8001/follow/${userInfo?.user?.userName}`
   );
+
+  const followMutation = () => {
+    setIsFollow(!getIsFollow);
+    if (!userData) return;
+    if (!userInfo) return;
+
+    if (getIsFollow) {
+      unFol(null);
+      mutate(
+        {
+          ...userData,
+          results: {
+            ...userData?.results,
+            follower: userInfo.follower - 1,
+          },
+        },
+        false
+      );
+    } else if (!getIsFollow) {
+      fol(null);
+      mutate(
+        {
+          ...userData,
+          results: {
+            ...userData?.results,
+            follower: userInfo.follower + 1,
+          },
+        },
+        false
+      );
+    }
+  };
 
   //-------------- 팔로우 언팔 관련---------------
 
@@ -173,22 +202,15 @@ const Profile: NextPage<{
                     <span>프로필 편집</span>
                   </motion.div>
                 ) : (
-                  <div
-                    onClick={() => {
-                      setIsFollow(!getIsFollow);
-                      if (getIsFollow) {
-                        unFol(null);
-                      } else if (!getIsFollow) {
-                        fol(null);
-                      }
-                    }}
+                  <button
+                    onClick={followMutation}
                     className={cls(
                       "border border-[#00572D] py-[6px] w-44 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer",
                       getIsFollow ? "" : "bg-[#00572D] text-white font-semibold"
                     )}
                   >
                     <span>{getIsFollow ? "언팔로우 하기" : "팔로잉 하기"}</span>
-                  </div>
+                  </button>
                 )}
 
                 <div className="text-center my-4 text-zinc-500">

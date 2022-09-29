@@ -85,12 +85,14 @@ const Home: NextPage = () => {
         <div className="w-full mt-28 ">
           <div className=" mx-2 text-lg ">🧐 Recommand DINING </div>
           <div className=" mx-2 mb-3 flex mt-3 items-end">
-            <div className=" text-sm font-bold">얼큰한게 땡기는 날! 🍜</div>
+            <div className=" text-sm font-bold">
+              똑똑한 소다의 오늘의 추천메뉴 🗒
+            </div>
             <div
               className="ml-2"
               style={{ fontSize: "10px", lineHeight: "14px" }}
             >
-              오늘 얼큰한게 땡기시는군요!
+              소다가 오늘의 추천 메뉴를 알려줍니다.
             </div>
           </div>
           <div>

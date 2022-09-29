@@ -14,13 +14,14 @@
 
 ## API Verbs
 
-- [ ] Login
+- [x] Login
 - [x] SignUp
 - [ ] Taste
-- [ ] Follow / Following
 - [ ] Review
-- [ ] Store
-- [ ] Menu
-- [ ] Photo
+- [x] Follow / Following
+- [ ] StoreDetail
+- [ ] CreateReview
+- [x] editProfile
+  - 아바타 사진 업로드 불가
 
 외에 더 작성될 예정

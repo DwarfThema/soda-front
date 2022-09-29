@@ -15,12 +15,14 @@ export interface IUserDetailInfo {
   following: number;
   reviewList: [];
   user: IUser;
+  [key: string]: any;
 }
 
 export interface MutationResult {
   httpStatus: number;
   message: string;
   results: IUserDetailInfo;
+  [key: string]: any;
 }
 
 export interface IStore {

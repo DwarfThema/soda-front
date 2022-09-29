@@ -43,8 +43,6 @@ const EditProfileModal = ({
     "https://mtvs.kro.kr:8001/profile"
   );
 
-  console.log(data);
-
   //---------포토 api 관련-----------
 
   //--------- pw api 관련 ---------s
