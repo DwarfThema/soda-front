@@ -169,7 +169,7 @@ const Profile: NextPage<{
                 {userInfo?.user?.userName}{" "}
               </div>
               <div className="flex mt-3">
-                <Link href={`/profile/${1}/followings`}>
+                <Link href={`/profile/followings/${userInfo?.user?.userName}`}>
                   <a className=" flex flex-col items-center justify-center">
                     <div className="text-base font-bold">
                       {userInfo?.following}
@@ -179,7 +179,7 @@ const Profile: NextPage<{
                 </Link>
                 <div className="w-24" />
 
-                <Link href={`/profile/${1}/followers`}>
+                <Link href={`/profile/followers/${userInfo?.user?.userName}`}>
                   <a>
                     <div className="flex flex-col items-center">
                       <div className="text-base font-bold">

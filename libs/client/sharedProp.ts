@@ -3,10 +3,10 @@ export interface IUser {
   userName: string;
   password?: string;
   email: string;
-  idDeleted: string;
+  idDeleted?: string;
   profileImg?: string;
-  joinDate: Date;
-  deletedDate: Date;
+  joinDate?: Date;
+  deletedDate?: Date;
   [key: string]: any;
 }
 
