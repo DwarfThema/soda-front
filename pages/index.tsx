@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useSWR from "swr";
 
 const Home: NextPage = () => {
-  useUser();
+  const user = useUser();
 
   // --------------------- 추천 인피니티 관련 ---------------------
   const [page, setPage] = useState(1);

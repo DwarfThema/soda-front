@@ -36,6 +36,8 @@ const Followers: NextPage<{}> = () => {
   // --------------------- 팔로워 인피니티 관련 ---------------------
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
+  const [isInit, setIsInit] = useState(true);
+
   const fetcher = (pageNumber: number = 1) => {
     fetch(`https://mtvs.kro.kr:8001/follow/follower/${params}`, {
       headers: {
@@ -44,7 +46,7 @@ const Followers: NextPage<{}> = () => {
     })
       .then((res) => res.json())
       .then((res: any) => {
-        setData((d) => d.concat(res?.results?.list));
+        setData(res?.results?.list);
         setPage((p) => p + 1);
       });
   };
@@ -54,7 +56,10 @@ const Followers: NextPage<{}> = () => {
   };
 
   useEffect(() => {
-    fetcher(page);
+    if (isInit) {
+      fetcher(page);
+      setIsInit(false);
+    }
   }, []);
 
   // --------------------- 팔로워 인피니티 관련 ---------------------

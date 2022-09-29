@@ -46,16 +46,12 @@ const Review: NextPage<{
   profile: IProfile;
   comments: [Icomment];
 }> = ({ store, review, comments }) => {
+  //---------------라우터 관련-----------------
   const router = useRouter();
   const onClick = () => {
     router.back();
   };
-
-  const user = {
-    avatar: "/img/profileAvatar.png",
-    userName: "imiuiulady",
-    isMe: true,
-  };
+  //---------------라우터 관련-----------------
 
   //---------폼 관련-----------
   const {
@@ -217,22 +213,6 @@ const Review: NextPage<{
                   </div>
                   <div className="text-sm">{comment?.payload}</div>
                 </div>
-                <div className="mr-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
           ))}
@@ -246,14 +226,12 @@ const Review: NextPage<{
           </div>
           <div className="border w-full h-11 mx-2 rounded-full">
             <Input
-              errorMessage={errors?.payload?.message}
               register={register("payload", {
-                required: "비밀번호를 입력해 주세요.",
                 onChange() {
                   clearErrors("result");
                 },
               })}
-              type="password"
+              type="text"
             />
           </div>
         </div>

@@ -37,8 +37,8 @@ const Profile: NextPage<{
   const [getIsMe, setIsMe] = useState(false);
   const [getIsFollow, setIsFollow] = useState(false);
 
+  const params = query?.id as any;
   useEffect(() => {
-    const params = query?.id as any;
     setUserId(params);
 
     if (user?.userName === params) {
@@ -103,16 +103,67 @@ const Profile: NextPage<{
   const [getEditProfile, setEditProfile] = useState(false);
   //---------에디트 프로필 관련-----------
 
-  //---------에디트 프로필 관려-----------
+  //---------내 리뷰 & 북마크 관련-----------
   const [getBookMark, setBookMark] = useState(false);
 
-  //---------에디트 프로필 관려-----------
+  //---------내 리뷰 & 북마크 관련-----------
 
-  //---------인피니티 관련-----------
-  const getMorePost = async (page: number) => {};
-  const [getBotPage, setBotPage] = useState(1);
-  //---------인피니티 관련-----------
+  // --------------------- 내 리뷰 관련 ---------------------
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState<any[]>([]);
+  const [init, setInit] = useState(true);
+  const fetcher = (pageNumber: number = 1) => {
+    fetch(`https://mtvs.kro.kr:8001/review/${params}?page=0&size=20`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+      },
+    })
+      .then((res) => res.json())
+      .then((res: any) => {
+        setData(res?.results?.list);
+        setPage((p) => p + 1);
+      });
+  };
 
+  const fetchMoreData = (page: number) => {
+    return fetcher(page);
+  };
+
+  useEffect(() => {
+    if (init) {
+      fetcher(page);
+      setInit(false);
+    }
+  }, []);
+  // --------------------- 내 리뷰 관련 ---------------------
+
+  // --------------------- 찜 목록 관련 ---------------------
+  const [markPage, setmarkPage] = useState(1);
+  const [markData, marksetData] = useState([]);
+  const fetcherMark = (pageNumber: number = 1) => {
+    fetch(`https://mtvs.kro.kr:8001/wish/${params}`, {
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+      },
+    })
+      .then((res) => res.json())
+      .then((res: any) => {
+        marksetData(res?.results?.list);
+        setmarkPage((p) => p + 1);
+      });
+  };
+
+  const fetchMarkMoreData = (page: number) => {
+    return fetcherMark(page);
+  };
+
+  useEffect(() => {
+    fetcherMark(page);
+  }, []);
+
+  // --------------------- 찜 목록 관련 ---------------------
+
+  // --------------------- 애니메이션 관련 ---------------------
   const profileVariants = {
     open: {
       opacity: 1,
@@ -121,7 +172,7 @@ const Profile: NextPage<{
       opacity: 0,
     },
   };
-
+  // --------------------- 애니메이션 관련 ---------------------
   return (
     <Layout seoTitle="프로필" profile>
       <motion.div
@@ -159,7 +210,7 @@ const Profile: NextPage<{
               className="absolute left-[150px] top-20 rounded-full bg-cover bg-center h-[100px] w-[100px] shadow-md "
               style={{
                 backgroundImage: userInfo?.user?.profileImg
-                  ? `url(${userInfo?.user?.profileImg})`
+                  ? `url(${userInfo?.user?.profileImg?.savedPath})`
                   : `url(${profile?.avatar})`,
               }}
             />
@@ -220,7 +271,7 @@ const Profile: NextPage<{
             </div>
             <div></div>
 
-            <div className="w-full">
+            <div className="w-full border border-gray-200">
               <div className="flex justify-center h-10 mt-3">
                 <div
                   onClick={() => {
@@ -282,27 +333,65 @@ const Profile: NextPage<{
                   ) : null}
                 </div>
               </div>
-              <InfiniteScroll
-                dataLength={PropArray.length}
-                next={() => getMorePost(getBotPage)}
-                hasMore={true}
-                loader={null}
-              >
-                <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
-                  {PropArray.map((data) => (
-                    <div key={data.key}>
-                      <Link href={`/reviews/${data.key}`}>
-                        <a>
-                          <div
-                            className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
-                            style={{ backgroundImage: `url(${data.img})` }}
-                          />
-                        </a>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </InfiniteScroll>
+
+              {!getBookMark ? (
+                // 내 리뷰 목록
+                <InfiniteScroll
+                  dataLength={data.length}
+                  next={() => fetchMoreData(page)}
+                  hasMore={true}
+                  loader={null}
+                >
+                  <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
+                    {data?.map((data: any, index) => {
+                      if (!data) return;
+                      return (
+                        <div key={index}>
+                          <Link href={`/reviews/${data.id}`}>
+                            <a>
+                              <div
+                                className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
+                                style={{
+                                  backgroundImage: `url(${data.imageSrc})`,
+                                }}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </InfiniteScroll>
+              ) : (
+                // 내 북마크 목록
+                <InfiniteScroll
+                  dataLength={markData.length}
+                  next={() => fetchMarkMoreData(markPage)}
+                  hasMore={true}
+                  loader={null}
+                >
+                  <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
+                    {markData.map((data: any, index) => (
+                      <div key={index}>
+                        <Link href={`/reviews/${data.id}`}>
+                          <a>
+                            <div
+                              className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
+                              style={{
+                                backgroundImage: `url(${
+                                  data.imagePath === "데이터 없음"
+                                    ? "https://cdn.discordapp.com/attachments/991644248757768192/1024961611628302447/Frame_3.jpg"
+                                    : data.imagePath
+                                })`,
+                              }}
+                            />
+                          </a>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </InfiniteScroll>
+              )}
             </div>
           </div>
         </div>

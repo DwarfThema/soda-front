@@ -12,7 +12,7 @@ interface IEditProfile {
   result?: string;
 }
 
-interface MutationResult {
+export interface MutationResult {
   httpStatus: number;
   message: string;
   results: object;
@@ -74,14 +74,17 @@ const EditProfileModal = ({
     }
 
     console.log(validForm);
-
-    /*     const uploadFile = validForm?.uploadFile[0] as any;
-
-    console.log(uploadFile);
-    const formData = new FormData();
-    formData.append("uploadFile", uploadFile);
-    edit(formData); */
   };
+
+  const uploadImage = (validForm: IEditProfile) => {
+    //console.log(validForm);
+    if (validForm.uploadFile) {
+      edit(validForm.uploadFile);
+    }
+
+    console.log(validForm);
+  };
+
   //--------- submit 관련 ---------
 
   return (
@@ -94,7 +97,9 @@ const EditProfileModal = ({
           exit={{ opacity: 0, scale: 0 }}
         >
           <form
-            onSubmit={handleSubmit(oninvalid)}
+            encType="multipart/form-data"
+            action="https://mtvs.kro.kr:8001/profile"
+            method="post"
             className="w-full h-full flex justify-center items-center flex-col "
           >
             <div className="w-[180px] h-[40px]">
