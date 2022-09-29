@@ -42,6 +42,7 @@ const EditProfileModal = ({
   const [edit, { loading, data }] = useMutation<MutationResult>(
     "https://mtvs.kro.kr:8001/profile"
   );
+
   console.log(data);
 
   //---------포토 api 관련-----------
@@ -76,12 +77,12 @@ const EditProfileModal = ({
 
     console.log(validForm);
 
-    const uploadFile = validForm?.uploadFile[0] as any;
+    /*     const uploadFile = validForm?.uploadFile[0] as any;
 
     console.log(uploadFile);
     const formData = new FormData();
     formData.append("uploadFile", uploadFile);
-    edit(formData);
+    edit(formData); */
   };
   //--------- submit 관련 ---------
 
