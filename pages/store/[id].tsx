@@ -49,8 +49,8 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
 
   // -------------- 상점 정보 가져오기 --------------------
   const router = useRouter();
-  const { data } = router.query;
-  const [res, setRes] = useState({
+  const { data }: any = router.query;
+  const [res, setRes]: any = useState({
     restaurant: { imagePath: "", name: "", phone: "" },
     reviewList: [],
   });
@@ -200,7 +200,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
                 </div>
               ) : (
                 <div className=" grid grid-cols-3 gap-1 w-full h-[300px]">
-                  {res?.reviewList?.map((data, index) => (
+                  {res?.reviewList?.map((data: any, index: number) => (
                     <div key={index}>
                       <Link href={`/reviews/${index}`}>
                         <a>
