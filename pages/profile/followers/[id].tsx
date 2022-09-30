@@ -93,25 +93,25 @@ const Followers: NextPage<{}> = () => {
             loader={null}
           >
             <div className="mt-3 mx-4 h-[680px]">
-              {data?.map((user: IUser) => (
+              {data?.map((user: IUser, index: number) => (
                 <div
-                  key={user?.id}
+                  key={index}
                   className=" mb-3 pb-1 flex justify-between items-center border-b-2 border-dashed"
                 >
                   <div className=" flex justify-center items-center  ">
-                    <ProfilePhoto md avatar={user?.profileImg} />
+                    <ProfilePhoto md avatar={user?.profileImg?.savedPath} />
                     <div>
                       <div className="text-base ml-2">
                         <div className="flex">
                           <div className="font-bold">
-                            <Link href={`/profile/${user.userName}`}>
+                            <Link href={`/profile/${user?.userName}`}>
                               <a>{user?.userName}</a>
                             </Link>
                           </div>
                           <div>회원님이 </div>
                         </div>
                         <div className="flex">
-                          <div> 회원님을 팔로우 했습니다. </div>
+                          <div> 팔로우 했습니다. </div>
                         </div>
                       </div>
                     </div>

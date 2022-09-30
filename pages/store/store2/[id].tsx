@@ -56,9 +56,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
   });
 
   const fetcher = () => {
-    const url = `https://mtvs.kro.kr:8001/restaurant/${
-      data[getPhotoCount - 1]
-    }`;
+    const url = `https://mtvs.kro.kr:8001/restaurant/${data}`;
     console.log(url);
     const url2 = `https://mtvs.kro.kr:8001/restaurant/35379184`;
     fetch(url, {
@@ -76,6 +74,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     fetcher();
   }, []);
   // -------------- 상점 정보 가져오기 --------------------
+
   // ---------------- 음식점 찜하기 ------------------------
   const [isWish, setIsWish] = useState(false);
   function mutation(jsonData: any, method: any) {
@@ -101,7 +100,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     setIsWish(false);
   };
 
-  // ------------------------------------------------------
   const [getPhotoCount, setPhotoCount] = useState(1);
   const getMorePost = async (page: number) => {};
   const [getBotPage, setBotPage] = useState(1);
@@ -166,10 +164,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
-                </div>
-                <div className="text-white w-20 h-8 bg-gray-400 bg-opacity-40 backdrop-blur-sm flex justify-center rounded-full pt-[1px]">
-                  <span>{getPhotoCount}</span>
-                  <span>&nbsp;/ {data?.length}</span>
                 </div>
               </div>
             </motion.div>

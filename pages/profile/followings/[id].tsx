@@ -28,7 +28,6 @@ const Followings: NextPage<{}> = () => {
   const { query } = useRouter();
 
   const [getIsMe, setIsMe] = useState(false);
-  const [getIsFollow, setIsFollow] = useState(false);
 
   const params = query?.id as any;
   useEffect(() => {
@@ -43,6 +42,7 @@ const Followings: NextPage<{}> = () => {
   // --------------------- 팔로워 인피니티 관련 ---------------------
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
+  const [isInit, setIsInit] = useState(true);
   const fetcher = (pageNumber: number = 1) => {
     fetch(`https://mtvs.kro.kr:8001/follow/following/${params}`, {
       headers: {
@@ -51,7 +51,7 @@ const Followings: NextPage<{}> = () => {
     })
       .then((res) => res.json())
       .then((res: any) => {
-        setData((d) => d.concat(res?.results?.list));
+        setData(res?.results?.list);
         setPage((p) => p + 1);
       });
   };
@@ -61,7 +61,10 @@ const Followings: NextPage<{}> = () => {
   };
 
   useEffect(() => {
-    fetcher(page);
+    if (isInit) {
+      fetcher(page);
+      setIsInit(false);
+    }
   }, []);
 
   // --------------------- 팔로워 인피니티 관련 ---------------------
@@ -95,25 +98,25 @@ const Followings: NextPage<{}> = () => {
             loader={null}
           >
             <div className="mt-3 mx-4 h-[680px]">
-              {data?.map((user: IUser) => (
+              {data?.map((user: IUser, index: number) => (
                 <div
-                  key={user?.id}
+                  key={index}
                   className=" mb-3 pb-1 flex justify-between items-center border-b-2 border-dashed"
                 >
                   <div className=" flex justify-center items-center  ">
-                    <ProfilePhoto md avatar={user?.avatar} />
+                    <ProfilePhoto md avatar={user?.profileImg?.savedPath} />
                     <div>
                       <div className="text-base ml-2">
                         <div className="flex">
                           <div className="font-bold">
-                            <Link href={`/profile/${user.id}`}>
+                            <Link href={`/profile/${user.userName}`}>
                               <a>{user?.userName}</a>
                             </Link>
                           </div>
                           <div>님을 </div>
                         </div>
                         <div className="flex">
-                          <div>회원님이 팔로우 하고 있습니다. </div>
+                          <div>팔로우 하고 있습니다. </div>
                         </div>
                       </div>
                     </div>

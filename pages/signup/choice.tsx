@@ -39,14 +39,14 @@ const Choice: NextPage = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const fetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/favorite?page=${pageNumber}&size=150`, {
+    fetch(`https://mtvs.kro.kr:8001/favorite?page=0&size=350`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
       .then((res) => res.json())
       .then((res: any) => {
-        setData((d) => d.concat(res?.results?.list));
+        setData(res?.results?.list);
         setPage((p) => p + 1);
       });
   };

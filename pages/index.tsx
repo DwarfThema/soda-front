@@ -36,10 +36,10 @@ const Home: NextPage = () => {
   // --------------------- 추천 인피니티 관련 ---------------------
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
-  const [recoPage, setRecoPage] = useState<number>(1);
+  const [recoPage, setRecoPage] = useState("1");
   const [recoData, setRecoData] = useState([]);
   const recoFetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=10`, {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=100`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
@@ -148,7 +148,7 @@ const Home: NextPage = () => {
                     key={index}
                     className={index % 8 == 1 ? "col-span-2" : ""}
                   >
-                    <Link href={`/reviews/${data.id}`}>
+                    <Link href={`/reviews/${data?.id}`}>
                       <a>
                         <div
                           className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center"

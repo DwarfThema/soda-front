@@ -51,7 +51,6 @@ const Profile: NextPage<{
   const { data: userData, mutate } = useSWR<MutationResult>(
     `https://mtvs.kro.kr:8001/user/${getUserId}`
   );
-
   const userInfo = userData?.results;
 
   //-------------- 유저 데이터 관련---------------
@@ -128,7 +127,6 @@ const Profile: NextPage<{
   const fetchMoreData = (page: number) => {
     return fetcher(page);
   };
-
   useEffect(() => {
     if (init) {
       fetcher(page);
@@ -141,7 +139,7 @@ const Profile: NextPage<{
   const [markPage, setmarkPage] = useState(1);
   const [markData, marksetData] = useState([]);
   const fetcherMark = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/wish/${params}`, {
+    fetch(`https://mtvs.kro.kr:8001/wish/`, {
       headers: {
         Authorization: localStorage.getItem("Authorization") || "",
       },
@@ -150,6 +148,7 @@ const Profile: NextPage<{
       .then((res: any) => {
         marksetData(res?.results?.list);
         setmarkPage((p) => p + 1);
+        console.log("hello", res?.results?.list);
       });
   };
 
@@ -200,7 +199,7 @@ const Profile: NextPage<{
         className="absolute w-full h-full rounded-md bg-cover bg-center"
         style={{
           backgroundImage: userInfo?.user?.profileImg
-            ? `url(${userInfo?.user?.profileImg})`
+            ? `url(${userInfo?.user?.profileImg?.savedPath})`
             : `url(${profile?.avatar})`,
         }}
       >
@@ -216,8 +215,7 @@ const Profile: NextPage<{
             />
             <div className="mt-12 flex flex-col items-center text-sm">
               <div className="text-lg font-bold">
-                {" "}
-                {userInfo?.user?.userName}{" "}
+                {userInfo?.user?.userName}
               </div>
               <div className="flex mt-3">
                 <Link href={`/profile/followings/${userInfo?.user?.userName}`}>
@@ -371,24 +369,23 @@ const Profile: NextPage<{
                   loader={null}
                 >
                   <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
-                    {markData.map((data: any, index) => (
-                      <div key={index}>
-                        <Link href={`/reviews/${data.id}`}>
-                          <a>
-                            <div
-                              className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
-                              style={{
-                                backgroundImage: `url(${
-                                  data.imagePath === "데이터 없음"
-                                    ? "https://cdn.discordapp.com/attachments/991644248757768192/1024961611628302447/Frame_3.jpg"
-                                    : data.imagePath
-                                })`,
-                              }}
-                            />
-                          </a>
-                        </Link>
-                      </div>
-                    ))}
+                    {markData?.map((data: any, index) => {
+                      if (!data) return;
+                      return (
+                        <div key={index}>
+                          <Link href={`/store/store2/1?data=${data.id}`}>
+                            <a>
+                              <div
+                                className=" h-[120px] bg-gray-300  rounded-md flex items-end bg-cover bg-center "
+                                style={{
+                                  backgroundImage: `url(${data.imagePath})`,
+                                }}
+                              />
+                            </a>
+                          </Link>
+                        </div>
+                      );
+                    })}
                   </div>
                 </InfiniteScroll>
               )}

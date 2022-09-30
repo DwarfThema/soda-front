@@ -1,10 +1,17 @@
+import { AnyNsRecord } from "dns";
+
+export interface IprofileImg {
+  savedPath?: string;
+  [key: string]: any;
+}
+
 export interface IUser {
   id: number;
   userName: string;
   password?: string;
   email: string;
   idDeleted?: string;
-  profileImg?: string;
+  profileImg?: IprofileImg;
   joinDate?: Date;
   deletedDate?: Date;
   [key: string]: any;
@@ -39,11 +46,12 @@ export interface IReview {
 export interface IProfile {
   id: number;
   userName: string;
-  profileImg?: string;
+  profileImg?: any;
   following: number;
   follower: number;
   introduce?: string;
   review?: IReview;
+  [key: string]: any;
 }
 
 export interface Icomment {
@@ -51,6 +59,7 @@ export interface Icomment {
   content: string;
   isMe?: boolean;
   user: IProfile;
+  [key: string]: any;
 }
 
 export const PropArray = [
