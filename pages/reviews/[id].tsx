@@ -1,3 +1,4 @@
+
 import { MutationResult } from "@components/editProfileModal";
 import Input from "@components/InputForm";
 import Layout from "@components/layout";
@@ -21,11 +22,11 @@ interface IComment {
 }
 
 const Review: NextPage = () => {
+
   const router = useRouter();
   const onClick = () => {
     router.back();
   };
-
   //-------------- isMe 증명 관련---------------
   const [getUserId, setUserId] = useState<number>();
 
@@ -56,6 +57,7 @@ const Review: NextPage = () => {
   const reviewComments = reviewDetailData?.results?.commentList;
 
   //---------리뷰 디테일 api-----------
+
 
   //---------폼 관련-----------
   const {
@@ -98,13 +100,13 @@ const Review: NextPage = () => {
     useMutation<MutationResult>(
       `https://mtvs.kro.kr:8001/review/comment/${params}`
     );
-
   //---------폼 관련-----------
 
   //---------인피니티 관련-----------
   const getMorePost = async (page: number) => {};
   const [page, setPage] = useState(1);
   //---------인피니티 관련-----------
+
   // -------좋아요 관련-------------
 
   const [isLike, setIsLike] = useState(false);
@@ -216,12 +218,14 @@ const Review: NextPage = () => {
         </div>
         <div
           className="h-[290px] bg-center bg-cover flex items-end justify-end"
+
           style={{
             backgroundImage: `url(${reviewContents?.imageSrc})`,
           }}
         >
           <div className="text-white w-full text-right m-3">
             {reviewContents?.content}
+
           </div>
         </div>
         <div className="border-b flex justify-between mt-2 mx-2">
@@ -230,6 +234,7 @@ const Review: NextPage = () => {
               {" "}
               {reviewContents?.restaurant?.name}{" "}
             </div>
+
             <div>
               <div className="flex items-center ml-1">
                 {[1, 2, 3, 4, 5].map((star) => (

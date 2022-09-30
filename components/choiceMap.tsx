@@ -1,3 +1,4 @@
+
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -13,7 +14,9 @@ interface IChoiceMap {
   getSelected: number;
 }
 
+
 const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
+
   const [getSelect, setSelect] = useState(false);
 
   const [getFavArray, setFavArray] = useRecoilState(initFav);
@@ -29,6 +32,7 @@ const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
 
   return (
     <div className="flex items-center justify-center">
+
       {getSelect ? (
         <>
           <button
@@ -49,6 +53,7 @@ const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
             >
               <div
                 className="h-[300px] w-full backdrop-blur-md text-white flex justify-center items-center text-[30px] "
+
                 style={{
                   textShadow: "2px 2px 4px black",
                 }}

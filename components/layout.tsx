@@ -42,6 +42,7 @@ export default function Layout({
         <title>{seoTitle} | 소다</title>
       </Head>
       <div className="w-screen h-screen justify-center items-center text-lg font-medium text-gray-800 top-0 flex over ">
+
         {!enter ? (
           review ? (
             <div className=" bg-[#FEBC10] w-screen h-screen flex items-center justify-center">
@@ -54,6 +55,7 @@ export default function Layout({
               {!getMobile ? (
                 <div className=" bg-[#FEBC10] w-screen h-screen flex items-center justify-center">
                   <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg overflow-scroll">
+
                     {choice ? null : (
                       <NavBar
                         home={home}
@@ -68,6 +70,7 @@ export default function Layout({
               ) : (
                 <>
                   <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg  ">
+
                     {choice ? null : (
                       <NavBar
                         home={home}

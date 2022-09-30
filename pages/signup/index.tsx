@@ -38,6 +38,7 @@ const SignUp: NextPage = () => {
   const [enter, { loading, data, message: submitMessage }] =
     useLoginMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
+
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;
     enter(validForm);

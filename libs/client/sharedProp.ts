@@ -1,3 +1,4 @@
+
 import { AnyNsRecord } from "dns";
 
 export interface IprofileImg {
@@ -32,6 +33,7 @@ export interface MutationResult {
   [key: string]: any;
 }
 
+
 export interface IStore {
   id: number;
   score: number;
@@ -40,18 +42,22 @@ export interface IStore {
 }
 
 export interface IReview {
+
   [key: string]: any;
+
 }
 
 export interface IProfile {
   id: number;
   userName: string;
+
   profileImg?: any;
   following: number;
   follower: number;
   introduce?: string;
   review?: IReview;
   [key: string]: any;
+
 }
 
 export interface Icomment {
@@ -86,3 +92,4 @@ export const PropArray = [
   { key: 21, img: "/img/choice/western.png", cat1: "양식" },
   { key: 22, img: "/img/choice/western2.jpeg", cat1: "양식" },
 ];
+

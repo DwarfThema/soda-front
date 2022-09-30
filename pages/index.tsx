@@ -86,17 +86,20 @@ const Home: NextPage = () => {
             <div className=" text-sm font-bold">
               똑똑한 소다의 오늘의 추천메뉴 🗒
             </div>
+
             <div
               className="ml-2"
               style={{ fontSize: "10px", lineHeight: "14px" }}
             >
               소다가 오늘의 추천 메뉴를 알려줍니다.
+
             </div>
           </div>
           <div>
             <InfiniteScroll
               dataLength={datas.length}
               next={() => fetchMoreData(page)}
+
               hasMore={true}
               loader={null}
             >

@@ -9,6 +9,7 @@ import { cls } from "@libs/client/utils";
 import type { NextPage } from "next";
 import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
 
 interface PhotoForm {
@@ -23,8 +24,10 @@ interface MutationResult {
   results: object;
 }
 
+
 const CreateReview: NextPage = ({}) => {
   const [stars, setStars] = useState(0);
+
   const rounter = useRouter();
 
   const {
@@ -110,6 +113,7 @@ const CreateReview: NextPage = ({}) => {
             setFile={setFile}
             title="사진을 올려주세요"
           />{" "}
+
           <div className="absolute border-t-2 border-solid border-gray-200 w-full mt-2 left-0" />
           <div className="mt-7  mx-5 text-lg font-bold text-gray-600 flex">
             <div className="flex flex-col w-16">
@@ -117,7 +121,9 @@ const CreateReview: NextPage = ({}) => {
               <div className="mt-2">평점 </div>
             </div>
             <div className="flex flex-col ml-4">
+
               <div> {restaurant.name} </div>
+
               <div className="flex items-center ml-1 mt-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <svg
@@ -125,6 +131,7 @@ const CreateReview: NextPage = ({}) => {
                     className={cls(
                       "h-4 w-4",
                       stars >= star ? "text-yellow-400" : "text-gray-400"
+
                     )}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
