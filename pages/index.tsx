@@ -55,9 +55,7 @@ const Home: NextPage = () => {
     return recoFetcher(recoPage);
   };
 
-  useEffect(() => {
-    recoFetcher(recoPage);
-  }, []);
+  useEffect(() => {}, []);
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
 
