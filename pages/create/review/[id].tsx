@@ -23,17 +23,7 @@ interface MutationResult {
   results: object;
 }
 
-const CreateReview: NextPage<{
-  store: IStore;
-  review: IReview;
-  profile: IProfile;
-  comments: [Icomment];
-}> = ({ store, review, comments }) => {
-  /*   const router = useRouter();
-    useEffect(() => {
-      router.push("/enter");
-    }, []); */
-
+const CreateReview: NextPage = ({}) => {
   const [stars, setStars] = useState(0);
   const rounter = useRouter();
 
@@ -45,12 +35,8 @@ const CreateReview: NextPage<{
     mode: "onChange",
   });
   const onValid = (validForm: PhotoForm) => {
-    console.log(validForm);
     rounter.push("/create/review/1");
   };
-
-  const [enter, { loading, data, message: submitMessage }] =
-    useMutation<MutationResult>("http://129.154.201.42:8001/signup");
 
   // ---------------- 정보를 바탕으로 음식점 데이터 --------------------
   const { id }: any = rounter?.query;
@@ -65,7 +51,6 @@ const CreateReview: NextPage<{
       .then((res) => res.json())
       .then((res: any) => {
         setRestaurant(res.results.restaurant);
-        console.log(res.results.restaurant);
       });
   };
 
@@ -85,6 +70,7 @@ const CreateReview: NextPage<{
 
   const router = useRouter();
   const query = router?.query;
+  const queryId = router?.query?.id;
 
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
@@ -96,7 +82,6 @@ const CreateReview: NextPage<{
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
-        console.log(json);
         setText("요청 중");
         router.push(`/`);
       });
@@ -104,14 +89,14 @@ const CreateReview: NextPage<{
   const onClickHandler = () => {
     const formData = new FormData();
     formData.append("uploadFile", file);
-    formData.append("restaurantId", query.id!);
+    formData.append("restaurantId", query?.Id);
     formData.append("categoryName", "물만두");
     formData.append("content", reviewData.text);
     formData.append("grade", `${stars}`);
     mutation(formData);
     setText("요청중...");
   };
-  const onChangeHandle = (e) => {
+  const onChangeHandle = (e: any) => {
     setReviewData({ ...reviewData, text: e.target.value });
   };
   // ----------------------------------------------------------------

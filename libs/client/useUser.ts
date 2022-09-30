@@ -44,8 +44,6 @@ export default function useUser() {
       data?.httpStatus !== 200 &&
       localStorage.getItem("Authorization") === null
     ) {
-      console.log(localStorage.getItem("Authorization"));
-
       router.push("/enter");
     }
     if (data?.results?.user != undefined) {

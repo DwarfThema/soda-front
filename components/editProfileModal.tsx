@@ -66,7 +66,6 @@ const EditProfileModal = ({
 
   //--------- submit 관련 ---------
   const oninvalid = (validForm: IEditProfile) => {
-    //console.log(validForm);
     if (validForm.oldPassword && validForm.newPassword) {
       const passChange = {
         oldPassword: validForm.oldPassword,
@@ -83,14 +82,7 @@ const EditProfileModal = ({
       body.append("uploadFile", validForm.uploadFile[0]);
       edit(body);
     }
-
-    console.log(validForm);
   };
-
-  // const uploadImage = (validForm: IEditProfile) => {
-  //   console.log(validForm);
-
-  // };
 
   //--------- submit 관련 ---------
 

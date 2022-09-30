@@ -40,7 +40,6 @@ const Profile: NextPage<{
   const params = query?.id as any;
   useEffect(() => {
     setUserId(params);
-    console.log(user?.userName);
     if (localStorage.getItem("userName") === params) {
       setIsMe(true);
     }
@@ -148,7 +147,6 @@ const Profile: NextPage<{
       .then((res: any) => {
         marksetData(res?.results?.list);
         setmarkPage((p) => p + 1);
-        console.log("hello", res?.results?.list);
       });
   };
 

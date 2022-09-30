@@ -23,12 +23,10 @@ const PhotoForm = ({ register, title, setFile }: IPhotoForm) => {
   const styleObj = {
     backgroundImage: `url(${src})`,
     backgroundSize: "100% 100%",
-    "background-position": "center",
+    backgroundPosition: "center",
   };
 
-  useEffect(() => {
-    // console.log("data",document.getElementById("photo").files[0]);
-  }, [src]);
+  useEffect(() => {}, [src]);
   return (
     <div>
       <div

@@ -49,13 +49,9 @@ const Likes: NextPage<{
     })
       .then((res) => res.json())
       .then((res: any) => {
-        console.log("fetcher2", res);
         setUserDataList(res?.results?.list);
       });
   };
-  console.log(datas);
-
-  console.log("fetcher2", userDataList);
 
   const fetchMoreData = (page: number) => {
     return fetcher(page);

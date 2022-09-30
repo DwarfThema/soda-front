@@ -37,8 +37,6 @@ const Enter: NextPage = () => {
     "https://mtvs.kro.kr:8001/login"
   );
 
-  console.log(data);
-
   const userToken = data?.results?.token;
   const needSelect = data?.results?.needSelect;
 
@@ -50,7 +48,6 @@ const Enter: NextPage = () => {
       router.push(`/signup/choice`);
     } else if (userToken && !needSelect) {
       router.push(`/`);
-      console.log("needSelect false");
     }
   }, [data]);
 

@@ -30,7 +30,6 @@ const Review: NextPage = () => {
   const [getUserId, setUserId] = useState<number>();
 
   const { user } = useUser<IUser>();
-  console.log(user);
 
   const { query } = useRouter();
 
@@ -55,8 +54,6 @@ const Review: NextPage = () => {
   const reviewDetail = reviewDetailData?.results;
   const reviewContents = reviewDetailData?.results?.review;
   const reviewComments = reviewDetailData?.results?.commentList;
-
-  console.log(reviewContents);
 
   //---------리뷰 디테일 api-----------
 
@@ -126,9 +123,7 @@ const Review: NextPage = () => {
       body: jsonData,
     })
       .then((res) => res.json().catch(() => {}))
-      .then((json) => {
-        console.log(json);
-      });
+      .then((json) => {});
   }
   const onClickWish = () => {
     if (isBook) {
@@ -148,9 +143,7 @@ const Review: NextPage = () => {
       body: jsonData,
     })
       .then((res) => res.json().catch(() => {}))
-      .then((json) => {
-        console.log(json);
-      });
+      .then((json) => {});
   }
   const onClickWish2 = () => {
     if (isBook) {
@@ -161,7 +154,6 @@ const Review: NextPage = () => {
   };
 
   useEffect(() => {
-    console.log("check", reviewDetail);
     setIsLike(reviewDetail?.isLike);
     setIsBook(reviewDetail?.isWish);
   }, [reviewDetail]);

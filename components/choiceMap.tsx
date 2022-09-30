@@ -26,7 +26,6 @@ const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
       enter(getFavArray);
     }
   }, [getSelect]);
-  console.log(getFavArray);
 
   return (
     <div className="flex items-center justify-center">

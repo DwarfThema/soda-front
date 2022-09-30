@@ -62,9 +62,7 @@ const Home: NextPage = () => {
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
 
   // --------------------- 로케이션 관련 ---------------------
-  function onGeoOk(positon: any) {
-    console.log(positon);
-  }
+  function onGeoOk(positon: any) {}
   function onGeoError() {
     alert("Can't find you. No weather for you.");
   }
@@ -168,9 +166,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-/* export async function getServerSideProps(context: any) {
-  console.log(context.req.headers.referer);
-  return { props: { url: context.req.headers.referer } };
-}
- */

@@ -27,7 +27,6 @@ const Create: NextPage = () => {
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
-        console.log(json);
         setText("");
         router.push(
           `create/review/${json.storeId}?id=${json.storeId}, category=${json.category}`
@@ -41,7 +40,6 @@ const Create: NextPage = () => {
     setText("분석중...");
   };
   // -------------------------------------------
-  console.log("file");
   return (
     <Layout seoTitle="영수증 인증" create>
       <div className="w-full h-full  rounded-md flex mt-24 items-center flex-col">

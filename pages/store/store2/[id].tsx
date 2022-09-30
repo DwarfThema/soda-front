@@ -57,7 +57,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
 
   const fetcher = () => {
     const url = `https://mtvs.kro.kr:8001/restaurant/${data}`;
-    console.log(url);
     const url2 = `https://mtvs.kro.kr:8001/restaurant/35379184`;
     fetch(url, {
       headers: {
@@ -66,7 +65,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     })
       .then((res) => res.json())
       .then((res: any) => {
-        console.log("SDfsdf", res);
         setRes(res?.results);
       });
   };
@@ -87,9 +85,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
       body: jsonData,
     })
       .then((res) => res.json().catch(() => {}))
-      .then((json) => {
-        console.log(json);
-      });
+      .then((json) => {});
   }
   const onClickWish = () => {
     mutation(`{"restaurantId" : ${res?.restaurant?.id}}`, "POST");
