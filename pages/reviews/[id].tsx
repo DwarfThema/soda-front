@@ -29,7 +29,7 @@ const Review: NextPage = () => {
   //-------------- isMe 증명 관련---------------
   const [getUserId, setUserId] = useState<number>();
 
-  const { user } = useUser<IUser>();
+  const { user }: any = useUser();
 
   const { query } = useRouter();
 
@@ -267,7 +267,7 @@ const Review: NextPage = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                   onClick={(e) => {
                     setIsLike(!isLike);
                   }}
@@ -300,7 +300,7 @@ const Review: NextPage = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                   onClick={() => {
                     setIsBook(!isBook);
                   }}
