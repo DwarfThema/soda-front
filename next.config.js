@@ -5,6 +5,7 @@ const nextConfig = {
 };
 
 module.exports = {
+  ignoreBuildErrors: true,
   async headers() {
     const token = localStorage.getItem("Authorization") || "";
     return [
