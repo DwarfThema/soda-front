@@ -8,7 +8,7 @@ import imageCompression from "browser-image-compression";
 interface IPhotoForm {
   register?: UseFormRegisterReturn;
   title: string;
-  seoFile: any;
+  setFile: any;
 }
 
 const PhotoForm = ({ register, title, setFile }: IPhotoForm) => {
