@@ -1,3 +1,6 @@
+
+import useUser from "@libs/client/useUser";
+
 import { cls } from "@libs/client/utils";
 import Link from "next/link";
 
@@ -11,6 +14,7 @@ interface INavPosProb {
 
 const NavBar = ({ home, likes, create, profile, mobile }: INavPosProb) => {
   const strokeWidth = "2";
+  const { user } = useUser();
 
   return (
     <>
@@ -86,7 +90,7 @@ const NavBar = ({ home, likes, create, profile, mobile }: INavPosProb) => {
               </Link>
             </div>
             <div style={{ color: profile ? "#00572D" : "#CCCCCC" }}>
-              <Link href={"/profile"}>
+              <Link href={`/profile/${user?.userName}`}>
                 <a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

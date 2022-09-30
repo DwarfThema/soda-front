@@ -8,7 +8,7 @@ interface UserMutationState<T> {
 
 type UserMutationResult<T> = [(data: any) => void, UserMutationState<T>];
 
-export default function useMutation<T = any>(
+export default function useMutationNoJson<T = any>(
   url: string
 ): UserMutationResult<T> {
   const [state, setState] = useState<UserMutationState<T>>({

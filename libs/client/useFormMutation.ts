@@ -8,7 +8,7 @@ interface UserMutationState<T> {
 
 type UserMutationResult<T> = [(data: any) => void, UserMutationState<T>];
 
-export default function useMutation<T = any>(
+export default function useFormMutation<T = any>(
   url: string
 ): UserMutationResult<T> {
   const [state, setState] = useState<UserMutationState<T>>({
@@ -21,15 +21,14 @@ export default function useMutation<T = any>(
   const [data, setData] = useState<undefined | any>(undefined);
   const [message, setMessage] = useState<undefined | any>(undefined);
 
-  function mutation(data: any) {
+  function mutation(formData: any) {
     setLoading(true);
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization") || "",
       },
-      body: JSON.stringify(data),
+      body: formData,
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {

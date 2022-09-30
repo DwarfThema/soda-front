@@ -3,43 +3,57 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useMutation from "../libs/client/useMutation";
 import { motion } from "framer-motion";
 import Input from "@components/InputForm";
 import Link from "next/link";
 import Button from "@components/button";
+import useLoginMutation from "@libs/client/useLoginMutation";
+
+interface IToken {
+  id: string;
+  token: string;
+  needSelect: boolean;
+}
 
 interface MutationResult {
-  ok: boolean;
+  httpStatus: number;
+  message: string;
+  results: IToken;
+  token: string;
 }
 
 interface EnterForm {
-  id: string;
-  email: string;
-  pw: string;
+  userName: string;
+  password: string;
   result: string;
 }
 
-interface TokenForm {
-  token: number;
-}
-
 const Enter: NextPage = () => {
-  const [enter, { loading, data, message }] = useMutation<MutationResult>(
-    "였던 무언가 129.154.201.42:8001/"
+  const router = useRouter();
+
+  //---------------로그인 토큰 저장---------------
+
+  const [enter, { loading, data }] = useLoginMutation<MutationResult>(
+    "https://mtvs.kro.kr:8001/login"
   );
 
-  console.log(data);
+  const userToken = data?.results?.token;
+  const needSelect = data?.results?.needSelect;
 
-  const onValid = (validForm: EnterForm) => {
-    enter(validForm);
-  };
+  useEffect(() => {
+    if (data?.httpStatus) {
+      localStorage.setItem("Authorization", "Bearer " + userToken);
+    }
+    if (userToken && needSelect) {
+      router.push(`/signup/choice`);
+    } else if (userToken && !needSelect) {
+      router.push(`/`);
+    }
+  }, [data]);
 
-  const [
-    confirmToken,
-    { loading: tokenLoading, data: tokenData, message: tokenError },
-  ] = useMutation<MutationResult>("유저 토큰 관련 url");
+  //---------------로그인 토큰 저장---------------
 
+  //---------------폼관련---------------
   const {
     register,
     handleSubmit,
@@ -49,24 +63,11 @@ const Enter: NextPage = () => {
     mode: "onChange",
   });
 
-  const { register: tokenRegi, handleSubmit: tokenSubmit } =
-    useForm<TokenForm>();
-
-  const [submitting] = useState(false);
-
-  const onTokenValid = (validForm: TokenForm) => {
-    if (tokenLoading) return;
-    confirmToken(validForm);
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
-
-  const router = useRouter();
-  useEffect(() => {
-    if (tokenData?.ok) {
-      router.push("/");
-    }
-  }, [tokenData, router]);
-
-  const [titleState, setTitleState] = useState(false);
+  //---------------폼관련---------------
 
   return (
     <Layout seoTitle="로그인" enter>
@@ -91,8 +92,8 @@ const Enter: NextPage = () => {
           <div>
             <Input
               label="아이디"
-              errorMessage={errors?.id?.message}
-              register={register("id", {
+              errorMessage={errors?.userName?.message}
+              register={register("userName", {
                 required: "아이디를 입력해 주세요.",
                 onChange() {
                   clearErrors("result");
@@ -107,8 +108,8 @@ const Enter: NextPage = () => {
 
             <Input
               label="비밀번호"
-              errorMessage={errors?.pw?.message}
-              register={register("pw", {
+              errorMessage={errors?.password?.message}
+              register={register("password", {
                 required: "비밀번호를 입력해 주세요.",
                 onChange() {
                   clearErrors("result");

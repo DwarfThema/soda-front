@@ -1,71 +1,105 @@
+
+import { MutationResult } from "@components/editProfileModal";
 import Input from "@components/InputForm";
 import Layout from "@components/layout";
 import ProfilePhoto from "@components/profilePhoto";
-import { Icomment, IProfile, IReview, IStore } from "@libs/client/sharedProp";
+import { Icomment, IprofileImg, IUser } from "@libs/client/sharedProp";
+import useMutation from "@libs/client/useMutation";
+import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
 import { profile } from "console";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InfiniteScroll from "react-infinite-scroll-component";
+import useSWR from "swr";
 
-const propArray = [
-  { key: 1, img: "/img/choice/asian.png", cat1: "아시안" },
-  { key: 2, img: "/img/choice/asian2.jpeg", cat1: "아시안" },
-  { key: 3, img: "/img/choice/bbq.jpeg", cat1: "고기/구이" },
-  { key: 4, img: "/img/choice/bbq2.jpeg", cat1: "고기/구이" },
-  { key: 5, img: "/img/choice/chinese.jpeg", cat1: "중식" },
-  { key: 6, img: "/img/choice/chinese2.jpeg", cat1: "중식" },
-  { key: 7, img: "/img/choice/fast.jpg", cat1: "패스트푸드" },
-  { key: 8, img: "/img/choice/fast2.jpeg", cat1: "패스트푸드" },
-  { key: 9, img: "/img/choice/japon.jpeg", cat1: "일식" },
-  { key: 10, img: "/img/choice/japon2.jpeg", cat1: "일식" },
-  { key: 11, img: "/img/choice/korean.jpeg", cat1: "백반/국수" },
-  { key: 12, img: "/img/choice/korean2.jpeg", cat1: "백반/국수" },
-  { key: 13, img: "/img/choice/korean3.jpeg", cat1: "백반/국수" },
-  { key: 14, img: "/img/choice/ksoup.jpeg", cat1: "찜/탕/찌개" },
-  { key: 15, img: "/img/choice/ksoup2.jpeg", cat1: "찜/탕/찌개" },
-  { key: 16, img: "/img/choice/ksoup3.jpeg", cat1: "찜/탕/찌개" },
-  { key: 17, img: "/img/choice/pizza.jpeg", cat1: "피자" },
-  { key: 18, img: "/img/choice/side.jpeg", cat1: "분식" },
-  { key: 19, img: "/img/choice/side2.jpeg", cat1: "분식" },
-  { key: 20, img: "/img/choice/western.jpeg", cat1: "양식" },
-  { key: 21, img: "/img/choice/western.png", cat1: "양식" },
-  { key: 22, img: "/img/choice/western2.jpeg", cat1: "양식" },
-];
-
-interface IReply {
-  payload: string;
-  result?: string;
+interface IComment {
+  comment: string;
+  result: string;
 }
 
-const Review: NextPage<{
-  store: IStore;
-  review: IReview;
-  profile: IProfile;
-  comments: [Icomment];
-}> = ({ store, review, comments }) => {
+const Review: NextPage = () => {
+
   const router = useRouter();
   const onClick = () => {
     router.back();
   };
+  //-------------- isMe 증명 관련---------------
+  const [getUserId, setUserId] = useState<number>();
 
-  const user = {
-    avatar: "/img/profileAvatar.png",
-    userName: "imiuiulady",
-    isMe: true,
-  };
+  const { user }: any = useUser();
+
+  const { query } = useRouter();
+
+  const [getIsMe, setIsMe] = useState(false);
+
+  const params = query?.id as any;
+  useEffect(() => {
+    setUserId(params);
+
+    if (user?.userName === params) {
+      setIsMe(true);
+    }
+  }, []);
+
+  //-------------- isMe 증명 관련---------------
+
+  //---------리뷰 디테일 api-----------
+  const { data: reviewDetailData, mutate } = useSWR(
+    `https://mtvs.kro.kr:8001/review/detail/${params}`
+  );
+
+  const reviewDetail = reviewDetailData?.results;
+  const reviewContents = reviewDetailData?.results?.review;
+  const reviewComments = reviewDetailData?.results?.commentList;
+
+  //---------리뷰 디테일 api-----------
+
 
   //---------폼 관련-----------
   const {
     register,
     handleSubmit,
     clearErrors,
+    reset,
     formState: { errors, isValid },
-  } = useForm<IReply>({
+  } = useForm<IComment>({
     mode: "onChange",
   });
+
+  const onValid = (validForm: IComment) => {
+    if (loading) return;
+    reset();
+    enter(validForm);
+    mutate(
+      (prev: any) =>
+        prev &&
+        ({
+          ...prev,
+          results: {
+            ...prev.results,
+            commentList: [
+              ...prev.results.commentList,
+              {
+                date: Date.now(),
+                content: validForm.comment,
+                user: { ...user },
+              },
+            ],
+          },
+        } as any),
+      false
+    );
+  };
+
+  // 댓글 포스트
+  const [enter, { loading, data, message: submitMessage }] =
+    useMutation<MutationResult>(
+      `https://mtvs.kro.kr:8001/review/comment/${params}`
+    );
   //---------폼 관련-----------
 
   //---------인피니티 관련-----------
@@ -73,6 +107,58 @@ const Review: NextPage<{
   const [page, setPage] = useState(1);
   //---------인피니티 관련-----------
 
+  // -------좋아요 관련-------------
+
+  const [isLike, setIsLike] = useState(false);
+  const [isBook, setIsBook] = useState(false);
+
+  // -----------------------------
+
+  const [isWish, setIsWish] = useState(false);
+  function mutation(jsonData: any, method: any) {
+    fetch("https://mtvs.kro.kr:8001/wish", {
+      method: method,
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    })
+      .then((res) => res.json().catch(() => {}))
+      .then((json) => {});
+  }
+  const onClickWish = () => {
+    if (isBook) {
+      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "POST");
+    } else {
+      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
+    }
+  };
+
+  function mutation2(jsonData: any, method: any) {
+    fetch("https://mtvs.kro.kr:8001/review/like/6", {
+      method: method,
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    })
+      .then((res) => res.json().catch(() => {}))
+      .then((json) => {});
+  }
+  const onClickWish2 = () => {
+    if (isBook) {
+      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "POST");
+    } else {
+      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
+    }
+  };
+
+  useEffect(() => {
+    setIsLike(reviewDetail?.isLike);
+    setIsBook(reviewDetail?.isWish);
+  }, [reviewDetail]);
   return (
     <Layout seoTitle="리뷰" review>
       <div className="bg-white w-full h-24 max-w-xl justify-center text-lg px-3 pb-3 font-medium rounded-t-3xl text-gray-800 text-opacity-50 border-b top-0  flex items-end">
@@ -96,10 +182,21 @@ const Review: NextPage<{
       <div>
         <div className="flex justify-between items-center mx-2 my-1">
           <div className="flex text-sm items-center">
-            <ProfilePhoto md avatar={review?.user?.avatar} />
+            <Link href={`/profile/${reviewContents?.user?.userName}`}>
+              <a>
+                <ProfilePhoto
+                  md
+                  avatar={reviewContents?.user?.profileImg?.savedPath}
+                />
+              </a>
+            </Link>
             <div className="ml-1">
-              <div> {review?.user?.userName} </div>
-              <div> {review?.store?.name} </div>
+              <Link href={`/profile/${reviewContents?.user?.userName}`}>
+                <a>
+                  <div> {reviewContents?.user?.userName} </div>
+                </a>
+              </Link>
+              <div> {reviewContents?.categoryName} </div>
             </div>
           </div>
           <div>
@@ -121,15 +218,23 @@ const Review: NextPage<{
         </div>
         <div
           className="h-[290px] bg-center bg-cover flex items-end justify-end"
-          style={{ backgroundImage: `url(${propArray[1]?.img})` }}
+
+          style={{
+            backgroundImage: `url(${reviewContents?.imageSrc})`,
+          }}
         >
           <div className="text-white w-full text-right m-3">
-            {review.payload}
+            {reviewContents?.content}
+
           </div>
         </div>
         <div className="border-b flex justify-between mt-2 mx-2">
           <div className="mb-3">
-            <div className="text-lg font-bold"> {store?.name} </div>
+            <div className="text-lg font-bold">
+              {" "}
+              {reviewContents?.restaurant?.name}{" "}
+            </div>
+
             <div>
               <div className="flex items-center ml-1">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -137,7 +242,9 @@ const Review: NextPage<{
                     key={star}
                     className={cls(
                       "h-4 w-4",
-                      store?.score >= star ? "text-yellow-400" : "text-gray-400"
+                      reviewContents?.grade >= star
+                        ? "text-yellow-400"
+                        : "text-gray-400"
                     )}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -153,85 +260,120 @@ const Review: NextPage<{
           <div className="flex">
             <div className="text-sm font-bold">
               <span>좋아요</span>
-              <span className="ml-1"> {review.likes}개 </span>
+              <span className="ml-1">
+                {" "}
+                {isLike ? reviewDetail?.likeCount + 1 : reviewDetail?.likeCount}
+                개{" "}
+              </span>
             </div>
             <div className="mx-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                />
-              </svg>
+              {isLike ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                  onClick={(e) => {
+                    setIsLike(!isLike);
+                  }}
+                >
+                  <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                  onClick={(e) => {
+                    setIsLike(!isLike);
+                  }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                  />
+                </svg>
+              )}
             </div>
             <div className="mr-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                />
-              </svg>
+              {isBook ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                  onClick={() => {
+                    setIsBook(!isBook);
+                  }}
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                  onClick={() => {
+                    setIsBook(!isBook);
+                  }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </svg>
+              )}
             </div>
           </div>
         </div>
       </div>
       <InfiniteScroll
-        dataLength={propArray.length}
+        dataLength={100}
         next={() => getMorePost(page)}
         hasMore={true}
         loader={null}
       >
         <div className="mt-3 mx-4 h-[240px]">
-          {comments?.map((comment: Icomment) => (
+          {reviewComments?.map((comment: Icomment) => (
             <div
               key={comment?.id}
               className={cls(
                 "p-2  w-full rounded-t-2xl mb-3 flex ",
-                comment.isMe
+                user?.userName === comment?.user?.userName
                   ? "bg-[#008939] bg-opacity-20 rounded-l-2xl"
                   : "bg-zinc-200 rounded-r-2xl"
               )}
             >
               <div>
-                <ProfilePhoto md avatar={comment?.user?.avatar} />
+                <Link href={`/profile/${comment?.user?.userName}`}>
+                  <a>
+                    <ProfilePhoto
+                      md
+                      avatar={comment?.user?.profileImg?.savedPath}
+                    />
+                  </a>
+                </Link>
               </div>
               <div className="flex ml-2">
                 <div>
                   <div className="text-base font-bold">
-                    {comment?.user?.userName}
+                    <Link href={`/profile/${comment?.user?.userName}`}>
+                      <a>{comment?.user?.userName}</a>
+                    </Link>
                   </div>
-                  <div className="text-sm">{comment?.payload}</div>
-                </div>
-                <div className="mr-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                    />
-                  </svg>
+                  <div className="text-sm">{comment?.content}</div>
                 </div>
               </div>
             </div>
@@ -242,20 +384,23 @@ const Review: NextPage<{
       <div className="absolute bottom-0 border-t h-24 w-full z-30 bg-white flex justify-center rounded-b-3xl ">
         <div className="mt-3 flex">
           <div>
-            <ProfilePhoto md avatar={review?.user?.avatar} />
+            <ProfilePhoto md avatar={user?.profileImg?.savedPath} />
           </div>
-          <div className="border w-full h-11 mx-2 rounded-full">
+          <form
+            className="border w-full h-11 mx-2 rounded-full"
+            onSubmit={handleSubmit(onValid)}
+          >
             <Input
-              errorMessage={errors?.payload?.message}
-              register={register("payload", {
-                required: "비밀번호를 입력해 주세요.",
+              errorMessage={errors?.comment?.message}
+              register={register("comment", {
                 onChange() {
                   clearErrors("result");
                 },
               })}
-              type="password"
+              type="text"
+              reply
             />
-          </div>
+          </form>
         </div>
       </div>
     </Layout>
@@ -263,63 +408,3 @@ const Review: NextPage<{
 };
 
 export default Review;
-
-export async function getServerSideProps() {
-  const store = {
-    score: 4,
-    name: "준호네 떡볶이",
-    phone: "02-1234-5678",
-  };
-
-  const profile = {
-    avatar: "/img/profileAvatar.png",
-    userName: "imiuiulady",
-  };
-
-  const review = {
-    store: store,
-    user: profile,
-    name: "duko998",
-    score: 4,
-    likes: 677,
-    payload: "최애 부대찌개 집입니다. \n 가끔 부대 먹고싶을 때 까는곳!",
-  };
-
-  const comments = [
-    {
-      id: 1,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-      isMe: true,
-    },
-    {
-      id: 2,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-    },
-    {
-      id: 3,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-    },
-    {
-      id: 4,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-      isMe: true,
-    },
-  ];
-
-  return {
-    props: {
-      store: store,
-      review: review,
-      profile: profile,
-      comments: comments,
-    },
-  };
-}

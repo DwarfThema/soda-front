@@ -41,7 +41,8 @@ export default function Layout({
       <Head>
         <title>{seoTitle} | 소다</title>
       </Head>
-      <div className="w-screen h-screen justify-center items-center text-lg font-medium text-gray-800 top-0 flex ">
+      <div className="w-screen h-screen justify-center items-center text-lg font-medium text-gray-800 top-0 flex over ">
+
         {!enter ? (
           review ? (
             <div className=" bg-[#FEBC10] w-screen h-screen flex items-center justify-center">
@@ -50,10 +51,11 @@ export default function Layout({
               </div>
             </div>
           ) : (
-            <div className=" flex justify-center items-center">
+            <div className=" flex justify-center items-center ">
               {!getMobile ? (
                 <div className=" bg-[#FEBC10] w-screen h-screen flex items-center justify-center">
-                  <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg overflow-scroll">
+
                     {choice ? null : (
                       <NavBar
                         home={home}
@@ -67,7 +69,8 @@ export default function Layout({
                 </div>
               ) : (
                 <>
-                  <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg ">
+                  <div className=" bg-white w-[400px] h-[850px] rounded-md drop-shadow-lg  ">
+
                     {choice ? null : (
                       <NavBar
                         home={home}
@@ -84,7 +87,7 @@ export default function Layout({
             </div>
           )
         ) : (
-          <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col">
+          <div className="bg-[#FEBC10] w-full h-full flex justify-center items-center flex-col ">
             {children}
           </div>
         )}

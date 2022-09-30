@@ -5,7 +5,7 @@ interface ButtonProps {
   text: string;
   href?: string;
   [key: string]: any;
-  disabled: boolean;
+  disabled?: boolean;
   review?: boolean;
 }
 

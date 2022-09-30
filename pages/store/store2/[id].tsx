@@ -30,6 +30,7 @@ const BannerVariants = {
   },
 };
 
+// ----------------상점 정보 가져오기-------------------
 
 const Store: NextPage<{ store: IStore; review: IReview }> = ({
   store,
@@ -37,7 +38,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
 }) => {
   //-------- 스와이프 부분------------
   const [[page, direction], setPage] = useState([0, 0]);
-  const imageIndex = wrap(0, propArray?.length, page);
   const swipeConfidenceThreshold = 5000;
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
@@ -46,7 +46,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     return Math.abs(offset) * velocity;
   };
   //-------- 스와이프 부분------------
-
 
   // -------------- 상점 정보 가져오기 --------------------
   const router = useRouter();
@@ -57,9 +56,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
   });
 
   const fetcher = () => {
-    const url = `https://mtvs.kro.kr:8001/restaurant/${
-      data[getPhotoCount - 1]
-    }`;
+    const url = `https://mtvs.kro.kr:8001/restaurant/${data}`;
     const url2 = `https://mtvs.kro.kr:8001/restaurant/35379184`;
     fetch(url, {
       headers: {
@@ -75,6 +72,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     fetcher();
   }, []);
   // -------------- 상점 정보 가져오기 --------------------
+
   // ---------------- 음식점 찜하기 ------------------------
   const [isWish, setIsWish] = useState(false);
   function mutation(jsonData: any, method: any) {
@@ -98,12 +96,10 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     setIsWish(false);
   };
 
-  // ------------------------------------------------------
   const [getPhotoCount, setPhotoCount] = useState(1);
   const getMorePost = async (page: number) => {};
   const [getBotPage, setBotPage] = useState(1);
   const color = "red";
-
   return (
     <Layout seoTitle="상호명" home>
       <div>
@@ -114,7 +110,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
               key={page}
               style={{
                 backgroundImage: `url(${res?.restaurant?.imagePath})`,
-
               }}
               custom={direction}
               variants={BannerVariants}
@@ -166,10 +161,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
                     </svg>
                   ))}
                 </div>
-                <div className="text-white w-20 h-8 bg-gray-400 bg-opacity-40 backdrop-blur-sm flex justify-center rounded-full pt-[1px]">
-                  <span>{getPhotoCount}</span>
-                  <span>&nbsp;/ {data?.length}</span>
-                </div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -186,7 +177,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
           <div className="text-sm ">
             <span>☎️&nbsp;</span>
             <span>{res?.restaurant?.phone}</span>
-
           </div>
         </div>
         <div>
@@ -194,7 +184,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
           <div className="mt-1 mx-2 h-[10px]">
             <InfiniteScroll
               dataLength={res?.reviewList?.length}
-
               next={() => getMorePost(getBotPage)}
               hasMore={true}
               loader={null}

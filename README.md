@@ -6,22 +6,22 @@
 
 - [x] Login
 - [x] Taste Selection
-  - 모바일로 확인시 다르게 나오는 부분 수정해야함
 - [x] NavBar
-- [ ] Home
-- [ ] Heart
-- [ ] Create
-- [ ] Profile
+- [x] Home
+- [x] Likes
+- [x] Create
+- [x] Profile
 
 ## API Verbs
 
-- [ ] Login
+- [x] Login
 - [x] SignUp
 - [ ] Taste
-- [ ] Follow / Following
 - [ ] Review
-- [ ] Store
-- [ ] Menu
-- [ ] Photo
+- [x] Follow / Following
+- [ ] StoreDetail
+- [ ] CreateReview
+- [x] editProfile
+  - 아바타 사진 업로드 불가
 
 외에 더 작성될 예정

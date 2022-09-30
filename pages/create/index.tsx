@@ -1,39 +1,69 @@
 import Layout from "@components/layout";
 import PhotoForm from "@components/photoForm";
+import useFormMutation from "@libs/client/useFormMutation";
 import useUser from "@libs/client/useUser";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-interface PhotoForm {
-  photo: FileList;
+interface iPhotoForm {
+  photo?: FileList;
 }
 
 const Create: NextPage = () => {
-  /*   const router = useRouter();
-  useEffect(() => {
-    router.push("/enter");
-  }, []); */
-  const { isLoading } = useUser();
+  const router = useRouter();
 
-  const rounter = useRouter();
-
-  const { register, handleSubmit } = useForm<PhotoForm>({
-    mode: "onChange",
-  });
-  const onValid = (validForm: PhotoForm) => {
-    console.log(validForm);
-    rounter.push("/create/review/1");
+  // --------------post 영수증 api --------------------
+  const [file, setFile] = useState("");
+  const [text, setText] = useState("영수증 분석 요청");
+  function mutation(formData: any) {
+    fetch("https://soda-mtvs.kro.kr/returnReceipt", {
+      method: "POST",
+      headers: {
+        Authorization: localStorage.getItem("Authorization") || "",
+      },
+      body: formData,
+    })
+      .then((res) => res.json().catch(() => {}))
+      .then((json) => {
+        setText("");
+        router.push(
+          `create/review/${json.storeId}?id=${json.storeId}, category=${json.category}`
+        );
+      });
+  }
+  const onClickHandler = () => {
+    const formData = new FormData();
+    formData.append("file", file);
+    mutation(formData);
+    setText("분석중...");
   };
-  // 사진 보내는거 확인해야함
-  // 그냥 useMutation 으로 하면되나..?
-
+  // -------------------------------------------
   return (
     <Layout seoTitle="영수증 인증" create>
       <div className="w-full h-full  rounded-md flex mt-24 items-center flex-col">
-        <form onSubmit={handleSubmit(onValid)}>
-          <PhotoForm register={register("photo")} title="영수증을 올려주세요" />
-        </form>
+        <div
+          // encType="multipart/form-data"
+          // onSubmit={handleSubmit(onValid)}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <PhotoForm setFile={setFile} title="영수증을 올려주세요" />
+          <button
+            // type="submit"
+            className=" text-white text-sm w-[180px] mt-2 rounded-md bg-[#00572D] flex flex-col justify-center items-center shadow-lg"
+            // disabled={loading}
+            onClick={onClickHandler}
+          >
+            <div className="my-3 flex flex-col justify-center items-center">
+              <div>{text}</div>
+            </div>
+          </button>
+        </div>
         <div className="border-t-2 border-solid border-gray-200 w-full mt-7" />
         <div className="mt-5 text-sm mx-5 text text-gray-400">
           개인 정보 수집 목적 SODA는 다음과 같은 목적을 위하여 사용자의 영수증을
