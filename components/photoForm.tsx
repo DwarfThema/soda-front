@@ -10,15 +10,19 @@ interface IPhotoForm {
   title: string;
   setFile: any;
 }
+interface Event<T = EventTarget> {
+  target: T;
+  // ...
+}
 
 const PhotoForm = ({ register, title, setFile }: IPhotoForm) => {
   const [src, setSrc] = useState("");
   const [text, setText] = useState("영수증 분석 요청");
   // ---------영수증 post api 관련------------
 
-  const onChangeHandler = (e: React.FormEvent<HTMLInputElement>) => {
-    setSrc(URL.createObjectURL(e.target.files[0]));
-    setFile(e.target.files[0]);
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSrc(URL.createObjectURL(e.target.files![0]));
+    setFile(e.target.files![0]);
   };
 
   const styleObj = {
