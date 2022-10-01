@@ -51,8 +51,6 @@ const Home: NextPage = () => {
       });
   };
 
-  //console.log(recoData);
-
   const recoFetchMoreData = (recoPage: number) => {
     return recoFetcher(recoPage);
   };
