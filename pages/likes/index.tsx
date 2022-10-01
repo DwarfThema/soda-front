@@ -1,12 +1,6 @@
 import Layout from "@components/layout";
 import ProfilePhoto from "@components/profilePhoto";
-import {
-  Icomment,
-  IProfile,
-  IReview,
-  IStore,
-  PropArray,
-} from "@libs/client/sharedProp";
+import { Icomment, IProfile, IReview, IStore } from "@libs/client/sharedProp";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
 import type { NextPage } from "next";
@@ -69,7 +63,7 @@ const Likes: NextPage<{
       <div className="w-full">
         <div className="mt-24">
           <InfiniteScroll
-            dataLength={PropArray.length}
+            dataLength={userDataList.length}
             next={() => fetchMoreData(page)}
             hasMore={true}
             loader={null}

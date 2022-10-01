@@ -6,7 +6,6 @@ import {
   IReview,
   IStore,
   IUser,
-  PropArray,
 } from "@libs/client/sharedProp";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
@@ -92,7 +91,7 @@ const Followings: NextPage<{}> = () => {
         </div>
         <div>
           <InfiniteScroll
-            dataLength={PropArray.length}
+            dataLength={data.length}
             next={() => fetchMoreData(page)}
             hasMore={true}
             loader={null}

@@ -3,7 +3,7 @@ import { cls } from "@libs/client/utils";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import { wrap } from "popmotion";
 import { IReview, IStore } from "@libs/client/sharedProp";
 import Link from "next/link";
@@ -50,8 +50,8 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
   // -------------- 상점 정보 가져오기 --------------------
   const router = useRouter();
   const { data }: any = router.query;
-  const [res, setRes]: any = useState({
-    restaurant: { imagePath: "", name: "", phone: "" },
+  const [res, setRes] = useState({
+    restaurant: { imagePath: "", name: "", phone: "", id: 0 },
     reviewList: [],
   });
 
@@ -75,7 +75,7 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
 
   // ---------------- 음식점 찜하기 ------------------------
   const [isWish, setIsWish] = useState(false);
-  function mutation(jsonData: any, method: any) {
+  function mutation(jsonData: BodyInit | null | undefined, method: string) {
     fetch("https://mtvs.kro.kr:8001/wish", {
       method: method,
       headers: {
@@ -123,7 +123,10 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={1}
-              onDragEnd={(e: any, { offset, velocity }: any) => {
+              onDragEnd={(
+                e: MouseEvent | TouchEvent | PointerEvent,
+                { offset, velocity }: PanInfo
+              ) => {
                 const swipe = swipePower(offset.x, velocity.x);
 
                 if (swipe < -swipeConfidenceThreshold) {

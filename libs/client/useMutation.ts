@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MutationResult } from "./sharedProp";
 
 interface UserMutationState<T> {
   loading: boolean;
@@ -31,8 +32,8 @@ export default function useMutation<T = any>(
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json().catch(() => {}))
-      .then((json) => {
+      .then((res: Response) => res.json().catch(() => {}))
+      .then((json: MutationResult) => {
         setData(json);
         setMessage(json?.message);
       })

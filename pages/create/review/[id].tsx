@@ -2,25 +2,30 @@ import Button from "@components/button";
 import Layout from "@components/layout";
 import PhotoForm from "@components/photoForm";
 import TextArea from "@components/textArea";
-import { Icomment, IProfile, IReview, IStore } from "@libs/client/sharedProp";
+import {
+  Icomment,
+  IProfile,
+  IReview,
+  IStore,
+  MutationResult,
+} from "@libs/client/sharedProp";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
+import { Blob, BlobOptions } from "buffer";
 import type { NextPage } from "next";
-import { Router, useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import { BaseRouter } from "next/dist/shared/lib/router/router";
+import { NextRouter, Router, useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
+import { BlockquoteHTMLAttributes, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface PhotoForm {
   message: string;
   payload: string;
   photo: FileList;
-}
-
-interface MutationResult {
-  httpStatus: number;
-  message: string;
-  results: object;
 }
 
 const CreateReview: NextPage = ({}) => {
@@ -39,7 +44,7 @@ const CreateReview: NextPage = ({}) => {
   };
 
   // ---------------- 정보를 바탕으로 음식점 데이터 --------------------
-  const { id }: any = rounter?.query;
+  const { id } = rounter?.query;
   const [page, setPage] = useState(1);
   const [restaurant, setRestaurant] = useState({ id: 1, name: "" });
   const fetcher = (pageNumber: number = 1) => {
@@ -49,7 +54,7 @@ const CreateReview: NextPage = ({}) => {
       },
     })
       .then((res) => res.json())
-      .then((res: any) => {
+      .then((res: MutationResult) => {
         setRestaurant(res.results.restaurant);
       });
   };
@@ -68,12 +73,6 @@ const CreateReview: NextPage = ({}) => {
     grade: "",
   });
 
-  const router = useRouter();
-  const [query, setQuery] = useState<any>();
-  useEffect(() => {
-    setQuery(rounter.query.id);
-  }, []);
-
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
       method: "POST",
@@ -88,16 +87,25 @@ const CreateReview: NextPage = ({}) => {
         router.push(`/`);
       });
   }
+
+  const [query, setQuery] = useState<any>();
+  useEffect(() => {
+    setQuery(router.query.id);
+  }, []);
+
+  const router = useRouter();
+
   const onClickHandler = () => {
     const formData = new FormData();
     formData.append("uploadFile", file);
-    formData.append("restaurantId", query);
+    formData.append("restaurantId", router.query.id);
     formData.append("categoryName", "물만두");
     formData.append("content", reviewData.text);
     formData.append("grade", `${stars}`);
     mutation(formData);
     setText("요청중...");
   };
+
   const onChangeHandle = (e: any) => {
     setReviewData({ ...reviewData, text: e.target.value });
   };

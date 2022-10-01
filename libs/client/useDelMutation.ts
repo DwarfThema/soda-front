@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function useDelMutation<T = any>(url: string) {
   const [loading, setLoading] = useState(false);
 
-  function mutation(data: any) {
+  function mutation() {
     setLoading(true);
     fetch(url, {
       method: "DELETE",

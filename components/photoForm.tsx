@@ -16,10 +16,11 @@ const PhotoForm = ({ register, title, setFile }: IPhotoForm) => {
   const [text, setText] = useState("영수증 분석 요청");
   // ---------영수증 post api 관련------------
 
-  const onChangeHandler = (e: any) => {
+  const onChangeHandler = (e: React.FormEvent<HTMLInputElement>) => {
     setSrc(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   };
+
   const styleObj = {
     backgroundImage: `url(${src})`,
     backgroundSize: "100% 100%",

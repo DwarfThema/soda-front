@@ -2,7 +2,12 @@ import { MutationResult } from "@components/editProfileModal";
 import Input from "@components/InputForm";
 import Layout from "@components/layout";
 import ProfilePhoto from "@components/profilePhoto";
-import { Icomment, IprofileImg, IUser } from "@libs/client/sharedProp";
+import {
+  Icomment,
+  IprofileImg,
+  IUser,
+  IUserDetailInfo,
+} from "@libs/client/sharedProp";
 import useMutation from "@libs/client/useMutation";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
@@ -112,7 +117,7 @@ const Review: NextPage = () => {
   // ---------------- 음식점 찜하기 ------------------------
 
   const [isWish, setIsWish] = useState(false);
-  function mutation(jsonData: any, method: any) {
+  function mutation(jsonData: BodyInit | null | undefined, method: string) {
     fetch("https://mtvs.kro.kr:8001/wish", {
       method: method,
       headers: {
@@ -124,16 +129,9 @@ const Review: NextPage = () => {
       .then((res) => res.json().catch(() => {}))
       .then((json) => {});
   }
-  const onClickWish = () => {
-    if (isBook) {
-      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "POST");
-    } else {
-      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
-    }
-  };
   // ---------------- 음식점 찜하기 ------------------------
 
-  function mutation2(jsonData: any, method: any) {
+  function mutation2(jsonData: BodyInit | null | undefined, method: string) {
     fetch("https://mtvs.kro.kr:8001/review/like/6", {
       method: method,
       headers: {
@@ -145,13 +143,6 @@ const Review: NextPage = () => {
       .then((res) => res.json().catch(() => {}))
       .then((json) => {});
   }
-  const onClickWish2 = () => {
-    if (isBook) {
-      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "POST");
-    } else {
-      mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
-    }
-  };
 
   useEffect(() => {
     setIsLike(reviewDetail?.isLike);

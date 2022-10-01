@@ -7,7 +7,6 @@ import {
   IStore,
   IUserDetailInfo,
   MutationResult,
-  PropArray,
 } from "@libs/client/sharedProp";
 import useUser from "@libs/client/useUser";
 import { cls } from "@libs/client/utils";
@@ -29,7 +28,7 @@ const Profile: NextPage<{
   comments: [Icomment];
 }> = ({ store, review, comments, profile }) => {
   //-------------- isMe 증명 관련---------------
-  const [getUserId, setUserId] = useState<number>();
+  const [getUserId, setUserId] = useState<string | string[] | undefined>();
 
   const { user } = useUser();
   const { query } = useRouter();
@@ -38,7 +37,7 @@ const Profile: NextPage<{
   const [getIsMe, setIsMe] = useState(false);
   const [getIsFollow, setIsFollow] = useState(false);
 
-  const params = query?.id as any;
+  const params = query?.id;
   useEffect(() => {
     setUserId(params);
     if (localStorage.getItem("userName") === params) {
@@ -56,10 +55,9 @@ const Profile: NextPage<{
   //-------------- 유저 데이터 관련---------------
   //-------------- 팔로우 언팔 관련---------------
 
-  const [fol, { loading: folLoading, data: folData, message: folMessage }] =
-    useMutation<MutationResult>(
-      `https://mtvs.kro.kr:8001/follow/${userInfo?.user?.userName}`
-    );
+  const [fol] = useMutation<MutationResult>(
+    `https://mtvs.kro.kr:8001/follow/${userInfo?.user?.userName}`
+  );
   const [unFol] = useDelMutation(
     `https://mtvs.kro.kr:8001/follow/${userInfo?.user?.userName}`
   );
@@ -70,7 +68,7 @@ const Profile: NextPage<{
     if (!userInfo) return;
 
     if (getIsFollow) {
-      unFol(null);
+      unFol();
       mutate(
         {
           ...userData,
@@ -109,7 +107,7 @@ const Profile: NextPage<{
 
   // --------------------- 내 리뷰 관련 ---------------------
   const [page, setPage] = useState(1);
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<any>([]);
   const [init, setInit] = useState(true);
   const fetcher = (pageNumber: number = 1) => {
     fetch(`https://mtvs.kro.kr:8001/review/${params}?page=0&size=20`, {
@@ -353,7 +351,7 @@ const Profile: NextPage<{
                   loader={null}
                 >
                   <div className=" grid grid-cols-3 gap-1 w-full h-[360px]">
-                    {data?.map((data: any, index) => {
+                    {data?.map((data: any, index: number) => {
                       if (!data) return;
                       return (
                         <div key={index}>

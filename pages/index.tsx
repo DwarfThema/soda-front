@@ -1,6 +1,6 @@
 import Layout from "@components/layout";
-import { PropArray } from "@libs/client/sharedProp";
-import useUser, { IList, ProfileResponse } from "@libs/client/useUser";
+import { MutationResult } from "@libs/client/sharedProp";
+import useUser, { IList } from "@libs/client/useUser";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -19,8 +19,8 @@ const Home: NextPage = () => {
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
-      .then((res: any) => res.json())
-      .then((res: any) => {
+      .then((res: Response) => res.json())
+      .then((res: MutationResult) => {
         setDatas(res?.results?.response);
       });
   };
@@ -45,8 +45,8 @@ const Home: NextPage = () => {
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
-      .then((res: any) => res.json())
-      .then((res: any) => {
+      .then((res: Response) => res.json())
+      .then((res) => {
         setRecoData(res?.results?.list);
       });
   };
