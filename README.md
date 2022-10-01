@@ -16,12 +16,9 @@
 
 - [x] Login
 - [x] SignUp
-- [ ] Taste
-- [ ] Review
+- [x] Taste
+- [x] Review
 - [x] Follow / Following
-- [ ] StoreDetail
-- [ ] CreateReview
+- [x] StoreDetail
+- [x] CreateReview
 - [x] editProfile
-  - 아바타 사진 업로드 불가
-
-외에 더 작성될 예정

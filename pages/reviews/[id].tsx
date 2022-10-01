@@ -112,6 +112,8 @@ const Review: NextPage = () => {
 
   // -----------------------------
 
+  // ---------------- 음식점 찜하기 ------------------------
+
   const [isWish, setIsWish] = useState(false);
   function mutation(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/wish", {
@@ -132,6 +134,7 @@ const Review: NextPage = () => {
       mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
     }
   };
+  // ---------------- 음식점 찜하기 ------------------------
 
   function mutation2(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/review/like/6", {
@@ -252,7 +255,7 @@ const Review: NextPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex">
+          {/*           <div className="flex">
             <div className="text-sm font-bold">
               <span>좋아요</span>
               <span className="ml-1">
@@ -331,7 +334,7 @@ const Review: NextPage = () => {
                 </svg>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <InfiniteScroll
