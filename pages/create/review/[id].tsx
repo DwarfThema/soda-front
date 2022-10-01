@@ -72,8 +72,13 @@ const CreateReview: NextPage = ({}) => {
   });
 
   const router = useRouter();
-  const query = router?.query;
-  const queryId = router?.query?.id;
+  const [query, setQuery] = useState<any>();
+  useEffect(() => {
+    setQuery(rounter.query.id);
+  }, []);
+
+  console.log(query);
+
 
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
@@ -92,7 +97,7 @@ const CreateReview: NextPage = ({}) => {
   const onClickHandler = () => {
     const formData = new FormData();
     formData.append("uploadFile", file);
-    //formData.append("restaurantId", query?.Id);
+    formData.append("restaurantId", query);
     formData.append("categoryName", "물만두");
     formData.append("content", reviewData.text);
     formData.append("grade", `${stars}`);
@@ -113,7 +118,6 @@ const CreateReview: NextPage = ({}) => {
             setFile={setFile}
             title="사진을 올려주세요"
           />{" "}
-
           <div className="absolute border-t-2 border-solid border-gray-200 w-full mt-2 left-0" />
           <div className="mt-7  mx-5 text-lg font-bold text-gray-600 flex">
             <div className="flex flex-col w-16">
@@ -121,7 +125,6 @@ const CreateReview: NextPage = ({}) => {
               <div className="mt-2">평점 </div>
             </div>
             <div className="flex flex-col ml-4">
-
               <div> {restaurant.name} </div>
 
               <div className="flex items-center ml-1 mt-3">
@@ -131,7 +134,6 @@ const CreateReview: NextPage = ({}) => {
                     className={cls(
                       "h-4 w-4",
                       stars >= star ? "text-yellow-400" : "text-gray-400"
-
                     )}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"

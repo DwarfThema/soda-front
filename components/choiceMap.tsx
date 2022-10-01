@@ -1,4 +1,3 @@
-
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -13,7 +12,6 @@ interface IChoiceMap {
   selected: Dispatch<SetStateAction<number>>;
   getSelected: number;
 }
-
 
 const ChoiceMap = ({ img, cat, selected, getSelected, id }: IChoiceMap) => {
 

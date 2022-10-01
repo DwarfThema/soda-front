@@ -1,4 +1,3 @@
-
 import { MutationResult } from "@components/editProfileModal";
 import Input from "@components/InputForm";
 import Layout from "@components/layout";
@@ -58,6 +57,36 @@ const Review: NextPage = () => {
 
   //---------리뷰 디테일 api-----------
 
+  //-------------- isMe 증명 관련---------------
+  const [getUserId, setUserId] = useState<number>();
+
+  const { user }: any = useUser();
+
+  const { query } = useRouter();
+
+  const [getIsMe, setIsMe] = useState(false);
+
+  const params = query?.id as any;
+  useEffect(() => {
+    setUserId(params);
+
+    if (user?.userName === params) {
+      setIsMe(true);
+    }
+  }, []);
+
+  //-------------- isMe 증명 관련---------------
+
+  //---------리뷰 디테일 api-----------
+  const { data: reviewDetailData, mutate } = useSWR(
+    `https://mtvs.kro.kr:8001/review/detail/${params}`
+  );
+
+  const reviewDetail = reviewDetailData?.results;
+  const reviewContents = reviewDetailData?.results?.review;
+  const reviewComments = reviewDetailData?.results?.commentList;
+
+  //---------리뷰 디테일 api-----------
 
   //---------폼 관련-----------
   const {
@@ -106,7 +135,6 @@ const Review: NextPage = () => {
   const getMorePost = async (page: number) => {};
   const [page, setPage] = useState(1);
   //---------인피니티 관련-----------
-
   // -------좋아요 관련-------------
 
   const [isLike, setIsLike] = useState(false);
@@ -114,6 +142,7 @@ const Review: NextPage = () => {
 
   // -----------------------------
 
+  // ---------------- 음식점 찜하기 ------------------------
   const [isWish, setIsWish] = useState(false);
   function mutation(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/wish", {
@@ -218,14 +247,12 @@ const Review: NextPage = () => {
         </div>
         <div
           className="h-[290px] bg-center bg-cover flex items-end justify-end"
-
           style={{
             backgroundImage: `url(${reviewContents?.imageSrc})`,
           }}
         >
           <div className="text-white w-full text-right m-3">
             {reviewContents?.content}
-
           </div>
         </div>
         <div className="border-b flex justify-between mt-2 mx-2">
@@ -234,7 +261,6 @@ const Review: NextPage = () => {
               {" "}
               {reviewContents?.restaurant?.name}{" "}
             </div>
-
             <div>
               <div className="flex items-center ml-1">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -257,7 +283,7 @@ const Review: NextPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex">
+          {/*           <div className="flex">
             <div className="text-sm font-bold">
               <span>좋아요</span>
               <span className="ml-1">
@@ -336,7 +362,7 @@ const Review: NextPage = () => {
                 </svg>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <InfiniteScroll
@@ -346,9 +372,10 @@ const Review: NextPage = () => {
         loader={null}
       >
         <div className="mt-3 mx-4 h-[240px]">
-          {reviewComments?.map((comment: Icomment) => (
+          {reviewComments?.map((comment: Icomment, index: number) => (
+
             <div
-              key={comment?.id}
+              key={index}
               className={cls(
                 "p-2  w-full rounded-t-2xl mb-3 flex ",
                 user?.userName === comment?.user?.userName
@@ -381,7 +408,7 @@ const Review: NextPage = () => {
         </div>
       </InfiniteScroll>
 
-      <div className="absolute bottom-0 border-t h-24 w-full z-30 bg-white flex justify-center rounded-b-3xl ">
+      <div className="fixed bottom-0 border-t h-24 w-full z-30 bg-white flex justify-center rounded-b-3xl ">
         <div className="mt-3 flex">
           <div>
             <ProfilePhoto md avatar={user?.profileImg?.savedPath} />

@@ -42,7 +42,6 @@ export interface IStore {
 }
 
 export interface IReview {
-
   [key: string]: any;
 
 }
@@ -92,4 +91,3 @@ export const PropArray = [
   { key: 21, img: "/img/choice/western.png", cat1: "양식" },
   { key: 22, img: "/img/choice/western2.jpeg", cat1: "양식" },
 ];
-

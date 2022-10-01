@@ -37,8 +37,6 @@ const SignUp: NextPage = () => {
 
   const [enter, { loading, data, message: submitMessage }] =
     useLoginMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
-
-
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;
     enter(validForm);
@@ -67,8 +65,8 @@ const SignUp: NextPage = () => {
                       clearErrors("result");
                     },
                     minLength: {
-                      value: 4,
-                      message: "아이디는 4글자 이상 입력해 주세요",
+                      value: 5,
+                      message: "아이디는 5글자 이상 입력해 주세요",
                     },
                   })}
                   type="text"
@@ -90,7 +88,8 @@ const SignUp: NextPage = () => {
                     pattern: {
                       value:
                         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]/,
-                      message: "비밀번호는 영문 대소문자와 포함해야합니다.",
+                      message:
+                        "비밀번호는 영문 대소문자와 특수문자를 포함해야합니다.",
                     },
                   })}
                   type="password"
@@ -135,7 +134,7 @@ const SignUp: NextPage = () => {
                     loading
                       ? "회원가입중입니다..."
                       : data?.httpStatus === 400
-                      ? "에러가 있습니다."
+                      ? "회원가입에 실패했습니다."
                       : "회원가입"
                   }
                   disabled={!isValid || loading || !isDirty}
