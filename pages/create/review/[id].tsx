@@ -69,8 +69,12 @@ const CreateReview: NextPage = ({}) => {
   });
 
   const router = useRouter();
-  const query = router?.query;
-  const queryId = router?.query?.id;
+  const [query, setQuery] = useState<any>();
+  useEffect(() => {
+    setQuery(rounter.query.id);
+  }, []);
+
+  console.log(query);
 
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
@@ -82,6 +86,7 @@ const CreateReview: NextPage = ({}) => {
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
+        console.log(json);
         setText("요청 중");
         router.push(`/`);
       });
@@ -89,7 +94,7 @@ const CreateReview: NextPage = ({}) => {
   const onClickHandler = () => {
     const formData = new FormData();
     formData.append("uploadFile", file);
-    //formData.append("restaurantId", query?.Id);
+    formData.append("restaurantId", query);
     formData.append("categoryName", "물만두");
     formData.append("content", reviewData.text);
     formData.append("grade", `${stars}`);

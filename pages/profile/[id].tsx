@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import useSWR from "swr";
 import EditProfileModal from "@components/editProfileModal";
 import useMutation from "@libs/client/useMutation";
@@ -33,6 +33,7 @@ const Profile: NextPage<{
 
   const { user } = useUser();
   const { query } = useRouter();
+  const { replace } = useRouter();
 
   const [getIsMe, setIsMe] = useState(false);
   const [getIsFollow, setIsFollow] = useState(false);
@@ -170,6 +171,10 @@ const Profile: NextPage<{
     },
   };
   // --------------------- 애니메이션 관련 ---------------------
+
+  useEffect(() => {}, []);
+
+  // --------------------로그아웃 ------------------
   return (
     <Layout seoTitle="프로필" profile>
       <motion.div
@@ -198,7 +203,7 @@ const Profile: NextPage<{
         style={{
           backgroundImage: userInfo?.user?.profileImg
             ? `url(${userInfo?.user?.profileImg?.savedPath})`
-            : `url(${profile?.avatar})`,
+            : `url(/img/so-sm.jpg)`,
         }}
       >
         <div className="absolute backdrop-blur-lg w-full h-full bg-black bg-opacity-10 rounded-md">
@@ -208,7 +213,7 @@ const Profile: NextPage<{
               style={{
                 backgroundImage: userInfo?.user?.profileImg
                   ? `url(${userInfo?.user?.profileImg?.savedPath})`
-                  : `url(${profile?.avatar})`,
+                  : `url(/img/so-sm.jpg)`,
               }}
             />
             <div className="mt-12 flex flex-col items-center text-sm">
@@ -239,15 +244,26 @@ const Profile: NextPage<{
               </div>
               <div className="flex flex-col items-center">
                 {getIsMe ? (
-                  <motion.div
-                    onClick={() => {
-                      setEditProfile(!getEditProfile);
-                    }}
-                    className="border border-[#00572D] w-44 px-13 py-2 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer"
-                    layoutId="editModal"
-                  >
-                    <span>프로필 편집</span>
-                  </motion.div>
+                  <div className="flex">
+                    <motion.div
+                      onClick={() => {
+                        setEditProfile(!getEditProfile);
+                      }}
+                      className="border border-[#00572D] w-44 px-13 py-2 mt-3 flex justify-center items-center text-sm rounded-md cursor-pointer"
+                      layoutId="editModal"
+                    >
+                      <span>프로필 편집</span>
+                    </motion.div>
+                    <div
+                      onClick={() => {
+                        replace(`/enter`);
+                        localStorage.clear();
+                      }}
+                      className="border border-[#00572D] w-16 px-13 py-2 mt-3 ml-2 flex justify-center items-center text-sm rounded-md cursor-pointer"
+                    >
+                      <span>로그아웃</span>
+                    </div>
+                  </div>
                 ) : (
                   <button
                     onClick={followMutation}
@@ -260,9 +276,7 @@ const Profile: NextPage<{
                   </button>
                 )}
 
-                <div className="text-center my-4 text-zinc-500">
-                  {profile?.introduce}
-                </div>
+                <div className="text-center my-4 text-zinc-500"></div>
               </div>
             </div>
             <div></div>
@@ -396,66 +410,3 @@ const Profile: NextPage<{
 };
 
 export default Profile;
-
-export async function getServerSideProps() {
-  const store = {
-    score: 4,
-    name: "준호네 떡볶이",
-    phone: "02-1234-5678",
-  };
-
-  const profile = {
-    avatar: "/img/MainLogo.png",
-    userName: "imiuiulady",
-    following: 256,
-    follower: 743,
-    introduce: "커피를 좋아하는 나\n카누 위주로 먹습니다",
-  };
-
-  const review = {
-    store: store,
-    user: profile,
-    name: "duko998",
-    score: 4,
-    likes: 677,
-    payload: "최애 부대찌개 집입니다. \n 가끔 부대 먹고싶을 때 까는곳!",
-  };
-
-  const comments = [
-    {
-      id: 1,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-      isMe: true,
-    },
-    {
-      id: 2,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-    },
-    {
-      id: 3,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-    },
-    {
-      id: 4,
-      payload:
-        "와 제가 최애하는 집이에요 여기 가셨군요 저도 정말 여기 좋아하는데 다음에 같이가는걸로 하실까요? 정말 맛있겠다~~💖💖",
-      user: profile,
-      isMe: true,
-    },
-  ];
-
-  return {
-    props: {
-      store: store,
-      review: review,
-      profile: profile,
-      comments: comments,
-    },
-  };
-}

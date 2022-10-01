@@ -66,8 +66,8 @@ const SignUp: NextPage = () => {
                       clearErrors("result");
                     },
                     minLength: {
-                      value: 4,
-                      message: "아이디는 4글자 이상 입력해 주세요",
+                      value: 5,
+                      message: "아이디는 5글자 이상 입력해 주세요",
                     },
                   })}
                   type="text"
@@ -135,7 +135,7 @@ const SignUp: NextPage = () => {
                     loading
                       ? "회원가입중입니다..."
                       : data?.httpStatus === 400
-                      ? "에러가 있습니다."
+                      ? "회원가입에 실패했습니다."
                       : "회원가입"
                   }
                   disabled={!isValid || loading || !isDirty}

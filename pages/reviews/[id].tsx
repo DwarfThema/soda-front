@@ -341,9 +341,9 @@ const Review: NextPage = () => {
         loader={null}
       >
         <div className="mt-3 mx-4 h-[240px]">
-          {reviewComments?.map((comment: Icomment) => (
+          {reviewComments?.map((comment: Icomment, index: number) => (
             <div
-              key={comment?.id}
+              key={index}
               className={cls(
                 "p-2  w-full rounded-t-2xl mb-3 flex ",
                 user?.userName === comment?.user?.userName
@@ -376,7 +376,7 @@ const Review: NextPage = () => {
         </div>
       </InfiniteScroll>
 
-      <div className="absolute bottom-0 border-t h-24 w-full z-30 bg-white flex justify-center rounded-b-3xl ">
+      <div className="fixed bottom-0 border-t h-24 w-full z-30 bg-white flex justify-center rounded-b-3xl ">
         <div className="mt-3 flex">
           <div>
             <ProfilePhoto md avatar={user?.profileImg?.savedPath} />

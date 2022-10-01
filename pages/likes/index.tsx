@@ -74,61 +74,68 @@ const Likes: NextPage<{
             hasMore={true}
             loader={null}
           >
-            <div className="mt-3 mx-4 h-[680px]">
-              {userDataList?.map((review: IReview) => (
-                <div
-                  key={review?.id}
-                  className=" mb-3 pb-2 flex justify-between items-center border-b-2 border-dashed"
-                >
-                  <div className=" flex justify-center items-center  ">
-                    <Link href={`/profile/${review?.user?.userName}`}>
-                      <a>
-                        <ProfilePhoto
-                          xlg
-                          avatar={review?.user?.profileImg?.savedPath}
-                        />
-                      </a>
-                    </Link>
-                    <div>
-                      <div className="text-base ml-2">
-                        <div className="flex ">
-                          <div className="font-bold ">
-                            <Link href={`/profile/${review?.user?.userName}`}>
-                              <a>{review?.user?.userName}</a>
-                            </Link>
+            {userDataList.length === 0 ? (
+              <div className="mx-4 h-[600px] flex justify-center items-center text-sm text-gray-400 text-center">
+                팔로우 한 회원이 없습니다. <br /> 다른사람을 팔로우해서 소셜
+                다이닝을 시작하세요
+              </div>
+            ) : (
+              <div className="mt-3 mx-4 h-[680px]">
+                {userDataList?.map((review: IReview) => (
+                  <div
+                    key={review?.id}
+                    className=" mb-3 pb-2 flex justify-between items-center border-b-2 border-dashed"
+                  >
+                    <div className=" flex justify-center items-center  ">
+                      <Link href={`/profile/${review?.user?.userName}`}>
+                        <a>
+                          <ProfilePhoto
+                            xlg
+                            avatar={review?.user?.profileImg?.savedPath}
+                          />
+                        </a>
+                      </Link>
+                      <div>
+                        <div className="text-base ml-2">
+                          <div className="flex ">
+                            <div className="font-bold ">
+                              <Link href={`/profile/${review?.user?.userName}`}>
+                                <a>{review?.user?.userName}</a>
+                              </Link>
+                            </div>
+                            <div>님이 </div>
                           </div>
-                          <div>님이 </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="font-bold text-base ">
-                            <Link
-                              href={{
-                                pathname: `/store/store2/1`,
-                                query: { data: [review?.restaurant?.id] },
-                              }}
-                            >
-                              <a>{review?.restaurant?.name}</a>
-                            </Link>
-                          </div>
+                          <div className="flex flex-col">
+                            <div className="font-bold text-base ">
+                              <Link
+                                href={{
+                                  pathname: `/store/store2/1`,
+                                  query: { data: [review?.restaurant?.id] },
+                                }}
+                              >
+                                <a>{review?.restaurant?.name}</a>
+                              </Link>
+                            </div>
 
-                          <div className="text-sm">에 방문했습니다. </div>
+                            <div className="text-sm">에 방문했습니다. </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <Link href={`/reviews/${review?.id}`}>
+                      <a>
+                        <div
+                          className=" bg-cover bg-center h-[80px] w-[80px] flex self-center rounded-md  "
+                          style={{
+                            backgroundImage: `url(${review?.imageSrc})`,
+                          }}
+                        />
+                      </a>
+                    </Link>
                   </div>
-                  <Link href={`/reviews/${review?.id}`}>
-                    <a>
-                      <div
-                        className=" bg-cover bg-center h-[80px] w-[80px] flex self-center rounded-md  "
-                        style={{
-                          backgroundImage: `url(${review?.imageSrc})`,
-                        }}
-                      />
-                    </a>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </InfiniteScroll>
         </div>
       </div>

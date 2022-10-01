@@ -33,7 +33,7 @@ const Enter: NextPage = () => {
 
   //---------------로그인 토큰 저장---------------
 
-  const [enter, { loading, data }] = useLoginMutation<MutationResult>(
+  const [enter, { loading, data, message }] = useLoginMutation<MutationResult>(
     "https://mtvs.kro.kr:8001/login"
   );
 
@@ -122,11 +122,20 @@ const Enter: NextPage = () => {
               type="password"
             />
           </div>
-          <Button text="로그인" />
+          <Button
+            error={message}
+            text={
+              loading
+                ? "로그인중입니다..."
+                : data?.httpStatus === 400
+                ? "로그인에 실패했습니다."
+                : "로그인"
+            }
+          />
         </form>
         <div className="text-sm text-[#838383] mt-2">
           <Link href={"/signup"}>
-            <a>회원가입 / 아이디 찾기 / 비밀번호 찾기</a>
+            <a>회원가입</a>
           </Link>
         </div>
       </motion.div>

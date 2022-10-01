@@ -42,7 +42,7 @@ const Create: NextPage = () => {
   // -------------------------------------------
   return (
     <Layout seoTitle="영수증 인증" create>
-      <div className="w-full h-full  rounded-md flex mt-24 items-center flex-col">
+      <div className="w-full h-full  rounded-md flex mt-20 items-center flex-col">
         <div
           // encType="multipart/form-data"
           // onSubmit={handleSubmit(onValid)}
@@ -55,7 +55,7 @@ const Create: NextPage = () => {
           <PhotoForm setFile={setFile} title="영수증을 올려주세요" />
           <button
             // type="submit"
-            className=" text-white text-sm w-[180px] mt-2 rounded-md bg-[#00572D] flex flex-col justify-center items-center shadow-lg"
+            className=" text-white text-sm w-[180px] mt-4 rounded-md bg-[#00572D] flex flex-col justify-center items-center shadow-lg"
             // disabled={loading}
             onClick={onClickHandler}
           >
@@ -64,8 +64,8 @@ const Create: NextPage = () => {
             </div>
           </button>
         </div>
-        <div className="border-t-2 border-solid border-gray-200 w-full mt-7" />
-        <div className="mt-5 text-sm mx-5 text text-gray-400">
+        <div className="border-t-2 border-solid border-gray-200 w-full mt-4" />
+        <div className="mt-2 text-sm mx-5 text text-gray-400">
           개인 정보 수집 목적 SODA는 다음과 같은 목적을 위하여 사용자의 영수증을
           수집합니다 <br />
           <br /> 1. 검증된 정보 유효성 검사를 위한 서비스 제공 목적 서비스의
