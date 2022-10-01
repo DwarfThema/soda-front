@@ -98,7 +98,7 @@ const CreateReview: NextPage = ({}) => {
   const onClickHandler = () => {
     const formData = new FormData();
     formData.append("uploadFile", file);
-    formData.append("restaurantId", router.query.id);
+    formData.append("restaurantId", JSON.stringify(router.query.id));
     formData.append("categoryName", "물만두");
     formData.append("content", reviewData.text);
     formData.append("grade", `${stars}`);
