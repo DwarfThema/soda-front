@@ -74,8 +74,6 @@ const CreateReview: NextPage = ({}) => {
     setQuery(rounter.query.id);
   }, []);
 
-  console.log(query);
-
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
       method: "POST",
@@ -86,7 +84,6 @@ const CreateReview: NextPage = ({}) => {
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
-        console.log(json);
         setText("요청 중");
         router.push(`/`);
       });
