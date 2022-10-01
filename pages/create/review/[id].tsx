@@ -9,6 +9,7 @@ import { cls } from "@libs/client/utils";
 import type { NextPage } from "next";
 import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
 
 interface PhotoForm {
@@ -23,8 +24,10 @@ interface MutationResult {
   results: object;
 }
 
+
 const CreateReview: NextPage = ({}) => {
   const [stars, setStars] = useState(0);
+
   const rounter = useRouter();
 
   const {
@@ -76,6 +79,7 @@ const CreateReview: NextPage = ({}) => {
 
   console.log(query);
 
+
   function mutation(formData: any) {
     fetch("https://mtvs.kro.kr:8001/review", {
       method: "POST",
@@ -86,7 +90,6 @@ const CreateReview: NextPage = ({}) => {
     })
       .then((res) => res.json().catch(() => {}))
       .then((json) => {
-        console.log(json);
         setText("요청 중");
         router.push(`/`);
       });
@@ -123,6 +126,7 @@ const CreateReview: NextPage = ({}) => {
             </div>
             <div className="flex flex-col ml-4">
               <div> {restaurant.name} </div>
+
               <div className="flex items-center ml-1 mt-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <svg

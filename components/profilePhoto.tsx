@@ -1,9 +1,11 @@
+
 import { IprofileImg } from "@libs/client/sharedProp";
 import { cls } from "@libs/client/utils";
 import { url } from "inspector";
 import { NextPage } from "next";
 
 const ProfilePhoto = ({ sm, md, lg, xlg, avatar }: any) => {
+
   return (
     <div
       className={cls(
@@ -17,11 +19,13 @@ const ProfilePhoto = ({ sm, md, lg, xlg, avatar }: any) => {
           : xlg
           ? "h-[72px] w-[72px]"
           : "h-8 w-8"
+
       )}
     >
       <div
         className={cls(
           " rounded-full  bg-cover bg-center ",
+
           sm
             ? "h-7 w-7"
             : md
@@ -35,6 +39,7 @@ const ProfilePhoto = ({ sm, md, lg, xlg, avatar }: any) => {
         style={{
           backgroundImage: avatar ? `url(${avatar})` : `url(/img/so-sm.jpg)`,
         }}
+
       />
     </div>
   );

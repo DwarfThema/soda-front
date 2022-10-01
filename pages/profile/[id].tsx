@@ -264,6 +264,7 @@ const Profile: NextPage<{
                       <span>로그아웃</span>
                     </div>
                   </div>
+
                 ) : (
                   <button
                     onClick={followMutation}

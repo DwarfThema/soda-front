@@ -22,6 +22,7 @@ const Home: NextPage = () => {
       .then((res: any) => res.json())
       .then((res: any) => {
         setDatas(res?.results?.response);
+
       });
   };
 
@@ -51,15 +52,13 @@ const Home: NextPage = () => {
       });
   };
 
-  //console.log(recoData);
-
   const recoFetchMoreData = (recoPage: number) => {
     return recoFetcher(recoPage);
   };
-
   useEffect(() => {
     recoFetcher(recoPage);
   }, []);
+
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
 
@@ -90,11 +89,13 @@ const Home: NextPage = () => {
             <div className=" text-sm font-bold">
               똑똑한 소다의 오늘의 추천메뉴 🗒
             </div>
+
             <div
               className="ml-2"
               style={{ fontSize: "10px", lineHeight: "14px" }}
             >
               소다가 오늘의 추천 메뉴를 알려줍니다.
+
             </div>
           </div>
           <div>

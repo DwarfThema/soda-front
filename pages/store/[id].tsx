@@ -30,8 +30,6 @@ const BannerVariants = {
   },
 };
 
-// ----------------상점 정보 가져오기-------------------
-
 const Store: NextPage<{ store: IStore; review: IReview }> = ({
   store,
   review,
@@ -46,7 +44,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     return Math.abs(offset) * velocity;
   };
   //-------- 스와이프 부분------------
-
   // -------------- 상점 정보 가져오기 --------------------
   const router = useRouter();
   const { data }: any = router.query;

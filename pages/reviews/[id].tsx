@@ -21,10 +21,41 @@ interface IComment {
 }
 
 const Review: NextPage = () => {
+
   const router = useRouter();
   const onClick = () => {
     router.back();
   };
+  //-------------- isMe 증명 관련---------------
+  const [getUserId, setUserId] = useState<number>();
+
+  const { user }: any = useUser();
+
+  const { query } = useRouter();
+
+  const [getIsMe, setIsMe] = useState(false);
+
+  const params = query?.id as any;
+  useEffect(() => {
+    setUserId(params);
+
+    if (user?.userName === params) {
+      setIsMe(true);
+    }
+  }, []);
+
+  //-------------- isMe 증명 관련---------------
+
+  //---------리뷰 디테일 api-----------
+  const { data: reviewDetailData, mutate } = useSWR(
+    `https://mtvs.kro.kr:8001/review/detail/${params}`
+  );
+
+  const reviewDetail = reviewDetailData?.results;
+  const reviewContents = reviewDetailData?.results?.review;
+  const reviewComments = reviewDetailData?.results?.commentList;
+
+  //---------리뷰 디테일 api-----------
 
   //-------------- isMe 증명 관련---------------
   const [getUserId, setUserId] = useState<number>();
@@ -98,7 +129,6 @@ const Review: NextPage = () => {
     useMutation<MutationResult>(
       `https://mtvs.kro.kr:8001/review/comment/${params}`
     );
-
   //---------폼 관련-----------
 
   //---------인피니티 관련-----------
@@ -113,7 +143,6 @@ const Review: NextPage = () => {
   // -----------------------------
 
   // ---------------- 음식점 찜하기 ------------------------
-
   const [isWish, setIsWish] = useState(false);
   function mutation(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/wish", {
@@ -134,7 +163,6 @@ const Review: NextPage = () => {
       mutation(`{"restaurantId" : ${reviewDetail?.restaurant?.id}}`, "DELETE");
     }
   };
-  // ---------------- 음식점 찜하기 ------------------------
 
   function mutation2(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/review/like/6", {
@@ -345,6 +373,7 @@ const Review: NextPage = () => {
       >
         <div className="mt-3 mx-4 h-[240px]">
           {reviewComments?.map((comment: Icomment, index: number) => (
+
             <div
               key={index}
               className={cls(
