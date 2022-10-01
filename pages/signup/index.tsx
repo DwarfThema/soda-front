@@ -38,7 +38,6 @@ const SignUp: NextPage = () => {
   const [enter, { loading, data, message: submitMessage }] =
     useLoginMutation<MutationResult>("https://mtvs.kro.kr:8001/signup");
 
-
   const onValid = (validForm: IEnterForm) => {
     if (loading) return;
     enter(validForm);
@@ -90,7 +89,8 @@ const SignUp: NextPage = () => {
                     pattern: {
                       value:
                         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]/,
-                      message: "비밀번호는 영문 대소문자와 포함해야합니다.",
+                      message:
+                        "비밀번호는 영문 대소문자와 특수문자를 포함해야합니다.",
                     },
                   })}
                   type="password"

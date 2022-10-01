@@ -24,6 +24,7 @@ const Likes: NextPage<{
   useEffect(() => {
     router.push("/enter");
   }, []); */
+
   //---------인피니티 관련-----------
   const [page, setPage] = useState(1);
   const [datas, setDatas] = useState();

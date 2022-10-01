@@ -1,11 +1,9 @@
-
 import useFormMutation from "@libs/client/useFormMutation";
 import { NodeNextRequest } from "next/dist/server/base-http/node";
 import { useEffect, useState } from "react";
 import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { MutationResult } from "./editProfileModal";
 import imageCompression from "browser-image-compression";
-
 
 interface IPhotoForm {
   register?: UseFormRegisterReturn;

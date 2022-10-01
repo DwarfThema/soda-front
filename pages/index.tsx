@@ -15,13 +15,13 @@ const Home: NextPage = () => {
   const fetcher = (pageNumber: number = 1) => {
     fetch(`https://mtvs.kro.kr:8001/recommand`, {
       headers: {
+        "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
-      .then((res) => res.json())
+      .then((res: any) => res.json())
       .then((res: any) => {
         setDatas(res?.results?.response);
-        setPage((p) => p + 1);
       });
   };
 
@@ -36,26 +36,30 @@ const Home: NextPage = () => {
   // --------------------- 추천 인피니티 관련 ---------------------
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
-  const [recoPage, setRecoPage] = useState("1");
+  const [recoPage, setRecoPage] = useState(1);
   const [recoData, setRecoData] = useState([]);
   const recoFetcher = (pageNumber: number = 1) => {
-    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=100`, {
+    fetch(`https://mtvs.kro.kr:8001/review/recent?page=0&size=150`, {
       headers: {
+        "Content-Type": "application/json",
         Authorization: localStorage.getItem("Authorization") || "",
       },
     })
-      .then((res) => res.json())
+      .then((res: any) => res.json())
       .then((res: any) => {
         setRecoData(res?.results?.list);
-        setRecoPage((p) => p + 1);
       });
   };
+
+  //console.log(recoData);
 
   const recoFetchMoreData = (recoPage: number) => {
     return recoFetcher(recoPage);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    recoFetcher(recoPage);
+  }, []);
 
   // --------------------- 최근 리뷰 인피니티 관련 ---------------------
 
@@ -86,20 +90,17 @@ const Home: NextPage = () => {
             <div className=" text-sm font-bold">
               똑똑한 소다의 오늘의 추천메뉴 🗒
             </div>
-
             <div
               className="ml-2"
               style={{ fontSize: "10px", lineHeight: "14px" }}
             >
               소다가 오늘의 추천 메뉴를 알려줍니다.
-
             </div>
           </div>
           <div>
             <InfiniteScroll
               dataLength={datas.length}
               next={() => fetchMoreData(page)}
-
               hasMore={true}
               loader={null}
             >
