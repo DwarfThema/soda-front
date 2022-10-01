@@ -27,7 +27,6 @@ const Review: NextPage = () => {
   };
 
   //-------------- isMe 증명 관련---------------
-  const [getUserId, setUserId] = useState<number>();
 
   const { user }: any = useUser();
 
@@ -37,8 +36,6 @@ const Review: NextPage = () => {
 
   const params = query?.id as any;
   useEffect(() => {
-    setUserId(params);
-
     if (user?.userName === params) {
       setIsMe(true);
     }
