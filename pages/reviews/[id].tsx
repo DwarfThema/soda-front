@@ -25,8 +25,8 @@ const Review: NextPage = () => {
   const onClick = () => {
     router.back();
   };
-
   //-------------- isMe 증명 관련---------------
+  const [getUserId, setUserId] = useState<number>();
 
   const { user }: any = useUser();
 
@@ -36,6 +36,7 @@ const Review: NextPage = () => {
 
   const params = query?.id as any;
   useEffect(() => {
+
     if (user?.userName === params) {
       setIsMe(true);
     }
@@ -95,7 +96,6 @@ const Review: NextPage = () => {
     useMutation<MutationResult>(
       `https://mtvs.kro.kr:8001/review/comment/${params}`
     );
-
   //---------폼 관련-----------
 
   //---------인피니티 관련-----------
@@ -132,6 +132,7 @@ const Review: NextPage = () => {
     }
   };
   // ---------------- 음식점 찜하기 ------------------------
+
 
   function mutation2(jsonData: any, method: any) {
     fetch("https://mtvs.kro.kr:8001/review/like/6", {

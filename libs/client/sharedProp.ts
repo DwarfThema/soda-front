@@ -31,7 +31,6 @@ export interface MutationResult {
   results: IUserDetailInfo;
   [key: string]: any;
 }
-
 export interface IStore {
   id: number;
   score: number;

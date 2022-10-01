@@ -4,6 +4,7 @@ import { url } from "inspector";
 import { NextPage } from "next";
 
 const ProfilePhoto = ({ sm, md, lg, xlg, avatar }: any) => {
+
   return (
     <div
       className={cls(

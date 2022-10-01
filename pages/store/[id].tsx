@@ -46,7 +46,6 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     return Math.abs(offset) * velocity;
   };
   //-------- 스와이프 부분------------
-
   // -------------- 상점 정보 가져오기 --------------------
   const router = useRouter();
   const { data }: any = router.query;
@@ -54,7 +53,13 @@ const Store: NextPage<{ store: IStore; review: IReview }> = ({
     restaurant: { imagePath: "", name: "", phone: "" },
     reviewList: [],
   });
-
+  // -------------- 상점 정보 가져오기 --------------------
+  const router = useRouter();
+  const { data }: any = router.query;
+  const [res, setRes]: any = useState({
+    restaurant: { imagePath: "", name: "", phone: "" },
+    reviewList: [],
+  });
   const fetcher = () => {
     const url = `https://mtvs.kro.kr:8001/restaurant/${
       data[getPhotoCount - 1]

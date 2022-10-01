@@ -50,7 +50,6 @@ const Home: NextPage = () => {
         setRecoData(res?.results?.list);
       });
   };
-
   //console.log(recoData);
 
   const recoFetchMoreData = (recoPage: number) => {
